@@ -7,7 +7,7 @@ import os
 from logger import setup_logging
 import json
 
-from .matta import MattaCore
+from moonraker_mattaconnect.matta import MattaCore # TODO not sure if this format is right?
 
 #---------------------------------------------------
 # Set-up

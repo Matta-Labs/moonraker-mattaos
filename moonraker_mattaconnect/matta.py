@@ -1,4 +1,4 @@
-from .data import DataEngine
+from moonraker_mattaconnect.data import DataEngine
 
 class MattaCore:
     def __init__(self, logger, settings):

@@ -19,6 +19,7 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [Workflow (on raspberrypi)](#workflow-on-raspberrypi)
+- [Workflow (with Docker)](#workflow-with-docker)
 - [Custom configurations](#custom-configurations)
   - [Set up a dev environment (debugging)](#set-up-a-dev-environment-debugging)
   - [Creating a service](#creating-a-service)
@@ -85,6 +86,24 @@ sudo systemctl restart moonraker-mattaconnect
 # or simply restart in MainsailOS -> power button -> moonraker-mattaconnect,
 
 ```
+
+# Workflow (with Docker)
+
+First time: 
+```bash
+docker build -t mattaconnect .
+docker run -it --rm --workdir /home/pi mattaconnect bash
+
+cd moonraker-mattaconnect
+./install.sh
+
+# Temp fix for service not starting:
+sudo systemctl restart moonraker-mattaconnect
+
+# To view logs:
+tail -f ~/printer_data/logs/moonraker-mattaconnect.log
+```
+
 
 # Custom configurations
 The following will detail the steps to setup configurations without the install.sh script

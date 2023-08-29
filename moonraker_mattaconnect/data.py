@@ -27,20 +27,15 @@ class DataEngine:
         self.csv_path = None
         self.upload_attempts = 0
 
-        # IT WORKS NOWWWW
-        self._logger.info("Starting data thread")
-        self._logger.info("Starting data thread")
-        self._logger.info("Starting data thread")
-        self._logger.info("Starting data thread")
-        self._logger.info("Starting data thread")
-        self._logger.info("Starting data thread")
-        self._logger.info("Starting data thread")
-        self._logger.info("Starting data thread")
-        self._logger.info("Starting data thread")
-        self._logger.info("Starting data thread")
         self._logger.info("Starting data thread")
 
-        self.start_data_thread()
+        # Temp loop to trap service and make it continue running
+        while True:
+            self._logger.info("Running data thread")
+            time.sleep(10)
+            pass
+
+        #self.start_data_thread()
         
 
     def start_data_thread(self):
