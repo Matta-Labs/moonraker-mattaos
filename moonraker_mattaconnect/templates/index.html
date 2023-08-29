@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Moonraker Control Plugin</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Moonraker Control Plugin</h1>
+        <button id="homePrinterButton">Home Printer</button>
+        <button id="getPrinterStateButton">Get Printer State</button>
+        <button id="getTempsButton">Get Temperatures</button>
+        <div id="resultContainer"></div>
+    </div>
+</body>
+</html>
