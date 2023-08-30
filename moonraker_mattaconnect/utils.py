@@ -6,7 +6,7 @@ from sys import platform
 
 MATTA_OS_ENDPOINT = "https://os.matta.ai/"
 
-MATTA_TMP_DATA_DIR = os.path.join(os.path.expanduser("~"), ".matta")
+MATTA_TMP_DATA_DIR = os.path.join(os.path.expanduser("~"), ".matta", "moonraker-mattaconnect")
 
 SAMPLING_TIMEOUT = 1.25  # sample every 1.25 seconds
 

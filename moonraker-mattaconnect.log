@@ -1,0 +1,1441 @@
+2023-08-30 17:09:17,649 [32mINFO    [0m ---------- Starting MattaConnectPlugin ----------[0m
+2023-08-30 17:09:17,652 [32mINFO    [0m ---- Logging Tests ----[0m
+2023-08-30 17:09:17,653 [34mDEBUG   [0m Debug logging test[0m
+2023-08-30 17:09:17,654 [32mINFO    [0m Info logging test[0m
+2023-08-30 17:09:17,655 [33mWARNING [0m Warning logging test[0m
+2023-08-30 17:09:17,656 [31mERROR   [0m Error logging test[0m
+2023-08-30 17:09:17,657 [32mINFO    [0m -----------------------[0m
+2023-08-30 17:09:17,662 [32mINFO    [0m Starting Flask server...[0m
+2023-08-30 17:09:17,663 [32mINFO    [0m Starting data thread[0m
+2023-08-30 17:09:18,183 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:09:19,202 [32mINFO    [0m {'bed': {'actual': 43.96, 'offset': 0, 'target': 0.0}, 'tool0': {'actual': 65.75, 'offset': 0, 'target': 0.0}}[0m
+2023-08-30 17:09:20,324 [32mINFO    [0m {'filename': '', 'total_duration': 0.0, 'print_duration': 0.0, 'filament_used': 0.0, 'state': 'standby', 'message': '', 'info': {'total_layer': None, 'current_layer': None}}[0m
+2023-08-30 17:09:21,578 [32mINFO    [0m [0m
+2023-08-30 17:09:22,080 [34mDEBUG   [0m Setting up main data thread...[0m
+2023-08-30 17:09:22,083 [32mINFO    [0m Starting main data loop method.[0m
+2023-08-30 17:09:22,084 [34mDEBUG   [0m Main data thread running.[0m
+2023-08-30 17:09:22,086 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:09:22,088 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:09:27,094 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:09:28,141 [32mINFO    [0m ---------- Starting MattaConnectPlugin ----------[0m
+2023-08-30 17:09:28,142 [32mINFO    [0m ---- Logging Tests ----[0m
+2023-08-30 17:09:28,142 [34mDEBUG   [0m Debug logging test[0m
+2023-08-30 17:09:28,143 [32mINFO    [0m Info logging test[0m
+2023-08-30 17:09:28,144 [33mWARNING [0m Warning logging test[0m
+2023-08-30 17:09:28,144 [31mERROR   [0m Error logging test[0m
+2023-08-30 17:09:28,145 [32mINFO    [0m -----------------------[0m
+2023-08-30 17:09:28,151 [32mINFO    [0m Starting Flask server...[0m
+2023-08-30 17:09:28,151 [32mINFO    [0m Starting data thread[0m
+2023-08-30 17:09:28,672 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:09:29,686 [32mINFO    [0m {'bed': {'actual': 43.63, 'offset': 0, 'target': 0.0}, 'tool0': {'actual': 63.73, 'offset': 0, 'target': 0.0}}[0m
+2023-08-30 17:09:30,854 [32mINFO    [0m {'filename': '', 'total_duration': 0.0, 'print_duration': 0.0, 'filament_used': 0.0, 'state': 'standby', 'message': '', 'info': {'total_layer': None, 'current_layer': None}}[0m
+2023-08-30 17:09:32,109 [32mINFO    [0m [0m
+2023-08-30 17:09:32,611 [34mDEBUG   [0m Setting up main data thread...[0m
+2023-08-30 17:09:32,614 [32mINFO    [0m Starting main data loop method.[0m
+2023-08-30 17:09:32,615 [34mDEBUG   [0m Main data thread running.[0m
+2023-08-30 17:09:32,617 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:09:32,618 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:09:37,624 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:09:38,143 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:09:39,180 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:09:39,183 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:09:42,631 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:09:44,191 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:09:44,710 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:09:45,744 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:09:45,746 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:09:50,753 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:09:51,271 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:09:52,308 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:09:52,310 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:09:52,643 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:09:57,317 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:09:57,837 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:09:58,870 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:09:58,872 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:10:02,655 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:10:03,879 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:10:04,396 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:10:05,429 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:10:05,430 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:10:10,433 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:10:10,954 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:10:11,471 [34mDEBUG   [0m New job.[0m
+2023-08-30 17:10:11,473 [31mERROR   [0m 'MattaPrinter' object has no attribute '_printer'[0m
+2023-08-30 17:10:11,475 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:10:12,667 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:10:16,482 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:10:17,003 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:10:17,521 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:10:17,536 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:10:18,209 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:10:18,314 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:10:22,678 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:10:23,317 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:10:23,838 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:10:24,356 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:10:24,381 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:10:25,066 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:10:25,173 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:10:30,177 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:10:30,701 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:10:31,220 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:10:31,238 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:10:31,926 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:10:32,030 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:10:32,689 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:10:37,036 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:10:37,559 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:10:38,077 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:10:38,093 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:10:38,774 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:10:38,881 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:10:42,700 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:10:43,885 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:10:44,408 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:10:44,924 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:10:44,939 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:10:45,607 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:10:45,714 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:10:50,720 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:10:51,242 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:10:51,759 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:10:51,772 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:10:52,510 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:10:52,617 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:10:52,709 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:10:57,624 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:10:58,141 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:10:58,660 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:10:58,681 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:10:59,539 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:10:59,644 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:11:02,720 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:11:04,650 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:11:05,171 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:11:05,693 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:11:05,709 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:11:06,553 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:11:06,660 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:11:11,667 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:11:12,187 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:11:12,704 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:11:12,719 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:11:12,729 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:11:13,399 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:11:13,505 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:11:18,511 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:11:19,028 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:11:19,546 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:11:19,564 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:11:20,251 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:11:20,356 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:11:22,735 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:11:25,362 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:11:25,882 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:11:26,400 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:11:26,421 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:11:27,083 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:11:27,190 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:11:32,197 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:11:32,720 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:11:32,745 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:11:33,240 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:11:33,257 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:11:33,934 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:11:34,039 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:11:39,045 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:11:39,564 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:11:40,084 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:11:40,106 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:11:40,766 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:11:40,871 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:11:42,756 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:11:45,876 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:11:46,397 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:11:46,916 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:11:46,930 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:11:47,620 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:11:47,728 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:11:52,735 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:11:52,767 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:11:53,253 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:11:53,772 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:11:53,792 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:11:54,468 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:11:54,574 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:11:59,581 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:12:00,102 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:12:00,621 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:12:00,640 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:12:01,314 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:12:01,419 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:12:02,779 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:12:06,426 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:12:06,944 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:12:07,463 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:12:07,478 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:12:08,149 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:12:08,254 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:12:12,783 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:12:13,261 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:12:13,784 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:12:14,303 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:12:14,317 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:12:15,042 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:12:15,147 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:12:20,153 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:12:20,673 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:12:21,190 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:12:21,211 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:12:21,895 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:12:21,999 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:12:22,794 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:12:27,005 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:12:27,526 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:12:28,045 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:12:28,060 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:12:28,724 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:12:28,828 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:12:32,805 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:12:33,834 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:12:34,356 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:12:34,872 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:12:34,898 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:12:35,587 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:12:35,693 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:12:40,700 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:12:41,217 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:12:41,736 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:12:41,752 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:12:42,432 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:12:42,539 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:12:42,816 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:12:47,547 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:12:48,063 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:12:48,584 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:12:48,600 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:12:49,287 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:12:49,392 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:12:52,829 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:12:54,396 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:12:54,914 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:12:55,435 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:12:55,453 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:12:56,234 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:12:56,345 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:13:01,352 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:13:01,871 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:13:02,392 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:13:02,408 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:13:02,840 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:13:03,067 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:13:03,174 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:13:08,177 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:13:08,695 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:13:09,727 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:13:12,849 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:13:14,734 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:13:15,252 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:13:16,283 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:13:21,289 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:13:21,810 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:13:22,843 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:13:22,861 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:13:27,850 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:13:28,369 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:13:29,400 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:13:32,869 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:13:34,405 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:13:34,925 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:13:35,959 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:13:40,963 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:13:41,487 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:13:42,521 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:13:42,880 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:13:47,528 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:13:48,048 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:13:49,080 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:13:52,892 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:13:54,087 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:13:54,607 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:13:55,643 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:14:00,650 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:14:01,170 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:14:02,204 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:14:02,901 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:14:07,211 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:14:07,730 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:14:08,769 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:14:12,913 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:14:13,776 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:14:14,294 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:14:15,330 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:14:20,337 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:14:20,860 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:14:21,895 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:14:22,924 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:14:26,902 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:14:27,420 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:14:28,456 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:14:32,933 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:14:33,463 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:14:33,972 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:14:34,989 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:14:34,991 [34mDEBUG   [0m Just finished a print job.[0m
+2023-08-30 17:14:34,992 [31mERROR   [0m CSV print log was never made...[0m
+2023-08-30 17:14:34,994 [34mDEBUG   [0m Print log cleaned up.[0m
+2023-08-30 17:14:34,996 [34mDEBUG   [0m None[0m
+2023-08-30 17:14:34,997 [31mERROR   [0m Failed to finish print job: expected str, bytes or os.PathLike object, not NoneType[0m
+2023-08-30 17:14:34,999 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:14:40,003 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:14:40,524 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:14:41,560 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:14:41,562 [34mDEBUG   [0m Just finished a print job.[0m
+2023-08-30 17:14:41,563 [31mERROR   [0m CSV print log was never made...[0m
+2023-08-30 17:14:41,565 [34mDEBUG   [0m Print log cleaned up.[0m
+2023-08-30 17:14:41,567 [34mDEBUG   [0m None[0m
+2023-08-30 17:14:41,568 [31mERROR   [0m Failed to finish print job: expected str, bytes or os.PathLike object, not NoneType[0m
+2023-08-30 17:14:41,570 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:14:42,944 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:14:46,575 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:14:47,094 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:14:48,132 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:14:48,134 [34mDEBUG   [0m Just finished a print job.[0m
+2023-08-30 17:14:48,137 [31mERROR   [0m CSV print log was never made...[0m
+2023-08-30 17:14:48,140 [34mDEBUG   [0m Print log cleaned up.[0m
+2023-08-30 17:14:48,142 [34mDEBUG   [0m None[0m
+2023-08-30 17:14:48,145 [31mERROR   [0m Failed to finish print job: expected str, bytes or os.PathLike object, not NoneType[0m
+2023-08-30 17:14:48,147 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:14:52,952 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:14:53,154 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:14:53,674 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:14:54,691 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:14:54,692 [34mDEBUG   [0m Just finished a print job.[0m
+2023-08-30 17:14:54,693 [31mERROR   [0m CSV print log was never made...[0m
+2023-08-30 17:14:54,694 [34mDEBUG   [0m Print log cleaned up.[0m
+2023-08-30 17:14:54,695 [34mDEBUG   [0m None[0m
+2023-08-30 17:14:54,695 [31mERROR   [0m Failed to finish print job: expected str, bytes or os.PathLike object, not NoneType[0m
+2023-08-30 17:14:54,696 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:14:59,698 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:15:00,218 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:15:01,258 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:15:01,260 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:15:02,964 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:15:06,268 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:15:06,787 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:15:07,824 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:15:07,825 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:15:12,829 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:15:12,976 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:15:13,350 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:15:14,384 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:15:14,387 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:15:19,394 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:15:19,913 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:15:20,947 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:15:20,950 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:15:22,987 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:15:25,956 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:15:26,477 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:15:27,511 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:15:27,512 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:15:32,519 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:15:32,991 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:15:33,038 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:15:34,073 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:15:34,075 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:15:39,081 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:15:39,600 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:15:40,639 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:15:40,641 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:15:42,994 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:15:45,648 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:15:46,168 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:15:47,204 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:15:47,206 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:15:52,213 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:15:52,732 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:15:53,006 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:15:53,765 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:15:53,767 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:15:58,773 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:15:59,291 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:16:00,328 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:16:00,330 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:16:03,013 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:16:05,337 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:16:05,856 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:16:06,888 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:16:06,890 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:16:11,896 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:16:12,414 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:16:13,025 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:16:13,449 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:16:13,451 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:16:18,458 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:16:18,977 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:16:20,011 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:16:20,013 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:16:23,036 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:16:25,020 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:16:25,541 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:16:26,576 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:16:26,578 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:16:31,585 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:16:32,107 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:16:33,048 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:16:33,141 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:16:33,142 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:16:38,149 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:16:38,666 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:16:39,699 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:16:39,701 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:16:43,060 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:16:44,707 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:16:45,227 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:16:46,265 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:16:46,267 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:16:51,273 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:16:51,792 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:16:52,828 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:16:52,830 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:16:53,072 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:16:57,837 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:16:58,346 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:16:59,371 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:16:59,373 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:17:03,075 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:17:04,379 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:17:04,903 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:17:05,936 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:17:05,938 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:17:10,944 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:17:11,464 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:17:12,499 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:17:12,501 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:17:13,087 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:17:17,507 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:17:18,028 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:17:19,060 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:17:19,062 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:17:23,092 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:17:24,069 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:17:24,586 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:17:25,621 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:17:25,623 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:17:30,629 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:17:31,151 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:17:32,186 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:17:32,188 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:17:33,103 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:17:37,194 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:17:37,712 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:17:38,748 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:17:38,750 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:17:43,111 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:17:43,757 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:17:44,274 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:17:45,311 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:17:45,313 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:17:50,319 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:17:50,836 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:17:51,873 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:17:51,875 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:17:53,123 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:17:56,882 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:17:57,401 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:17:58,436 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:17:58,438 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:18:03,135 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:18:03,445 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:18:03,964 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:18:04,998 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:18:04,999 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:18:10,006 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:18:10,527 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:18:11,544 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:18:11,544 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:18:13,147 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:18:16,960 [32mINFO    [0m ---------- Starting MattaConnectPlugin ----------[0m
+2023-08-30 17:18:16,961 [32mINFO    [0m ---- Logging Tests ----[0m
+2023-08-30 17:18:16,962 [34mDEBUG   [0m Debug logging test[0m
+2023-08-30 17:18:16,962 [32mINFO    [0m Info logging test[0m
+2023-08-30 17:18:16,963 [33mWARNING [0m Warning logging test[0m
+2023-08-30 17:18:16,964 [31mERROR   [0m Error logging test[0m
+2023-08-30 17:18:16,965 [32mINFO    [0m -----------------------[0m
+2023-08-30 17:18:16,970 [32mINFO    [0m Starting Flask server...[0m
+2023-08-30 17:18:16,970 [32mINFO    [0m Starting data thread[0m
+2023-08-30 17:18:17,486 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:18:18,495 [32mINFO    [0m {'bed': {'actual': 44.84, 'offset': 0, 'target': 0.0}, 'tool0': {'actual': 61.5, 'offset': 0, 'target': 0.0}}[0m
+2023-08-30 17:18:19,665 [32mINFO    [0m {'filename': '', 'total_duration': 0.0, 'print_duration': 0.0, 'filament_used': 0.0, 'state': 'standby', 'message': '', 'info': {'total_layer': None, 'current_layer': None}}[0m
+2023-08-30 17:18:20,920 [32mINFO    [0m [0m
+2023-08-30 17:18:21,422 [34mDEBUG   [0m Setting up main data thread...[0m
+2023-08-30 17:18:21,425 [32mINFO    [0m Starting main data loop method.[0m
+2023-08-30 17:18:21,426 [34mDEBUG   [0m Main data thread running.[0m
+2023-08-30 17:18:21,426 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:18:21,428 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:18:26,433 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:18:26,952 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:18:27,986 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:18:27,988 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:18:31,440 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:18:32,994 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:18:33,512 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:18:34,545 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:18:34,547 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:18:39,550 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:18:40,067 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:18:41,098 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:18:41,100 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:18:41,453 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:18:46,106 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:18:46,628 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:18:47,663 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:18:47,665 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:18:51,465 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:18:52,671 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:18:53,192 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:18:54,225 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:18:54,226 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:18:59,232 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:18:59,753 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:19:00,795 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:19:00,797 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:19:01,477 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:19:05,805 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:19:06,326 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:19:07,365 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:19:07,368 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:19:11,490 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:19:12,375 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:19:12,897 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:19:13,935 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:19:13,938 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:19:18,945 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:19:19,466 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:19:20,504 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:19:20,507 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:19:21,502 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:19:25,515 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:19:26,036 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:19:27,073 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:19:27,076 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:19:31,506 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:19:32,083 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:19:32,602 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:19:33,638 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:19:33,640 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:19:38,647 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:19:39,167 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:19:40,205 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:19:40,206 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:19:41,517 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:19:45,213 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:19:45,733 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:19:46,771 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:19:46,773 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:19:51,528 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:19:51,780 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:19:52,302 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:19:53,338 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:19:53,340 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:19:58,347 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:19:58,868 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:19:59,898 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:19:59,899 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:20:01,769 [32mINFO    [0m ---------- Starting MattaConnectPlugin ----------[0m
+2023-08-30 17:20:01,769 [32mINFO    [0m ---- Logging Tests ----[0m
+2023-08-30 17:20:01,770 [34mDEBUG   [0m Debug logging test[0m
+2023-08-30 17:20:01,771 [32mINFO    [0m Info logging test[0m
+2023-08-30 17:20:01,771 [33mWARNING [0m Warning logging test[0m
+2023-08-30 17:20:01,772 [31mERROR   [0m Error logging test[0m
+2023-08-30 17:20:01,773 [32mINFO    [0m -----------------------[0m
+2023-08-30 17:20:01,778 [32mINFO    [0m Starting Flask server...[0m
+2023-08-30 17:20:01,778 [32mINFO    [0m Starting data thread[0m
+2023-08-30 17:20:02,294 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:20:03,303 [32mINFO    [0m {'bed': {'actual': 41.75, 'offset': 0, 'target': 0.0}, 'tool0': {'actual': 47.67, 'offset': 0, 'target': 0.0}}[0m
+2023-08-30 17:20:04,510 [32mINFO    [0m {'filename': '', 'total_duration': 0.0, 'print_duration': 0.0, 'filament_used': 0.0, 'state': 'standby', 'message': '', 'info': {'total_layer': None, 'current_layer': None}}[0m
+2023-08-30 17:20:05,769 [32mINFO    [0m [0m
+2023-08-30 17:20:06,273 [34mDEBUG   [0m Setting up main data thread...[0m
+2023-08-30 17:20:06,276 [32mINFO    [0m Starting main data loop method.[0m
+2023-08-30 17:20:06,277 [34mDEBUG   [0m Main data thread running.[0m
+2023-08-30 17:20:06,279 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:20:06,281 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:20:11,287 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:20:11,809 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:20:12,846 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:20:12,848 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:20:16,293 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:20:17,855 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:20:18,374 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:20:19,411 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:20:19,413 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:20:24,419 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:20:24,939 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:20:25,977 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:20:25,979 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:20:26,300 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:20:30,986 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:20:31,503 [32mINFO    [0m {'text': 'Operational', 'flags': {'operational': True, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': True, 'closedOrError': False}}[0m
+2023-08-30 17:20:32,023 [34mDEBUG   [0m New job.[0m
+2023-08-30 17:20:32,597 [31mERROR   [0m string indices must be integers[0m
+2023-08-30 17:20:32,599 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:20:36,307 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:20:37,602 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:20:38,123 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:20:38,642 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:20:38,658 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:20:39,402 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:20:39,509 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:20:44,516 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:20:45,035 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:20:45,554 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:20:45,569 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:20:46,315 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:20:46,319 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:20:46,420 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:20:51,425 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:20:51,945 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:20:52,463 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:20:52,495 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:20:53,244 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:20:53,352 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:20:56,329 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:20:58,357 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:20:58,868 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:20:59,378 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:20:59,388 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:21:00,331 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:21:00,436 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:21:05,442 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:21:05,961 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:21:06,337 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:21:06,478 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:21:06,495 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:21:07,157 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:21:07,262 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:21:12,269 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:21:12,788 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:21:13,307 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:21:13,324 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:21:14,139 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:21:14,245 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:21:16,342 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:21:19,251 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:21:19,771 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:21:20,290 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:21:20,302 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:21:20,978 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:21:21,082 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:21:26,088 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:21:26,353 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:21:26,608 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:21:27,127 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:21:27,143 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:21:27,839 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:21:27,944 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:21:32,951 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:21:33,470 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:21:33,992 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:21:34,009 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:21:34,688 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:21:34,793 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:21:36,365 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:21:39,796 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:21:40,316 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:21:40,834 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:21:40,853 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:21:41,532 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:21:41,637 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:21:46,376 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:21:46,644 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:21:47,164 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:21:47,685 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:21:47,701 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:21:48,446 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:21:48,552 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:21:53,559 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:21:54,078 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:21:54,597 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:21:54,616 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:21:55,309 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:21:55,413 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:21:56,387 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:22:00,420 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:22:00,943 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:22:01,463 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:22:01,482 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:22:02,184 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:22:02,292 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:22:06,397 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:22:07,295 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:22:07,814 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:22:08,334 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:22:08,353 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:22:09,027 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:22:09,133 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:22:14,140 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:22:14,659 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:22:15,175 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:22:15,189 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:22:15,862 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:22:15,967 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:22:16,409 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:22:20,970 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:22:21,492 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:22:22,011 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:22:22,026 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:22:22,869 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:22:22,978 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:22:26,411 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:22:27,985 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:22:28,505 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:22:29,544 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:22:29,546 [34mDEBUG   [0m Just finished a print job.[0m
+2023-08-30 17:22:29,548 [31mERROR   [0m CSV print log was never made...[0m
+2023-08-30 17:22:29,551 [34mDEBUG   [0m Print log cleaned up.[0m
+2023-08-30 17:22:29,553 [34mDEBUG   [0m None[0m
+2023-08-30 17:22:29,556 [31mERROR   [0m Failed to finish print job: expected str, bytes or os.PathLike object, not NoneType[0m
+2023-08-30 17:22:29,558 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:22:34,565 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:22:35,084 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:22:36,118 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:22:36,120 [34mDEBUG   [0m Just finished a print job.[0m
+2023-08-30 17:22:36,122 [31mERROR   [0m CSV print log was never made...[0m
+2023-08-30 17:22:36,125 [34mDEBUG   [0m Print log cleaned up.[0m
+2023-08-30 17:22:36,128 [34mDEBUG   [0m None[0m
+2023-08-30 17:22:36,130 [31mERROR   [0m Failed to finish print job: expected str, bytes or os.PathLike object, not NoneType[0m
+2023-08-30 17:22:36,133 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:22:36,418 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:22:41,140 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:22:41,660 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:22:42,697 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:22:42,699 [34mDEBUG   [0m Just finished a print job.[0m
+2023-08-30 17:22:42,701 [31mERROR   [0m CSV print log was never made...[0m
+2023-08-30 17:22:42,704 [34mDEBUG   [0m Print log cleaned up.[0m
+2023-08-30 17:22:42,707 [34mDEBUG   [0m None[0m
+2023-08-30 17:22:42,710 [31mERROR   [0m Failed to finish print job: expected str, bytes or os.PathLike object, not NoneType[0m
+2023-08-30 17:22:42,712 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:22:46,430 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:22:47,719 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:22:48,239 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:22:49,280 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:22:49,281 [34mDEBUG   [0m Just finished a print job.[0m
+2023-08-30 17:22:49,283 [31mERROR   [0m CSV print log was never made...[0m
+2023-08-30 17:22:49,284 [34mDEBUG   [0m Print log cleaned up.[0m
+2023-08-30 17:22:49,286 [34mDEBUG   [0m None[0m
+2023-08-30 17:22:49,287 [31mERROR   [0m Failed to finish print job: expected str, bytes or os.PathLike object, not NoneType[0m
+2023-08-30 17:22:49,289 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:22:54,293 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:22:54,813 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:22:55,840 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:22:55,841 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:22:56,435 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:23:00,847 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:23:01,372 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:23:02,404 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:23:02,406 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:23:06,446 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:23:07,413 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:23:07,934 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:23:08,966 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:23:08,968 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:23:13,976 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:23:14,501 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:23:15,537 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:23:15,539 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:23:16,458 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:23:20,546 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:23:21,068 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:23:22,104 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:23:22,106 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:23:26,464 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:23:27,116 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:23:27,633 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:23:28,671 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:23:28,674 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:23:33,681 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:23:34,198 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:23:35,236 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:23:35,239 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:23:36,476 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:23:40,245 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:23:40,762 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:23:41,800 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:23:41,802 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:23:46,488 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:23:46,805 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:23:47,325 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:23:48,360 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:23:48,362 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:23:53,369 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:23:53,888 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:23:54,923 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:23:54,928 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:23:56,497 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:23:59,936 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:24:00,456 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:24:01,488 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:24:01,490 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:24:06,497 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:24:06,509 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:24:07,026 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:24:08,067 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:24:08,069 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:24:13,073 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:24:13,594 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:24:14,631 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:24:14,634 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:24:16,522 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:24:19,638 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:24:20,156 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:24:21,194 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:24:21,196 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:24:26,199 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:24:26,534 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:24:26,719 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:24:27,755 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:24:27,758 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:24:32,764 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:24:33,285 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:24:34,321 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:24:34,323 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:24:36,546 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:24:39,329 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:24:39,848 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:24:40,885 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:24:40,887 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:24:45,891 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:24:46,411 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:24:46,555 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:24:47,449 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:24:47,451 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:24:52,458 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:24:52,979 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:24:54,013 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:24:54,016 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:24:56,566 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:24:59,023 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:24:59,534 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:25:00,554 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:25:00,556 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:25:05,560 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:25:06,080 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:25:06,577 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:25:07,116 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:25:07,118 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:25:12,121 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:25:12,641 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:25:13,677 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:25:13,679 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:25:16,581 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:25:18,686 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:25:19,203 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:25:20,235 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:25:20,237 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:25:25,243 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:25:25,764 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:25:26,593 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:25:26,797 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:25:26,799 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:25:31,806 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:25:32,330 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:25:33,368 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:25:33,370 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:25:36,604 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:25:38,377 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:25:38,895 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:25:39,925 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:25:39,927 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:25:44,934 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:25:45,451 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:25:46,484 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:25:46,486 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:25:46,617 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:25:51,493 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:25:52,014 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:25:53,048 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:25:53,050 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:25:56,629 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:25:58,057 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:25:58,575 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:25:59,609 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:25:59,611 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:26:04,618 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:26:05,140 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:26:06,177 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:26:06,179 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:26:06,641 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:26:11,186 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:26:11,709 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:26:12,744 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:26:12,748 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:26:16,645 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:26:17,753 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:26:18,272 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:26:19,309 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:26:19,311 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:26:24,317 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:26:24,836 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:26:25,873 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:26:25,874 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:26:26,653 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:26:30,881 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:26:31,403 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:26:32,435 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:26:32,437 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:26:36,661 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:26:37,444 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:26:37,965 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:26:39,001 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:26:39,003 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:26:44,007 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:26:44,527 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:26:45,564 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:26:45,566 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:26:46,669 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:26:50,573 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:26:51,103 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:26:52,140 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:26:52,143 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:26:56,680 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:26:57,150 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:26:57,661 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:26:58,679 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:26:58,681 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:27:03,687 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:27:04,204 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:27:05,239 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:27:05,241 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:27:06,685 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:27:10,248 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:27:10,765 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:27:11,799 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:27:11,804 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:27:16,697 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:27:16,811 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:27:17,327 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:27:18,361 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:27:18,363 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:27:23,370 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:27:23,893 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:27:24,931 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:27:24,934 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:27:26,705 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:27:29,941 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:27:30,460 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:27:31,499 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:27:31,501 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:27:36,508 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:27:36,717 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:27:37,029 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:27:38,063 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:27:38,066 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:27:43,073 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:27:43,596 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:27:44,631 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:27:44,633 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:27:46,725 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:27:49,637 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:27:50,157 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:27:51,192 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:27:51,194 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:27:56,197 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:27:56,718 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:27:56,734 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:27:57,753 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:27:57,755 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:28:02,763 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:28:03,281 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:28:04,314 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:28:04,315 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:28:06,745 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:28:09,322 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:28:09,841 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:28:10,878 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:28:10,880 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:28:15,889 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:28:16,407 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:28:16,756 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:28:17,439 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:28:17,444 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:28:22,452 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:28:22,974 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:28:24,013 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:28:24,015 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:28:26,765 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:28:29,019 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:28:29,535 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:28:30,571 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:28:30,573 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:28:35,580 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:28:36,098 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:28:36,768 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:28:37,132 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:28:37,135 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:28:42,141 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:28:42,665 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:28:43,702 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:28:43,704 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:28:46,780 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:28:48,711 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:28:49,233 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:28:50,268 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:28:50,270 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:28:55,277 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:28:55,798 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:28:56,782 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:28:56,828 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:28:56,829 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:29:01,835 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:29:02,352 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:29:03,387 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:29:03,389 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:29:06,793 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:29:08,396 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:29:08,914 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:29:09,945 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:29:09,947 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:29:14,954 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:29:15,473 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:29:16,508 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:29:16,511 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:29:16,804 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:29:21,517 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:29:22,038 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:29:23,073 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:29:23,075 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:29:26,816 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:29:28,083 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:29:28,601 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:29:29,639 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:29:29,642 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:29:34,649 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:29:35,168 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:29:36,203 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:29:36,205 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:29:36,828 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:29:41,212 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:29:41,732 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:29:42,767 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:29:42,769 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:29:46,840 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:29:47,775 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:29:48,295 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:29:49,330 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:29:49,332 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:29:54,340 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:29:54,858 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:29:55,887 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:29:55,889 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:29:56,852 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:30:00,896 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:30:01,414 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:30:02,447 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:30:02,449 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:30:06,864 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:30:07,455 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:30:07,976 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:30:09,012 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:30:09,014 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:30:14,021 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:30:14,544 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:30:15,578 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:30:15,581 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:30:16,873 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:30:20,588 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:30:21,108 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:30:22,147 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:30:22,149 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:30:26,885 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:30:27,153 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:30:27,671 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:30:28,707 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:30:28,711 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:30:33,718 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:30:34,238 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:30:35,275 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:30:35,278 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:30:36,897 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:30:40,285 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:30:40,805 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:30:41,834 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:30:41,836 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:30:46,841 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:30:46,908 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:30:47,361 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:30:48,399 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:30:48,401 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:30:53,408 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:30:53,928 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:30:54,963 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:30:54,964 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:30:56,917 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:30:58,302 [32mINFO    [0m ---------- Starting MattaConnectPlugin ----------[0m
+2023-08-30 17:30:58,302 [32mINFO    [0m ---- Logging Tests ----[0m
+2023-08-30 17:30:58,303 [34mDEBUG   [0m Debug logging test[0m
+2023-08-30 17:30:58,304 [32mINFO    [0m Info logging test[0m
+2023-08-30 17:30:58,305 [33mWARNING [0m Warning logging test[0m
+2023-08-30 17:30:58,306 [31mERROR   [0m Error logging test[0m
+2023-08-30 17:30:58,307 [32mINFO    [0m -----------------------[0m
+2023-08-30 17:30:58,313 [32mINFO    [0m Starting Flask server...[0m
+2023-08-30 17:30:58,313 [32mINFO    [0m Starting data thread[0m
+2023-08-30 17:30:58,833 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:30:59,843 [32mINFO    [0m {'bed': {'actual': 38.22, 'offset': 0, 'target': 0.0}, 'tool0': {'actual': 41.18, 'offset': 0, 'target': 0.0}}[0m
+2023-08-30 17:31:00,937 [32mINFO    [0m {'filename': 'Test kit Ender 3 S1/CE3S1_3DBenchy_50%_150mms.gcode', 'total_duration': 111.43600441499802, 'print_duration': 0.0, 'filament_used': 0.0, 'state': 'cancelled', 'message': '', 'info': {'total_layer': None, 'current_layer': None}}[0m
+2023-08-30 17:31:02,196 [32mINFO    [0m Test kit Ender 3 S1/CE3S1_3DBenchy_50%_150mms.gcode[0m
+2023-08-30 17:31:02,700 [34mDEBUG   [0m Setting up main data thread...[0m
+2023-08-30 17:31:02,703 [32mINFO    [0m Starting main data loop method.[0m
+2023-08-30 17:31:02,705 [34mDEBUG   [0m Main data thread running.[0m
+2023-08-30 17:31:02,707 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:31:02,709 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:31:07,712 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:31:08,234 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:31:09,272 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:31:09,273 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:31:12,715 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:31:14,277 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:31:14,794 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:31:15,830 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:31:15,832 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:31:20,839 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:31:21,358 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:31:22,397 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:31:22,401 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:31:22,727 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:31:27,403 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:31:27,922 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:31:28,957 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:31:28,958 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:31:32,740 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:31:33,965 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:31:34,485 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:31:35,004 [34mDEBUG   [0m New job.[0m
+2023-08-30 17:31:35,543 [31mERROR   [0m string indices must be integers[0m
+2023-08-30 17:31:35,545 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:31:40,552 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:31:41,071 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:31:41,586 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:31:41,793 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:31:42,569 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:31:42,673 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:31:42,752 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:31:47,679 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:31:48,201 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:31:48,721 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:31:48,918 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:31:49,591 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:31:49,695 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:31:52,762 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:31:54,701 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:31:55,224 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:31:55,742 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:31:55,919 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:31:56,611 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:31:56,716 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:32:01,721 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:32:02,241 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:32:02,760 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:32:02,773 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:32:02,851 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:32:03,546 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:32:03,651 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:32:08,655 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:32:09,175 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:32:09,695 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:32:09,851 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:32:10,535 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:32:10,639 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:32:12,784 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:32:15,645 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:32:16,166 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:32:16,686 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:32:16,788 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:32:17,471 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:32:17,575 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:32:22,581 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:32:22,795 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:32:23,098 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:32:23,615 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:32:23,786 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:32:24,466 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:32:24,570 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:32:29,576 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:32:30,096 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:32:30,613 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:32:30,783 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:32:31,476 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:32:31,583 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:32:32,807 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:32:36,589 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:32:37,109 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:32:37,629 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:32:37,783 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:32:38,458 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:32:38,563 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:32:42,810 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:32:43,569 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:32:44,087 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:32:44,603 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:32:44,721 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:32:45,403 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:32:45,507 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:32:50,513 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:32:51,031 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:32:51,551 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:32:51,717 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:32:52,398 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:32:52,502 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:32:52,817 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:32:57,508 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:32:58,029 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:32:58,548 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:32:58,654 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:32:59,340 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:32:59,444 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:33:02,827 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:33:04,451 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:33:04,971 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:33:05,492 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:33:05,651 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:33:06,322 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:33:06,428 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:33:11,435 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:33:11,955 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:33:12,473 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:33:12,588 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:33:12,838 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:33:13,250 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:33:13,354 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:33:18,355 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:33:18,876 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:33:19,394 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:33:19,520 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:33:20,198 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:33:20,304 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:33:22,849 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:33:25,311 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:33:25,833 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:33:26,353 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:33:26,457 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:33:27,140 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:33:27,244 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:33:32,250 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:33:32,769 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:33:32,859 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:33:33,289 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:33:33,459 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:33:34,133 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:33:34,237 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:33:39,243 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:33:39,760 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:33:40,278 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:33:40,394 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:33:41,072 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:33:41,176 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:33:42,871 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:33:46,182 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:33:46,701 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:33:47,220 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:33:47,392 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:33:48,220 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:33:48,327 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:33:52,882 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:33:53,333 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:33:53,851 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:33:54,368 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:33:54,579 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:33:55,253 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:33:55,357 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:34:00,363 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:34:00,881 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:34:01,400 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:34:01,578 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:34:02,268 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:34:02,372 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:34:03,158 [32mINFO    [0m ---------- Starting MattaConnectPlugin ----------[0m
+2023-08-30 17:34:03,159 [32mINFO    [0m ---- Logging Tests ----[0m
+2023-08-30 17:34:03,160 [34mDEBUG   [0m Debug logging test[0m
+2023-08-30 17:34:03,160 [32mINFO    [0m Info logging test[0m
+2023-08-30 17:34:03,161 [33mWARNING [0m Warning logging test[0m
+2023-08-30 17:34:03,162 [31mERROR   [0m Error logging test[0m
+2023-08-30 17:34:03,162 [32mINFO    [0m -----------------------[0m
+2023-08-30 17:34:03,167 [32mINFO    [0m Starting Flask server...[0m
+2023-08-30 17:34:03,168 [32mINFO    [0m Starting data thread[0m
+2023-08-30 17:34:03,683 [32mINFO    [0m {'text': 'Paused', 'flags': {'operational': True, 'paused': True, 'printing': False, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:34:04,692 [32mINFO    [0m {'bed': {'actual': 61.38, 'offset': 0, 'target': 60.0}, 'tool0': {'actual': 210.13, 'offset': 0, 'target': 210.0}}[0m
+2023-08-30 17:34:05,730 [32mINFO    [0m {'filename': 'CE3S1_BagClip_65.gcode', 'total_duration': 153.35824001999936, 'print_duration': 0.0, 'filament_used': 0.0, 'state': 'paused', 'message': '', 'info': {'total_layer': None, 'current_layer': None}}[0m
+2023-08-30 17:34:06,986 [32mINFO    [0m CE3S1_BagClip_65.gcode[0m
+2023-08-30 17:34:07,487 [34mDEBUG   [0m Setting up main data thread...[0m
+2023-08-30 17:34:07,490 [32mINFO    [0m Starting main data loop method.[0m
+2023-08-30 17:34:07,491 [34mDEBUG   [0m Main data thread running.[0m
+2023-08-30 17:34:07,492 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:34:07,494 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:34:12,501 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:34:13,023 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:34:14,060 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:34:14,062 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:34:17,506 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:34:19,069 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:34:19,587 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:34:20,619 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:34:20,621 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:34:25,627 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:34:26,145 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:34:26,662 [34mDEBUG   [0m New job.[0m
+2023-08-30 17:34:27,306 [31mERROR   [0m string indices must be integers[0m
+2023-08-30 17:34:27,308 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:34:27,509 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:34:32,315 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:34:32,833 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:34:33,350 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:34:33,482 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:34:34,169 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:34:34,273 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:34:37,520 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:34:39,279 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:34:39,796 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:34:40,316 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:34:40,479 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:34:41,176 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:34:41,280 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:34:46,286 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:34:46,804 [32mINFO    [0m {'text': 'Printing', 'flags': {'operational': True, 'paused': False, 'printing': True, 'cancelling': False, 'pausing': False, 'error': False, 'ready': False, 'closedOrError': False}}[0m
+2023-08-30 17:34:47,322 [31mERROR   [0m 'NoneType' object has no attribute 'writerow'[0m
+2023-08-30 17:34:47,480 [34mDEBUG   [0m Posting image[0m
+2023-08-30 17:34:47,531 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:34:48,161 [31mERROR   [0m 404 Client Error: Not Found for url: https://os.matta.ai/api/v1/images/print/predict/new-image[0m
+2023-08-30 17:34:48,266 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:34:53,269 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:34:53,786 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:34:54,822 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:34:54,824 [34mDEBUG   [0m Just finished a print job.[0m
+2023-08-30 17:34:54,826 [31mERROR   [0m CSV print log was never made...[0m
+2023-08-30 17:34:54,828 [34mDEBUG   [0m Print log cleaned up.[0m
+2023-08-30 17:34:54,830 [34mDEBUG   [0m None[0m
+2023-08-30 17:34:54,832 [31mERROR   [0m Failed to finish print job: expected str, bytes or os.PathLike object, not NoneType[0m
+2023-08-30 17:34:54,834 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:34:57,541 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:34:59,841 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:35:00,351 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:35:01,368 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:35:01,370 [34mDEBUG   [0m Just finished a print job.[0m
+2023-08-30 17:35:01,371 [31mERROR   [0m CSV print log was never made...[0m
+2023-08-30 17:35:01,372 [34mDEBUG   [0m Print log cleaned up.[0m
+2023-08-30 17:35:01,372 [34mDEBUG   [0m None[0m
+2023-08-30 17:35:01,373 [31mERROR   [0m Failed to finish print job: expected str, bytes or os.PathLike object, not NoneType[0m
+2023-08-30 17:35:01,374 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:35:06,380 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:35:06,900 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:35:07,552 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:35:07,938 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:35:07,939 [34mDEBUG   [0m Just finished a print job.[0m
+2023-08-30 17:35:07,941 [31mERROR   [0m CSV print log was never made...[0m
+2023-08-30 17:35:07,943 [34mDEBUG   [0m Print log cleaned up.[0m
+2023-08-30 17:35:07,945 [34mDEBUG   [0m None[0m
+2023-08-30 17:35:07,947 [31mERROR   [0m Failed to finish print job: expected str, bytes or os.PathLike object, not NoneType[0m
+2023-08-30 17:35:07,949 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:35:12,955 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:35:13,476 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:35:14,509 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:35:14,511 [34mDEBUG   [0m Just finished a print job.[0m
+2023-08-30 17:35:14,512 [31mERROR   [0m CSV print log was never made...[0m
+2023-08-30 17:35:14,513 [34mDEBUG   [0m Print log cleaned up.[0m
+2023-08-30 17:35:14,515 [34mDEBUG   [0m None[0m
+2023-08-30 17:35:14,516 [31mERROR   [0m Failed to finish print job: expected str, bytes or os.PathLike object, not NoneType[0m
+2023-08-30 17:35:14,518 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:35:17,558 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:35:19,524 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:35:20,042 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:35:21,078 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:35:21,080 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:35:26,087 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:35:26,607 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:35:27,565 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:35:27,641 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:35:27,643 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:35:32,649 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:35:33,171 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:35:34,208 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:35:34,210 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:35:37,574 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:35:39,213 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:35:39,730 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:35:40,764 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:35:40,766 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:35:45,773 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:35:46,292 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:35:47,327 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:35:47,329 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:35:47,585 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:35:52,335 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:35:52,853 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:35:53,889 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:35:53,891 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:35:57,596 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:35:58,898 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:35:59,417 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:36:00,450 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:36:00,451 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:36:05,457 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:36:05,978 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:36:07,012 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:36:07,014 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:36:07,608 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:36:12,020 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:36:12,540 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:36:13,572 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:36:13,574 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:36:17,613 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:36:18,580 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:36:19,097 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:36:20,130 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:36:20,131 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:36:25,138 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:36:25,658 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:36:26,696 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:36:26,698 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:36:27,624 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:36:31,705 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:36:32,228 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:36:33,264 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:36:33,265 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:36:37,632 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:36:38,268 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:36:38,788 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:36:39,823 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:36:39,825 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:36:44,832 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:36:45,349 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:36:46,386 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:36:46,388 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:36:47,644 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:36:51,396 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:36:51,920 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:36:52,957 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:36:52,959 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:36:57,656 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:36:57,965 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:36:58,473 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:36:59,490 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:36:59,491 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:37:04,497 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:37:05,019 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:37:06,056 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:37:06,057 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:37:07,667 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:37:11,061 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:37:11,581 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:37:12,619 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:37:12,621 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:37:17,627 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:37:17,669 [32mINFO    [0m Temp loop service trap in Data loop thread[0m
+2023-08-30 17:37:18,136 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:37:19,153 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:37:19,154 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:37:24,160 [34mDEBUG   [0m Checking if a new print job has started...[0m
+2023-08-30 17:37:24,683 [32mINFO    [0m {'text': 'Error', 'flags': {'operational': False, 'paused': False, 'printing': False, 'cancelling': False, 'pausing': False, 'error': True, 'ready': False, 'closedOrError': True}}[0m
+2023-08-30 17:37:25,716 [34mDEBUG   [0m Operational[0m
+2023-08-30 17:37:25,717 [34mDEBUG   [0m running data loop[0m
+2023-08-30 17:37:27,677 [32mINFO    [0m Temp loop service trap in Data loop thread[0m

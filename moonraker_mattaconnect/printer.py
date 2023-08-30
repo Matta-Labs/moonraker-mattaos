@@ -115,7 +115,7 @@ class MattaPrinter:
 
     def make_job_name(self):
         """Generates a job name string in the format 'filename_timestamp'"""
-        job_details = self._printer.get_gcode_base_name()
+        job_details = self.get_gcode_base_name()
         filename, _ = os.path.splitext(job_details["file"]["name"])
         dt = make_timestamp()
         return f"{filename}_{dt}"
@@ -127,7 +127,7 @@ class MattaPrinter:
     def is_operational(self):
         """Checks if the printer is operational"""
         state_flags = self.get_printer_state_object()["flags"]
-        return state_flags["ready"] or state_flags["operational"]
+        return state_flags["ready"] or state_flags["operational"] or state_flags["error"] # TODO remove error flag
 
     def just_finished(self):
         """Checks if the state has turned from printing to finished"""

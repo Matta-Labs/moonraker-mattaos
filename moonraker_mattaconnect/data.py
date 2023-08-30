@@ -46,10 +46,10 @@ class DataEngine:
         self.start_data_thread()
 
         # # Temp loop to trap service and make it continue running
-        # while True:
-        #     self._logger.info("Temp loop service trap in Data loop thread")
-        #     time.sleep(10)
-        #     pass
+        while True:
+            self._logger.info("Temp loop service trap in Data loop thread")
+            time.sleep(10)
+            pass
 
         
 
@@ -247,7 +247,6 @@ class DataEngine:
 
         try:
             self._logger.info(self._printer.get_printer_state_object())
-            time.sleep(0.5) # TODO remove
 
         except Exception as e:
             self._logger.error(e)
@@ -269,7 +268,7 @@ class DataEngine:
                 return True
 
             elif self._printer.is_operational():
-                self._logger.debug("operational")
+                self._logger.debug("Operational")
                 if self._printer.just_finished():
                     self._logger.debug("Just finished a print job.")
                     try:
@@ -415,6 +414,8 @@ class DataEngine:
 
         while True:
             current_time = time.perf_counter()
+            self._logger.debug("running data loop")
+            time.sleep(5)
             if (
                 self.is_new_job()
                 and (current_time - old_time) > SAMPLING_TIMEOUT - time_buffer
