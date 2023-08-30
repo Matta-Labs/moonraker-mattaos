@@ -16,8 +16,8 @@ import shutil
 
 
 class DataEngine:
-    def __init__(self, logger, settings):
-        # self._printer = matta_printer
+    def __init__(self, logger, settings, matta_printer):
+        self._printer = matta_printer
         self._settings = settings
         self._logger = logger
         self.image_count = 0
@@ -29,13 +29,28 @@ class DataEngine:
 
         self._logger.info("Starting data thread")
 
-        # Temp loop to trap service and make it continue running
-        while True:
-            self._logger.info("Running data thread")
-            time.sleep(10)
-            pass
+        # PRINTER TESTSSSSSSS
+        try:
+            self._logger.info(self._printer.get_printer_state_object())
+            time.sleep(.5)
+            self._logger.info(self._printer.get_printer_temp_object())
+            time.sleep(.5)
+            self._logger.info(self._printer.get_print_stats_object())
+            time.sleep(.5)
+            self._logger.info(self._printer.get_gcode_base_name())
+            time.sleep(.5)
+        except Exception as e:
+            self._logger.error(e)
 
-        #self.start_data_thread()
+
+        self.start_data_thread()
+
+        # # Temp loop to trap service and make it continue running
+        # while True:
+        #     self._logger.info("Temp loop service trap in Data loop thread")
+        #     time.sleep(10)
+        #     pass
+
         
 
     def start_data_thread(self):
@@ -95,19 +110,19 @@ class DataEngine:
         self._printer.gcode_cmd = None
 
     def create_metadata(self):
-        temps = self._printer.get_data()["temperature_data"]
+        temps = self._printer.get_printer_temp_object()
         metadata = {
             "count": self.image_count,
             "timestamp": make_timestamp(),            
-            "flow_rate": self._printer.flow_rate,
-            "feed_rate": self._printer.feed_rate,
-            "z_offset": self._printer.z_offset,
+            # "flow_rate": self._printer.flow_rate,
+            # "feed_rate": self._printer.feed_rate,
+            # "z_offset": self._printer.z_offset,
             "hotend_target": temps["tool0"]["target"],
             "hotend_actual": temps["tool0"]["actual"],
             "bed_target": temps["bed"]["target"],
             "bed_actual": temps["bed"]["actual"],
-            "gcode_line_num": self._printer.gcode_line_num_no_comments,
-            "gcode_cmd": self._printer.gcode_cmd,
+            # "gcode_line_num": self._printer.gcode_line_num_no_comments,
+            # "gcode_cmd": self._printer.gcode_cmd,
             "nozzle_tip_coords_x": int(self._settings["nozzle_tip_coords_x"]),
             "nozzle_tip_coords_y": int(self._settings["nozzle_tip_coords_y"]),
             "flip_h": self._settings["flip_h"],
@@ -129,7 +144,7 @@ class DataEngine:
         """
         self._logger.debug("Posting gcode")
         with open(gcode_path, "rb") as gcode:
-            gcode_name = os.path.basename(gcode_path)
+            gcode_name = os.path.basename(gcode_path) # ? Check if it needs that, since we're just getting the filename
             metadata = {
                 "name": os.path.splitext(gcode_name)[0],
                 "long_name": job_name,
@@ -141,7 +156,7 @@ class DataEngine:
                 "gcode_obj": (job_name, gcode, "text/plain"),
             }
             full_url = get_api_url() + "print-jobs/remote/start-job"
-            headers = generate_auth_headers("mpfyvgRgeqIin-Cdz3iy5xntWN_CF3zFM32hkNLu-74")
+            headers = generate_auth_headers(self._settings["auth_token"])
             try:
                 resp = requests.post(
                     url=full_url, data=data, files=files, headers=headers
@@ -228,44 +243,56 @@ class DataEngine:
         Returns:
             bool: True if a new job has started, False otherwise.
         """
-        if self._printer.has_job():
-            # self._logger.debug(f"Has job: {self._printer.current_job}")
-            if self._printer.new_print_job:
-                self._logger.debug("New job.")
-                self._printer.new_print_job = False
-                self._printer.current_job = self._printer.make_job_name()
-                self._logger.debug(f"New job: {self._printer.current_job}")
-                try:
-                    self.setup_print_log()
-                    self.gcode_upload(self._printer.current_job, self.gcode_path)
-                except Exception as e:
-                    self._logger.error(
-                        f"Failed to set up data collection for print job: {e}"
-                    )
-            return True
+        self._logger.debug("Checking if a new print job has started...")
 
-        elif self._printer.is_operational():
-            if self._printer.just_finished():
-                self._logger.debug("Just finished a print job.")
-                try:
-                    self.cleanup_print_log()
-                    self._logger.debug("Print log cleaned up.")
-                    self.finished_upload(
-                        self._printer.current_job, self.gcode_path, self.csv_path
-                    )
-                    self._logger.debug("Posted!")
-                    self.finished = True
-                    self._printer.finished = True
-                except Exception as e:
-                    self._logger.error(f"Failed to finish print job: {e}")
-                    self.upload_attempts += 1
-                    if self.upload_attempts > 3:
-                        self.reset_job_data()
-                        self.upload_attempts = 0
+        try:
+            self._logger.info(self._printer.get_printer_state_object())
+            time.sleep(0.5) # TODO remove
+
+        except Exception as e:
+            self._logger.error(e)
+
+        try:
+            if self._printer.has_job():
+                if self._printer.new_print_job:
+                    self._logger.debug("New job.")
+                    self._printer.new_print_job = False
+                    self._printer.current_job = self._printer.make_job_name()
+                    self._logger.debug(f"New job: {self._printer.current_job}")
+                    try:
+                        self.setup_print_log()
+                        self.gcode_upload(self._printer.current_job, self.gcode_path)
+                    except Exception as e:
+                        self._logger.error(
+                            f"Failed to set up data collection for print job: {e}"
+                        )
+                return True
+
+            elif self._printer.is_operational():
+                self._logger.debug("operational")
+                if self._printer.just_finished():
+                    self._logger.debug("Just finished a print job.")
+                    try:
+                        self.cleanup_print_log()
+                        self._logger.debug("Print log cleaned up.")
+                        self.finished_upload(
+                            self._printer.current_job, self.gcode_path, self.csv_path
+                        )
+                        self._logger.debug("Posted!")
                         self.finished = True
                         self._printer.finished = True
+                    except Exception as e:
+                        self._logger.error(f"Failed to finish print job: {e}")
+                        self.upload_attempts += 1
+                        if self.upload_attempts > 3:
+                            self.reset_job_data()
+                            self.upload_attempts = 0
+                            self.finished = True
+                            self._printer.finished = True
+                self.reset_job_data()
+        except Exception as e:
+            self._logger.error(e)
 
-            self.reset_job_data()
         return False
 
     def setup_print_log(self):
@@ -276,7 +303,7 @@ class DataEngine:
         self.csv_path = os.path.join(job_dir, "print_log.csv")
         self.gcode_path = os.path.join(
             get_gcode_upload_dir(),
-            self._printer.get_current_job()["file"]["path"],
+            self._printer.get_gcode_base_name(),
         )
         self._logger.debug("G-code file copied.")
         try:
@@ -306,15 +333,15 @@ class DataEngine:
         return [
             "count",
             "timestamp",
-            "flow_rate",
-            "feed_rate",
-            "z_offset",
+            # "flow_rate",
+            # "feed_rate",
+            # "z_offset",
             "target_hotend",
             "hotend",
             "target_bed",
             "bed",
-            "gcode_line_num_no_comments",
-            "gcode_cmd",
+            # "gcode_line_num_no_comments",
+            # "gcode_cmd",
             "nozzle_tip_coords_x",
             "nozzle_tip_coords_y",
             "flip_h",
@@ -322,21 +349,22 @@ class DataEngine:
             "rotate",
         ]
 
+    # TODO
     def csv_data_row(self):
         """Fetches data and returns a list for populating a row of a CSV."""
-        temps = self._printer.get_data()["temperature_data"]
+        temps = self._printer.get_printer_temp_object()
         row = [
             self.image_count,
             make_timestamp(),
-            self._printer.flow_rate,
-            self._printer.feed_rate,
-            self._printer.z_offset,
+            # self._printer.flow_rate,
+            # self._printer.feed_rate,
+            # self._printer.z_offset,
             temps["tool0"]["target"],
             temps["tool0"]["actual"],
             temps["bed"]["target"],
             temps["bed"]["actual"],
-            self._printer.gcode_line_num_no_comments,
-            self._printer.gcode_cmd,
+            # self._printer.gcode_line_num_no_comments,
+            # self._printer.gcode_cmd,
             int(self._settings["nozzle_tip_coords_x"]),
             int(self._settings["nozzle_tip_coords_y"]),
             self._settings["flip_h"],
@@ -381,7 +409,7 @@ class DataEngine:
         Returns:
             None
         """
-        self._logger.debug("Starting main data loop method.")
+        self._logger.info("Starting main data loop method.")
         old_time = time.perf_counter()
         time_buffer = 0.0
 

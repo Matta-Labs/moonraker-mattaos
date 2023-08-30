@@ -2,6 +2,8 @@
 # docker build -t mattaconnect .
 # docker run -it --rm --workdir /home/pi mattaconnect bash
 
+# Windows dev: docker run -it --rm -p 5001:5001 -v "C:\matta\moonraker-mattaconnect-internal:/home/pi/moonraker-mattaconnect" -w /home/pi mattaconnect
+
 FROM python:3.10-slim-bullseye AS runner
 
 RUN apt-get update && apt-get install -y \
@@ -32,6 +34,8 @@ RUN usermod -aG sudo pi
 RUN chown -R pi:pi /home/pi
 
 USER pi
+
+EXPOSE 5001
 
 CMD ["bash"]
 

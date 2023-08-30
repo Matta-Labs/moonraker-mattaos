@@ -104,6 +104,19 @@ sudo systemctl restart moonraker-mattaconnect
 tail -f ~/printer_data/logs/moonraker-mattaconnect.log
 ```
 
+Windows dev: 
+```bash
+# To sync between work directory and the docker image
+docker run -it --rm -p 5001:5001 -v "C:\matta\moonraker-mattaconnect-internal:/home/pi/moonraker-mattaconnect" -w /home/pi mattaconnect
+# To apply the changes
+sudo systemctl restart moonraker-mattaconnect
+```
+
+To connect to a moonraker instance
+```bash
+sudo nano ~/printer_data/config/moonraker-mattaconnect.config
+# Change the IP address of the moonraker instance
+```
 
 # Custom configurations
 The following will detail the steps to setup configurations without the install.sh script

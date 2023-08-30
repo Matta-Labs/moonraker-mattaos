@@ -9,3 +9,7 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+# Environment specific files
+env
+venv
