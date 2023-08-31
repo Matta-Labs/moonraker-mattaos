@@ -8,7 +8,8 @@ setup(
         'colorlog',
         'Flask',
         'requests',
+        'sentry_sdk',
+        'backoff',
         'psutil', # TODO docker specific?
-        'sentry_sdk' # TODO docker specific?
     ],
 )

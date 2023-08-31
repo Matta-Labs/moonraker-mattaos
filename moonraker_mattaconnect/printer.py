@@ -115,8 +115,8 @@ class MattaPrinter:
 
     def make_job_name(self):
         """Generates a job name string in the format 'filename_timestamp'"""
-        job_details = self.get_gcode_base_name()
-        filename, _ = os.path.splitext(job_details["file"]["name"])
+        job_file_path = self.get_gcode_base_name()
+        filename, _ = os.path.splitext(job_file_path)
         dt = make_timestamp()
         return f"{filename}_{dt}"
     

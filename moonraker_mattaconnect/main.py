@@ -43,7 +43,7 @@ class MattaConnectPlugin():
         self.logger.info("-----------------------")
 
         # Default settings
-        self.auth_token = "mpfyvgRgeqIin-Cdz3iy5xntWN_CF3zFM32hkNLu-74"
+        self.auth_token = "6DXwm1Lm-7nyPC04qDsDbzvjP73Paeb29AETk8o0QyI"
         self.snapshot_url = "http://localhost/webcam/snapshot"
         self.default_z_offset = 0.0
         self.nozzle_tip_coords_x = 10.0

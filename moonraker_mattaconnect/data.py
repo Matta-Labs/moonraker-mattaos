@@ -27,28 +27,40 @@ class DataEngine:
         self.csv_path = None
         self.upload_attempts = 0
 
-        self._logger.info("Starting data thread")
+
+        # -------------------------- Debug Area --------------------------
 
         # PRINTER TESTSSSSSSS
-        try:
-            self._logger.info(self._printer.get_printer_state_object())
-            time.sleep(.5)
-            self._logger.info(self._printer.get_printer_temp_object())
-            time.sleep(.5)
-            self._logger.info(self._printer.get_print_stats_object())
-            time.sleep(.5)
-            self._logger.info(self._printer.get_gcode_base_name())
-            time.sleep(.5)
-        except Exception as e:
-            self._logger.error(e)
+        if False:
+            try:
+                self._logger.info(self._printer.get_printer_state_object())
+                time.sleep(.5)
+                self._logger.info(self._printer.get_printer_temp_object())
+                time.sleep(.5)
+                self._logger.info(self._printer.get_print_stats_object())
+                time.sleep(.5)
+                self._logger.info(self._printer.get_gcode_base_name())
+                time.sleep(.5)
+            except Exception as e:
+                self._logger.error(e)
 
+        # self._logger.info(self._printer.get_gcode_base_name())
 
+        # self._logger.info(self._printer.make_job_name())
+
+        # data_path = os.path.join(MATTA_TMP_DATA_DIR, self._printer.make_job_name())
+        # os.makedirs(data_path)
+        # self._logger.debug(f"Successfully created job directory at {data_path}")
+
+        # -----------------------------------------------------------------
+
+        self._logger.info("Starting data thread")
         self.start_data_thread()
 
         # # Temp loop to trap service and make it continue running
         while True:
             self._logger.info("Temp loop service trap in Data loop thread")
-            time.sleep(10)
+            time.sleep(60)
             pass
 
         
@@ -246,7 +258,7 @@ class DataEngine:
         self._logger.debug("Checking if a new print job has started...")
 
         try:
-            self._logger.info(self._printer.get_printer_state_object())
+            self._logger.info(f"Printer is: {self._printer.get_printer_state_object()['text']}")
 
         except Exception as e:
             self._logger.error(e)
@@ -268,7 +280,7 @@ class DataEngine:
                 return True
 
             elif self._printer.is_operational():
-                self._logger.debug("Operational")
+                self._logger.debug("Classified as operational")
                 if self._printer.just_finished():
                     self._logger.debug("Just finished a print job.")
                     try:
@@ -348,7 +360,6 @@ class DataEngine:
             "rotate",
         ]
 
-    # TODO
     def csv_data_row(self):
         """Fetches data and returns a list for populating a row of a CSV."""
         temps = self._printer.get_printer_temp_object()
@@ -414,7 +425,6 @@ class DataEngine:
 
         while True:
             current_time = time.perf_counter()
-            self._logger.debug("running data loop")
             time.sleep(5)
             if (
                 self.is_new_job()
