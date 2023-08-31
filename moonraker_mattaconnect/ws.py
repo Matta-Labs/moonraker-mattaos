@@ -3,20 +3,17 @@ import logging
 import websocket
 
 import os
-from logger import setup_logging
-
-WS_LOG_FILE_PATH = os.path.expanduser('~/printer_data/logs/moonraker-mattaconnect-ws.log')
-_logger = setup_logging(WS_LOG_FILE_PATH)
 
 class Socket:
-    def __init__(self, on_open, on_message, on_close, on_error, url, token):
+    def __init__(self, logger_ws, on_open, on_message, on_close, on_error, url, token):
+        self._logger_ws = logger_ws
         self.connect(on_open, on_message, on_close, on_error, url, token)
 
     def run(self):
         try:
             self.socket.run_forever()
         except Exception as e:
-            _logger.error("Socket run: %s", e)
+            self._logger_ws.error("Socket run: %s", e)
             pass
 
     def send_msg(self, msg):
@@ -26,7 +23,7 @@ class Socket:
             if self.connected() and self.socket is not None:
                 self.socket.send(msg)
         except Exception as e:
-            _logger.error("Socket send_msg: %s", e)
+            self._logger_ws.error("Socket send_msg: %s", e)
             pass
 
     def connected(self):
@@ -43,7 +40,7 @@ class Socket:
         )
 
     def disconnect(self):
-        _logger.debug("Disconnecting the websocket...")
+        self._logger_ws.debug("Disconnecting the websocket...")
         self.socket.keep_running = False
         self.socket.close()
-        _logger.debug("The websocket has been closed.")
+        self._logger_ws.debug("The websocket has been closed.")

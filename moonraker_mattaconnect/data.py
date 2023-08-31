@@ -255,14 +255,17 @@ class DataEngine:
         Returns:
             bool: True if a new job has started, False otherwise.
         """
-        self._logger.debug("Checking if a new print job has started...")
 
         try:
-            self._logger.info(f"Printer is: {self._printer.get_printer_state_object()['text']}")
-
+            state = self._printer.get_printer_state_object()['text']
+            self._logger.debug(f"Printer is: {state}")
+            if state == 'Error':
+                self._logger.debug("Error temporarily classified as operational")
         except Exception as e:
-            self._logger.error(e)
+            self._logger.error(f"Error getting state object: {e}")
 
+
+        # TODO remove try except big block later
         try:
             if self._printer.has_job():
                 if self._printer.new_print_job:
@@ -280,7 +283,6 @@ class DataEngine:
                 return True
 
             elif self._printer.is_operational():
-                self._logger.debug("Classified as operational")
                 if self._printer.just_finished():
                     self._logger.debug("Just finished a print job.")
                     try:
@@ -302,7 +304,7 @@ class DataEngine:
                             self._printer.finished = True
                 self.reset_job_data()
         except Exception as e:
-            self._logger.error(e)
+            self._logger.error(f"Error running is_new_job: {e}")
 
         return False
 
@@ -425,7 +427,6 @@ class DataEngine:
 
         while True:
             current_time = time.perf_counter()
-            time.sleep(5)
             if (
                 self.is_new_job()
                 and (current_time - old_time) > SAMPLING_TIMEOUT - time_buffer
@@ -434,4 +435,4 @@ class DataEngine:
                 old_time = current_time
                 self.update_csv()
                 self.update_image()
-                time.sleep(0.1)  # slow things down to 100ms to run other threads
+                time.sleep(0.01)  # slow things down to 10ms to run other threads
