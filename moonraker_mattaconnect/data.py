@@ -57,11 +57,11 @@ class DataEngine:
         self._logger.info("Starting data thread")
         self.start_data_thread()
 
-        # # Temp loop to trap service and make it continue running
-        while True:
-            self._logger.info("Temp loop service trap in Data loop thread")
-            time.sleep(60)
-            pass
+        # # # Temp loop to trap service and make it continue running
+        # while True:
+        #     self._logger.info("Temp loop service trap in Data loop thread")
+        #     time.sleep(60)
+        #     pass
 
         
 

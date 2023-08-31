@@ -21,4 +21,15 @@ $(document).ready(function() {
             $("#resultContainer").empty().append(resultParagraph);
         });
     });
+
+    $("#testAuthTokenButton").click(function() {
+        $.get("/api/test_auth_token", function(data, status) {
+            var resultParagraph = $("<p>").text(data);
+            $("#resultContainer").empty().append(resultParagraph);
+        });
+    });
+
+
+
+
 });

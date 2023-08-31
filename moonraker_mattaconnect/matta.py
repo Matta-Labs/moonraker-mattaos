@@ -6,7 +6,7 @@ import requests
 # from octoprint.util.platform import get_os
 # from octoprint.util.version import get_octoprint_version_string
 
-from .utils import (
+from moonraker_mattaconnect.utils import (
     make_timestamp,
     get_cloud_http_url,
     get_cloud_websocket_url,

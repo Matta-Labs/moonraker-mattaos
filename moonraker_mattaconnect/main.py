@@ -65,7 +65,22 @@ class MattaConnectPlugin():
 
         self._settings = self.get_settings_defaults()
 
-        self.start()
+        # ------------- START PROCESS ---------------
+
+        # init_sentry("TEMP_KLIPPER_VERSION_PLACEHOLDER")
+        self.matta_os = MattaCore(self.logger, self.logger_ws, self._settings, self.MOONRAKER_API_URL)
+        self.logger.info("Matta class" + str(self.matta_os))
+        self.setup_routes()
+        flask_thread = threading.Thread(target=self.start_flask)
+        flask_thread.setDaemon(True)
+        flask_thread.start()
+
+
+        # Temp loop to trap the service.
+        while True:
+            self.logger.info("MattaConnect is running")
+            time.sleep(30)
+
 
     def get_settings_defaults(self):
         """Returns the plugin's default and configured settings"""
@@ -82,22 +97,25 @@ class MattaConnectPlugin():
             "rotate": self.rotate,
         }
 
-    def start(self):
-        self.setup_routes()
-        flask_thread = threading.Thread(target=self.start_flask)
-        flask_thread.setDaemon(True)
-        flask_thread.start()
+    # def start(self):
+    #     self.setup_routes()
+    #     flask_thread = threading.Thread(target=self.start_flask)
+    #     flask_thread.setDaemon(True)
+    #     flask_thread.start()
 
-        # init_sentry("TEMP_KLIPPER_VERSION_PLACEHOLDER")
-        self.matta_os = MattaCore(self.logger, self.logger_ws, self._settings, self.MOONRAKER_API_URL)
+    #     # init_sentry("TEMP_KLIPPER_VERSION_PLACEHOLDER")
+    #     self.matta_os = MattaCore(self.logger, self.logger_ws, self._settings, self.MOONRAKER_API_URL)
 
-        # Temp loop to trap the service.
-        # while True:
-        #     self.logger.info("MattaConnect is running")
-        #     time.sleep(30)
+    #     # Temp loop to trap the service.
+    #     # while True:
+    #     #     self.logger.info("MattaConnect is running")
+    #     #     time.sleep(30)
+
+
+
 
     #---------------------------------------------------
-    # MattaOS Server API
+    # MattaOS Server API?
     #---------------------------------------------------
 
 
@@ -123,32 +141,33 @@ class MattaConnectPlugin():
         """
         return True
 
-    def on_api_command(self, command, data):
-        """
-        Handles API commands received from the client.
+    # Gone to Flask!
+    # def on_api_command(self, command, data):
+    #     """
+    #     Handles API commands received from the client.
 
-        Args:
-            command (str): The API command to be executed.
-            data (dict): Additional data associated with the command.
+    #     Args:
+    #         command (str): The API command to be executed.
+    #         data (dict): Additional data associated with the command.
 
-        Returns:
-            flask.Response: A JSON response containing the result of the command execution.
-        """
-        if command == "test_auth_token":
-            auth_token = data["auth_token"]
-            success, status_text = self.matta_os.test_auth_token(token=auth_token)
-            return flask.jsonify({"success": success, "text": status_text})
+    #     Returns:
+    #         flask.Response: A JSON response containing the result of the command execution.
+    #     """
+    #     if command == "test_auth_token":
+    #         auth_token = data["auth_token"]
+    #         success, status_text = self.matta_os.test_auth_token(token=auth_token)
+    #         return flask.jsonify({"success": success, "text": status_text})
 
-        if command == "ws_reconnect":
-            self.matta_os.ws_connect()
-            if self.matta_os.ws_connected():
-                status_text = "Successfully connected to Matta OS."
-                success = True
-            else:
-                status_text = "Failed to connect to Matta OS."
-                success = False
+    #     if command == "ws_reconnect":
+    #         self.matta_os.ws_connect()
+    #         if self.matta_os.ws_connected():
+    #             status_text = "Successfully connected to Matta OS."
+    #             success = True
+    #         else:
+    #             status_text = "Failed to connect to Matta OS."
+    #             success = False
 
-            return flask.jsonify({"success": success, "text": status_text})
+    #         return flask.jsonify({"success": success, "text": status_text})
 
     def parse_received_lines(self, comm_instance, line, *args, **kwargs):
         """
@@ -280,6 +299,29 @@ class MattaConnectPlugin():
                 return temps, response.status_code
             except Exception as e:
                 self.logger.error(e)
+
+        @self.app.route('/api/test_auth_token', methods=['GET'])
+        def test_auth_token():
+            # Originally:
+            # if command == "test_auth_token":
+            #     auth_token = data["auth_token"]
+            #     success, status_text = self.matta_os.test_auth_token(token=auth_token)
+            #     return flask.jsonify({"success": success, "text": status_text})
+            try:
+                self.logger.info("Testing auth_token.")
+                success, status_text = self.matta_os.test_auth_token(token=self._settings["auth_token"])
+                self.logger.debug(success, status_text)
+
+                if success:
+                    self.logger.debug(f"Success: {status_text}")
+                    self.logger.debug(f"Success_code: {success}")   
+                else:
+                    self.logger.error(f"Error testing auth_token. Success: {success}, Text: {status_text}")
+                return status_text, 200
+                # success: bool; status_text: eg "All is tickety boo! Your token is valid."
+            except Exception as e:
+                self.logger.error(e)
+                return status_text, 400
 
     def start_flask(self):
         self.logger.info("Starting Flask server...")
