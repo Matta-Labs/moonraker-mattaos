@@ -230,7 +230,7 @@ class MattaCore:
             "files": None, # self._file_manager.list_files(recursive=True), # TODO no file manager
             "terminal_cmds": self.terminal_cmds,
             "system": {
-                "version": self.octoprint_version,
+                "version": self.klipper_version,
                 "os": self.os,
                 "memory": get_current_memory_usage(self.os),
             },
@@ -270,7 +270,7 @@ class MattaCore:
             return success, status_text
         # self._settings.set(["auth_token"], token, force=True)
         # self._settings.save()
-        self._settings["auth_token"] = token # TODO test this
+        # self._settings["auth_token"] = token # TODO test this
         try:
             headers = generate_auth_headers(token)
             resp = requests.get(
@@ -280,7 +280,7 @@ class MattaCore:
             if resp.status_code == 200:
                 # self._settings.set(["auth_token"], token, force=True)
                 # self._settings.save()
-                self._settings["auth_token"] = token # TODO test this
+                # self._settings["auth_token"] = token # TODO test this
                 if self.ws_connected():
                     self.ws.disconnect()
                 self.ws_connect()

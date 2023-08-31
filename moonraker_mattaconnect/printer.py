@@ -186,10 +186,11 @@ class MattaPrinter:
         Returns:
             bool: True if the printer is connected, False otherwise.
         """
-        get_current_connection = self._printer.get_current_connection()
-        (connection_string, port, baudrate, printer_profile) = get_current_connection
-        if port is None or baudrate is None:
-            return False
+        # TODO check 
+        # get_current_connection = self._printer.get_current_connection()
+        # (connection_string, port, baudrate, printer_profile) = get_current_connection
+        # if port is None or baudrate is None:
+        #     return False
         return True
 
     def get_data(self):
@@ -200,9 +201,13 @@ class MattaPrinter:
             dict: A dictionary containing the printer's state, temperature data, and printer data.
         """
         data = {
-            "state": self._printer.get_state_string(),
-            "temperature_data": self._printer.get_current_temperatures(),
-            "printer_data": self._printer.get_current_data(),
+            # TODO change
+            # "state": self._printer.get_state_string(),
+            # "temperature_data": self._printer.get_current_temperatures(),
+            # "printer_data": self._printer.get_current_data(),
+            "state": self.get_printer_state_object()['text'],
+            "temperature_data": self.get_printer_temp_object(),
+            "printer_data": None,
         }
         return data
 
