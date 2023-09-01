@@ -18,7 +18,7 @@
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Workflow (on raspberrypi)](#workflow-on-raspberrypi)
+- [Workflow (on damjanpi)](#workflow-on-damjanpi)
 - [Workflow (with Docker)](#workflow-with-docker)
 - [Custom configurations](#custom-configurations)
   - [Set up a dev environment (debugging)](#set-up-a-dev-environment-debugging)
@@ -28,11 +28,13 @@
 
 # Installation 
 
-First rsync the plugin over from computer:
+First transfer the plugin over from computer:
 
 ```bash
-cd moonraker-mattaconnect
-rsync -avh "../moonraker-mattaconnect" "pi@raspberrypi.local:~/."
+cd moonraker-mattaconnect-internal
+scp -r "../moonraker-mattaconnect-internal" "pi@damjanpi.local:~/moonraker-mattaconnect"
+rsync -avh "../moonraker-mattaconnect-internal/." "pi@damjanpi.local:~/moonraker-mattaconnect/."
+# check if scp is enough in the future, I always rsync it again just in case of issues that require chown/chmod.
 ```
 
 Then install the plugin in the pi with the `install.sh` script:
@@ -52,18 +54,20 @@ cd ~/moonraker-mattaconnect
 
 After installing, the service should be up and running, and we can check with `sudo systemtl status moonraker-mattaconnect`.
 
-We can check the service by:
+We can check the service by going to:
 - `tail -f ~/printer_data/logs/moonraker-mattaconnect.log`
-- Going to [raspberrypi.local:5001](http://raspberrypi.local:5001) 
+- `tail -f ~/printer_data/logs/moonraker-mattaconnect-ws.log`
+- [http://damjanpi.local:5001](http://damjanpi.local:5001) 
 
 
-# Workflow (on raspberrypi)
+# Workflow (on damjanpi)
 
 First time: 
 ```bash
-cd moonraker-mattaconnect
+cd moonraker-mattaconnect-internal
 # in computer: scp so that the name changes
 scp -r "../moonraker-mattaconnect-internal" "pi@damjanpi.local:~/moonraker-mattaconnect"
+rsync -avh "../moonraker-mattaconnect-internal/." "pi@damjanpi.local:~/moonraker-mattaconnect/."
 
 # in pi
 cd ~/moonraker-mattaconnect
@@ -79,12 +83,11 @@ sudo systemctl status moonraker-control-plugin
 Afterwards:
 ```bash
 # in computer
-rsync -avh "../moonraker-mattaconnect" "pi@raspberrypi.local:~/."
+rsync -avh "../moonraker-mattaconnect-internal/." "pi@damjanpi.local:~/moonraker-mattaconnect/."
 
 # in pi
 sudo systemctl restart moonraker-mattaconnect
 # or simply restart in MainsailOS -> power button -> moonraker-mattaconnect,
-
 ```
 
 # Workflow (with Docker)
@@ -104,7 +107,7 @@ sudo systemctl restart moonraker-mattaconnect
 tail -f ~/printer_data/logs/moonraker-mattaconnect.log
 ```
 
-Windows dev: 
+Windows dev with autosync: 
 ```bash
 # To sync between work directory and the docker image
 docker run -it --rm -p 5001:5001 -v "C:\matta\moonraker-mattaconnect-internal:/home/pi/moonraker-mattaconnect" -w /home/pi mattaconnect
@@ -116,6 +119,7 @@ To connect to a moonraker instance
 ```bash
 sudo nano ~/printer_data/config/moonraker-mattaconnect.config
 # Change the IP address of the moonraker instance
+sudo systemctl restart moonraker-mattaconnect
 ```
 
 # Custom configurations
@@ -124,7 +128,8 @@ The following will detail the steps to setup configurations without the install.
 ## Set up a dev environment (debugging)
 In computer:
 ```bash
-rsync -avh "../moonraker-mattaconnect" "pi@raspberrypi.local:~/."
+scp -r "../moonraker-mattaconnect-internal" "pi@damjanpi.local:~/moonraker-mattaconnect"
+rsync -avh "../moonraker-mattaconnect-internal/." "pi@damjanpi.local:~/moonraker-mattaconnect/."
 ```
 
 Then in raspberry pi:
@@ -154,7 +159,7 @@ Now fill it in with this format:
 
 ```bash
 [Unit]
-Description=Moonraker Control Plugin
+Description=Moonraker MattaConnect
 After=network-online.target moonraker.service
 
 [Install]

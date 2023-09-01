@@ -33,7 +33,7 @@ color_echo "Virtual environment set up successfully"
 # Create and start the service file
 SERVICE_FILE="/etc/systemd/system/moonraker-mattaconnect.service"
 SERVICE_CONTENT="[Unit]
-Description=Moonraker Control Plugin
+Description=Moonraker MattaConnect
 After=network-online.target moonraker.service
 
 [Install]
