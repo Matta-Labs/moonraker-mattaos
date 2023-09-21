@@ -42,6 +42,13 @@ button:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+input {
+    padding-bottom: 10px;
+}
+
+textarea {
+    padding-bottom: 10px;
+}
 
 .d-inline-block {
     display: inline-block;

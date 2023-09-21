@@ -3,10 +3,13 @@ import json
 import threading
 import backoff
 import requests
+import concurrent.futures
+
 # from octoprint.util.platform import get_os
 # from octoprint.util.version import get_octoprint_version_string
 
 from moonraker_mattaconnect.utils import (
+    cherry_pick_cmds,
     make_timestamp,
     get_cloud_http_url,
     get_cloud_websocket_url,
@@ -19,9 +22,10 @@ from moonraker_mattaconnect.printer import MattaPrinter
 from moonraker_mattaconnect.ws import Socket
 
 class MattaCore:
-    def __init__(self, logger, logger_ws, settings, MOONRAKER_API_URL):
+    def __init__(self, logger, logger_ws, logger_cmd, settings, MOONRAKER_API_URL):
         self._logger = logger
         self._logger_ws = logger_ws
+        self._logger_cmd = logger_cmd
         self._settings = settings
         self.MOONRAKER_API_URL = MOONRAKER_API_URL
 
@@ -29,6 +33,7 @@ class MattaCore:
         self.nozzle_camera_count = 0
         self.ws = None
         self.ws_loop_time = 5
+        self.webrtc_request_time = 0
         self.terminal_cmds = []
         # get OS type (linux, windows, mac)
         self.os = "linux" # TODO remove force OS type
@@ -41,14 +46,14 @@ class MattaCore:
         self._logger.debug("Starting MattaConnect Plugin...")
 
         # Start printer
-        self._printer = MattaPrinter(self._logger, self.MOONRAKER_API_URL)
+        self._printer = MattaPrinter(self._logger, self._logger_cmd, self.MOONRAKER_API_URL)
 
         # Start websocket
         self.user_online = False
         self.start_websocket_thread()
 
         # Start data loop
-        self.data_engine = DataEngine(self._logger, self._settings, self._printer)
+        self.data_engine = DataEngine(self._logger, self._logger_cmd, self._settings, self._printer)
 
 
     def start_websocket_thread(self):
@@ -63,7 +68,11 @@ class MattaCore:
         """
         Updates the WebSocket send interval based on the current print job status.
         """
-        if self.user_online and self._printer.has_job():
+        # self._logger.debug(f"Update in time, {time.perf_counter()} {self.webrtc_request_time}")
+        if time.perf_counter() - self.webrtc_request_time < 15:
+            # When the WebRTC stream is being requested slow down the websocket send interval
+            self.ws_loop_time = 15
+        elif self.user_online and self._printer.has_job():
             # When the user is online and printer is printing
             self.ws_loop_time = 1.25 # 1250ms websocket send interval
         elif self.user_online:
@@ -187,6 +196,11 @@ class MattaCore:
             elif json_msg.get("webrtc", None) == "offer":
                 webrtc_data = self.connect_webrtc_stream(offer=json_msg["data"])
                 msg = self.ws_data(extra_data=webrtc_data)
+            elif json_msg.get("status", None) != None:
+                terminal_cmds = self._printer.get_printer_cmds()
+                cleaned_cmds = cherry_pick_cmds(self, terminal_cmds)
+                extra_data = {"terminal_cmds" : {"command_list": cleaned_cmds}}
+                msg = self.ws_data(extra_data=extra_data)
             else:
                 self._printer.handle_cmds(json_msg)
                 msg = self.ws_data()
@@ -227,7 +241,7 @@ class MattaCore:
         data = {
             "token": self._settings["auth_token"],
             "timestamp": make_timestamp(),
-            "files": None, # self._file_manager.list_files(recursive=True), # TODO no file manager
+            "files": self._printer.get_and_refactor_files()["files"], # None, # self._file_manager.list_files(recursive=True), # TODO no file manager
             "terminal_cmds": self.terminal_cmds,
             "system": {
                 "version": self.klipper_version,
@@ -244,11 +258,13 @@ class MattaCore:
                 "rotate": self._settings["rotate"],
             },
         }
+        # self._logger.info("Auth token: %s", self._settings["auth_token"])
         if self._printer.connected():
             printer_data = self._printer.get_data()
             data.update(printer_data)
         if extra_data:
             data.update(extra_data)
+            self._logger_ws.info("Extra data: %s", data["terminal_cmds"])
         return data
 
     @backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
@@ -313,18 +329,23 @@ class MattaCore:
         while True:
             try:
                 self.ws_connect()
+                self._logger_ws.debug("Starting websocket_thread_loop")
                 while self.ws_connected():
                     current_time = time.perf_counter()
-                    if (current_time - old_time) > self.ws_loop_time - time_buffer:
-                        self._logger_ws.debug(f"Sending data: {current_time - old_time}")
-                        time_buffer = max(
-                            0, current_time - old_time - self.ws_loop_time
-                        )
+                    if (current_time - old_time) > self.ws_loop_time:
+                        self._logger_ws.debug(f"Sending data: {current_time - old_time}, Loop-time: {self.ws_loop_time}")
+                        # time_buffer = max(
+                        #     0, current_time - old_time - self.ws_loop_time
+                        # )
                         old_time = current_time
                         msg = self.ws_data()
+                        # time.sleep(1)  # slow things down to 100ms
+                        self._logger_ws.debug("Sending ws_data")
                         self.ws.send_msg(msg)
+                        self._logger_ws.debug("Sent ws_data")
+                        self.update_ws_send_interval()
                     time.sleep(0.1)  # slow things down to 100ms
-                    self.update_ws_send_interval()
+                    
             except Exception as e:
                 self._logger_ws.error("websocket_thread_loop: %s", e)
                 if self.ws_connected():
@@ -348,6 +369,9 @@ class MattaCore:
             dict: A dictionary containing WebRTC data if the request is successful, None otherwise.
         """
         self._logger_ws.info("Requesting WebRTC stream")
+        # update the last time we requested a webrtc stream
+        self.webrtc_request_time = time.perf_counter()
+        self.update_ws_send_interval()
         ice_servers = [{"urls": ["stun:stun.l.google.com:19302"]}]
         params = {
             "type": "request",

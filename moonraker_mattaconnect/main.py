@@ -10,7 +10,7 @@ import json
 
 from moonraker_mattaconnect.matta import MattaCore # TODO not sure if this format is right?
 from moonraker_mattaconnect.printer import MattaPrinter
-from moonraker_mattaconnect.utils import init_sentry
+from moonraker_mattaconnect.utils import init_sentry, update_auth_token, get_auth_token
 
 #---------------------------------------------------
 # Set-up
@@ -19,6 +19,7 @@ from moonraker_mattaconnect.utils import init_sentry
 # TODO put them in utils later
 LOG_FILE_PATH = os.path.expanduser('~/printer_data/logs/moonraker-mattaconnect.log')
 WS_LOG_FILE_PATH = os.path.expanduser('~/printer_data/logs/moonraker-mattaconnect-ws.log')
+CMD_LOG_FILE_PATH = os.path.expanduser('~/printer_data/logs/moonraker-mattaconnect-cmd.log')
 
 CONFIG_FILE_PATH = os.path.expanduser('~/printer_data/config/moonraker-mattaconnect.cfg')
 
@@ -32,6 +33,7 @@ class MattaConnectPlugin():
         # Logging
         self.logger = setup_logging("moonraker-mattaconnect", LOG_FILE_PATH)
         self.logger_ws = setup_logging("moonraker-mattaconnect-ws", WS_LOG_FILE_PATH)
+        self.logger_cmd = setup_logging("moonraker-mattaconnect-cmd", CMD_LOG_FILE_PATH)
         # Config 
         self.config = ConfigParser()
         self.config.read(CONFIG_FILE_PATH)
@@ -52,7 +54,9 @@ class MattaConnectPlugin():
         self.logger.info("-----------------------")
 
         # Default settings
-        self.auth_token = "6DXwm1Lm-7nyPC04qDsDbzvjP73Paeb29AETk8o0QyI"
+        self.settings_path = "moonraker_mattaconnect/settings/settings.json"
+        # self.auth_token = "6DXwm1Lm-7nyPC04qDsDbzvjP73Paeb29AETk8o0QyI"
+        self.auth_token = get_auth_token(self) #"pTF27aoUyAyfmCIxj7JHAX_nqhwlPH9vKp4TwG-ut1E"
         self.snapshot_url = "http://localhost/webcam/snapshot"
         self.default_z_offset = 0.0
         self.nozzle_tip_coords_x = 10.0
@@ -68,19 +72,16 @@ class MattaConnectPlugin():
         # ------------- START PROCESS ---------------
 
         # init_sentry("TEMP_KLIPPER_VERSION_PLACEHOLDER")
-        self.matta_os = MattaCore(self.logger, self.logger_ws, self._settings, self.MOONRAKER_API_URL)
+        self.matta_os = MattaCore(self.logger, self.logger_ws, self.logger_cmd, self._settings, self.MOONRAKER_API_URL)
         self.logger.info("Matta class" + str(self.matta_os))
         self.setup_routes()
-        flask_thread = threading.Thread(target=self.start_flask)
-        flask_thread.setDaemon(True)
-        flask_thread.start()
+        self.flask_thread = threading.Thread(target=self.start_flask)
+        self.flask_thread.setDaemon(True)
+        self.flask_thread.start()
 
-
-        # Temp loop to trap the service.
         while True:
-            self.logger.info("MattaConnect is running")
             time.sleep(30)
-
+            self.logger.info("MattaConnect is running")
 
     def get_settings_defaults(self):
         """Returns the plugin's default and configured settings"""
@@ -95,6 +96,7 @@ class MattaConnectPlugin():
             "flip_h": self.flip_h,
             "flip_v": self.flip_v,
             "rotate": self.rotate,
+            "path": self.settings_path,
         }
 
     # def start(self):
@@ -185,7 +187,7 @@ class MattaConnectPlugin():
         try:
             self.matta_os._printer.parse_line_for_updates(line)
         except AttributeError:
-            self.matta_os._printer = MattaPrinter(self.logger, self.MOONRAKER_API_URL)
+            self.matta_os._printer = MattaPrinter(self.logger, self.logger_cmd, self.MOONRAKER_API_URL)
 
         if "UPDATED" in line:
             self.executed_update = True
@@ -258,47 +260,21 @@ class MattaConnectPlugin():
         @self.app.route('/api/home_printer', methods=['POST'])
         def home_printer():
             self.logger.info("Homing Printer.")
-            response = requests.post(f"{self.MOONRAKER_API_URL}/printer/gcode/script", json={"script": "G28"})
-            if response.status_code == 200:
-                self.logger.info(f"Homing Successful; {response.status_code} {response.text}")
-            else:
-                self.logger.error(f"Homing Unsuccessful; {response.status_code} {response.text}")
-            return response.text, response.status_code
+            response = self.matta_os._printer.home_printer()
+            # self.logger.debug(response)
+            return str(response), 200
 
         @self.app.route('/api/get_printer_state', methods=['GET'])
         def get_printer_state():
-            try:
-                self.logger.info("Getting Printer State.")
-                response = requests.get(f"{self.MOONRAKER_API_URL}/api/printer")
-                printer_info = response.json()
-                printer_state = printer_info['state']['text']
-
-                if response.status_code == 200:
-                    self.logger.debug(f"Got printer state:\n{printer_state}")
-                    self.logger.debug(f"Printer info: {printer_info}")
-                else:
-                    self.logger.error(f"Error getting printer state. Status Code: {response.status_code}, Response Text: {response.text}")
-                return printer_state, response.status_code
-            except Exception as e:
-                self.logger.error(e)
+            self.logger.info("Getting printer state.")
+            response = self.matta_os._printer.get_printer_state_object()
+            self.logger.debug(response)
+            return response["text"], 200
 
         @self.app.route('/api/get_temps', methods=['GET'])
         def get_temps():
-            try:
-                self.logger.info("Getting some printer info.")
-
-                response = requests.get(f"{self.MOONRAKER_API_URL}/api/printer")
-                printer_info = response.json()
-                temps = printer_info['temperature']
-
-                if response.status_code == 200:
-                    self.logger.debug(f"Got printer state:\n{temps}")
-                    self.logger.debug(f"Printer info: {printer_info}")
-                else:
-                    self.logger.error(f"Error getting printer state. Status Code: {response.status_code}, Response Text: {response.text}")
-                return temps, response.status_code
-            except Exception as e:
-                self.logger.error(e)
+            temps = self.matta_os._printer.get_printer_temp_object()
+            return temps, 200
 
         @self.app.route('/api/test_auth_token', methods=['GET'])
         def test_auth_token():
@@ -322,10 +298,27 @@ class MattaConnectPlugin():
             except Exception as e:
                 self.logger.error(e)
                 return status_text, 400
+        @self.app.route('/api/save_values', methods=['POST'])
+        def save_values():
+            data = flask.request.get_json()
+            with open(self.settings_path, "w") as file:
+                json.dump(data, file)
+            update_auth_token(self)
+            return "OK", 200
+
+        @self.app.route('/api/get_values', methods=['GET'])
+        def get_values():
+            with open(self.settings_path, "r") as file:
+                data = json.load(file)
+            return data, 200
+
 
     def start_flask(self):
         self.logger.info("Starting Flask server...")
         self.app.run(host='0.0.0.0', port=5001)
+        while True:
+            time.sleep(30)
+            self.logger.info("Flask server is running")
 
 
 if __name__ == '__main__':

@@ -16,10 +16,11 @@ import shutil
 
 
 class DataEngine:
-    def __init__(self, logger, settings, matta_printer):
+    def __init__(self, logger, logger_cmd, settings, matta_printer):
         self._printer = matta_printer
         self._settings = settings
         self._logger = logger
+        self._logger_cmd = logger_cmd
         self.image_count = 0
         self.gcode_path = None
         self.csv_print_log = None
@@ -257,7 +258,8 @@ class DataEngine:
         """
 
         try:
-            state = self._printer.get_printer_state_object()['text']
+            state = self._printer.get_printer_state_object()
+            state = state['text']
             self._logger.debug(f"Printer is: {state}")
             if state == 'Error':
                 self._logger.debug("Error temporarily classified as operational")
@@ -435,4 +437,4 @@ class DataEngine:
                 old_time = current_time
                 self.update_csv()
                 self.update_image()
-                time.sleep(0.01)  # slow things down to 10ms to run other threads
+            time.sleep(0.1)  # slow things down to 10ms to run other threads

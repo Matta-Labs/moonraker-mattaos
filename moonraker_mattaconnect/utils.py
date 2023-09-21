@@ -1,3 +1,4 @@
+import json
 import psutil
 from datetime import datetime
 import sentry_sdk
@@ -5,6 +6,7 @@ import os
 from sys import platform
 
 MATTA_OS_ENDPOINT = "https://os.matta.ai/"
+# MATTA_OS_ENDPOINT = "http://192.168.68.108"
 
 MATTA_TMP_DATA_DIR = os.path.join(os.path.expanduser("~"), ".matta", "moonraker-mattaconnect")
 
@@ -136,3 +138,92 @@ def init_sentry(version):
         traces_sample_rate=0.01,
         release=f"MattaOSLite@{version}",
     )
+
+def commandlines_from_json(json):
+    """
+    Converts a json object to a list of commandlines
+    """
+    commandlines = []
+    for cmd in json["gcode_store"]:
+        commandlines.append(cmd["message"])
+    return commandlines
+
+def remove_cmds(history, new_cmds, logger):
+    """
+    Remove the commands in history that are the same as the cmds in new_cmds
+    """
+    def check_to_the_end(history, history_index, new_cmds):
+        new_cmd_index = 0
+        while history_index < len(history) and new_cmd_index < len(new_cmds):
+            if new_cmds[new_cmd_index] not in history[history_index]:
+                return False
+            history_index += 1
+            new_cmd_index += 1
+        return True
+    if new_cmds == []:
+        return []
+    for index, cmd in enumerate(history):
+        # logger.debug(f"cmd: {cmd}, {new_cmds[0] in cmd}")
+        if new_cmds[0] in cmd:
+            if check_to_the_end(history, index, new_cmds):
+                logger.debug(f"Removing {len(new_cmds)} commands from history")
+                if len(history) - index > len(new_cmds):
+                    return []
+                return new_cmds[(len(history)- index):]
+            # logger.debug(f"cmd: {cmd} is not the same as new_cmds: {new_cmds[0]}")
+    return new_cmds
+
+def cherry_pick_cmds(cls, terminal_cmds):
+    """
+    Cherry pick the commands that have values in the json list
+    """
+    with open(cls._settings["path"], "r") as file:
+        data = json.load(file)
+        cherry_list = data["terminalCmds"]
+    cherry_picked_cmds = []
+    cls._logger.debug(f"cherry_list: {cherry_list}, terminal_cmds: {terminal_cmds}")
+    for cmd in terminal_cmds:
+        if any(cherry in cmd for cherry in cherry_list):
+            cherry_picked_cmds.append(cmd)
+    cls._logger.debug(f"cherry_picked_cmds: {cherry_picked_cmds}")
+    return cherry_picked_cmds
+
+def get_auth_token(cls):
+    """
+    Gets the auth token from the config file
+    """
+    with open(cls.settings_path, "r") as file:
+        data = json.load(file)
+        return data["authToken"]
+
+def update_auth_token(cls):
+    """
+    Updates the auth token from the config file
+    """
+    auth_token = get_auth_token(cls)
+    cls._settings["auth_token"] = auth_token
+    cls.matta_os._settings["auth_token"] = auth_token
+    cls.matta_os.data_engine._settings["auth_token"] = auth_token
+    return auth_token
+
+# def remove_log_part(lines):
+#     """
+#     Removes the log part of the lines
+
+#     Example of the Log line:
+#     2023-09-19 10:22:32,443 DEBUG    Printer is: Operational
+#     =>
+#     Printer is: Operational
+#     """
+#     cleaned_lines = []
+#     for line in lines:
+#         if "DEBUG" in line:
+#             cleaned_lines.append(line.split("DEBUG")[1].strip())
+#         if "INFO" in line:
+#             cleaned_lines.append(line.split("INFO")[1].strip())
+#         if "WARNING" in line:
+#             cleaned_lines.append(line.split("WARNING")[1].strip())
+#         if "ERROR" in line:
+#             cleaned_lines.append(line.split("ERROR")[1].strip())
+    
+#     return cleaned_lines

@@ -9,10 +9,14 @@
 <body>
     <div class="container">
         <h1>Moonraker Control Plugin</h1>
+        <!-- single line text box-->
+        <input type="text" id="authToken" name="auth token" placeholder=""> <br>
+        <button id="testAuthTokenButton">Connect</button> <br>
+        <textarea id="terminalCmds" rows="20" cols="100"></textarea> <br>
+        <button id="saveAllBtn">Save</button>
         <button id="homePrinterButton">Home Printer</button>
         <button id="getPrinterStateButton">Get Printer State</button>
         <button id="getTempsButton">Get Temperatures</button>
-        <button id="testAuthTokenButton">Connect MattaOS</button>
 
         <div id="resultContainer"></div>
 

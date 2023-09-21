@@ -1,7 +1,8 @@
+import base64
 import requests
 import re
 import os
-from .utils import make_timestamp
+from .utils import commandlines_from_json, make_timestamp, remove_cmds
 
 # TODO remove
 # import httpx
@@ -9,8 +10,10 @@ import time
 
 class MattaPrinter:
     """Virtual Printer class for storing current parameters"""
-    def __init__(self, logger, MOONRAKER_API_URL):
+    def __init__(self, logger, logger_cmd, MOONRAKER_API_URL):
         self._logger = logger
+        self._logger_cmd = logger_cmd
+        self._printer = self # TODO change in the future
         self.MOONRAKER_API_URL = MOONRAKER_API_URL
 
         self.printing = False  # True when print job is running
@@ -35,7 +38,7 @@ class MattaPrinter:
     def get(self, endpoint):
         try:
             response = requests.get(self.MOONRAKER_API_URL + endpoint)
-            time.sleep(0.5) # TODO REMOVE
+            # time.sleep(0.5) # TODO REMOVE
             response.raise_for_status()  # Raise an error for bad responses
             return response.json()
         except requests.exceptions.RequestException as e:
@@ -45,17 +48,27 @@ class MattaPrinter:
     def post(self, endpoint, *args, **kwargs):
         try:
             response = requests.post(self.MOONRAKER_API_URL + endpoint, *args, **kwargs)
-            time.sleep(0.5)  # TODO REMOVE
+            # time.sleep(0.5)  # TODO REMOVE
             response.raise_for_status()  # Raise an error for bad responses
             return response.json()
         except requests.exceptions.RequestException as e:
             print(f"POST request error: {e}")
             return None
 
+    def delete(self, endpoint):
+        try:
+            response = requests.delete(self.MOONRAKER_API_URL + endpoint)
+            # time.sleep(0.5)  # TODO REMOVE
+            response.raise_for_status()  # Raise an error for bad responses
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            print(f"DELETE request error: {e}")
+            return None
+
     # async def get(self, endpoint):
     #     async with httpx.AsyncClient() as client:
     #         try:
-    #             response = await client.get(self.MOONRAKER_API_URL + endpoint)
+    #             response = client.get(self.MOONRAKER_API_URL + endpoint)
     #             response.raise_for_status()  # Raise an error for bad responses
     #             return response.json()
     #         except httpx.HTTPError as e:
@@ -65,7 +78,7 @@ class MattaPrinter:
     # async def post(self, endpoint, *args, **kwargs):
     #     async with httpx.AsyncClient() as client:
     #         try:
-    #             response = await client.post(self.MOONRAKER_API_URL + endpoint, *args, **kwargs)
+    #             response = client.post(self.MOONRAKER_API_URL + endpoint, *args, **kwargs)
     #             response.raise_for_status()  # Raise an error for bad responses
     #             return response.json()
     #         except httpx.HTTPError as e:
@@ -92,7 +105,140 @@ class MattaPrinter:
         content = self.get("/printer/objects/query?print_stats")
         return content["result"]["status"]["print_stats"]["filename"]
     
+    def get_object_list(self):
+        content = self.get("/printer/objects/list")
+        self._logger.info(f"Object list: {content}")
+        return content["result"]["objects"]
+    
+    def get_all_print_objects(self):
+        all_objects_to_query = ['webhooks', 'configfile', 'mcu', 'gcode_move', 'print_stats', 'virtual_sdcard', 'pause_resume', 'display_status', 'gcode_macro CANCEL_PRINT', 'gcode_macro PAUSE', 'gcode_macro RESUME', 'gcode_macro SET_PAUSE_NEXT_LAYER', 'gcode_macro SET_PAUSE_AT_LAYER', 'gcode_macro SET_PRINT_STATS_INFO', 'gcode_macro _TOOLHEAD_PARK_PAUSE_CANCEL', 'gcode_macro _CLIENT_EXTRUDE', 'gcode_macro _CLIENT_RETRACT', 'heaters', 'heater_bed', 'heater_fan hotend_fan', 'fan', 'probe', 'bed_mesh', 'filament_switch_sensor e0_sensor', 'bed_screws', 'stepper_enable', 'motion_report', 'query_endstops', 'idle_timeout', 'system_stats', 'manual_probe', 'toolhead', 'extruder']
+        query_string = ""
+        for obj in all_objects_to_query:
+            query_string += f"{obj}&"
+        content = self.get("/printer/objects/query?" + query_string[:-1])
+        self._logger.info(f"Objects: {content}")
+        return content["result"]
+ 
+    def get_files(self):
+        content = self.get("/server/files/list?root=gcodes")
+        return content["result"]
 
+    def get_and_refactor_files(self):
+        # Octoprint layout
+        # "name":"many_prints.gcode",
+        # "display":"many_prints.gcode",
+        # "path":"many_prints.gcode",
+        # "type":"machinecode",
+        # "typePath":[
+        #     "machinecode",
+        #     "gcode"
+        # ],
+        # "size":14474412,
+        # "date":1692807205
+        klipper_files = self.get_files()
+        files = {}
+        files["files"] = {}
+        files["files"]["local"] = {}
+        for file in klipper_files:
+            files["files"]["local"][file["path"]] = {}
+            files["files"]["local"][file["path"]]["name"] = file["path"]
+            files["files"]["local"][file["path"]]["display"] = file["path"]
+            files["files"]["local"][file["path"]]["path"] = file["path"]
+            files["files"]["local"][file["path"]]["type"] = 'machinecode'
+            files["files"]["local"][file["path"]]["size"] = file["size"]
+            files["files"]["local"][file["path"]]["date"] = file["modified"]
+        return files
+
+    def get_job_data(self):
+        content = self.get("/api/job")
+        # self._logger.info(f"Job data: {content}")
+        return content
+    
+    def home_printer(self):
+        endpoint = "/printer/gcode/script"
+        response = self.post(endpoint, json={"script": "G28"})
+        # response = requests.post(f"{self.MOONRAKER_API_URL}/printer/gcode/script", json={"script": "G28"})
+        # if response.status_code == 200:
+        #     self.logger.info(f"Homing Successful; {response.status_code} {response.text}")
+        # else:
+        #     self.logger.error(f"Homing Unsuccessful; {response.status_code} {response.text}")
+        return response
+    
+    def select_file(self, filename, sd, printAfterSelect):
+        # adds job to queue
+        # start queue printing
+        endpoint = "/server/job_queue/job"
+        json = {"filenames": [filename], "reset": False}
+        if printAfterSelect:
+            response = self.post(endpoint, json=json)
+        else:
+            response = None
+        self._logger.info(f"Select file response: {response}")
+        response_start = self.queue_start()
+        self._logger.info(f"Start queue response: {response_start}")
+        return response
+        # self.queue_reset()
+    
+    def queue_start(self):
+        endpoint = "/server/job_queue/start"
+        response = self.post(endpoint)
+        return response
+    
+    def queue_pause(self):
+        endpoint = "/server/job_queue/pause"
+        response = self.post(endpoint)
+        return response
+    
+    def queue_status(self):
+        endpoint = "/server/job_queue/status"
+        response = self.get(endpoint)
+        return response
+    
+    def queue_reset(self):
+        endpoint = "/server/job_queue/job?all=true"
+        response = self.delete(endpoint)
+        return response
+
+    def pause_print(self):
+        endpoint = "/printer/print/pause"
+        response = self.post(endpoint, json={})
+        return response
+    
+    def cancel_print(self):
+        endpoint = "/printer/print/cancel"
+        response = self.post(endpoint, json={})
+        return response
+    
+    def resume_print(self):
+        endpoint = "/printer/print/resume"
+        response = self.post(endpoint, json={})
+        return response
+    
+    def get_cmds(self):
+        endpoint = "/server/gcode_store?count=50"
+        response = self.get(endpoint)
+        new_cmds = commandlines_from_json(response["result"])
+        return new_cmds
+    
+    def get_printer_cmds(self):
+        """
+        Gets the printer commands from the printer object.
+
+        Returns:
+            None
+        """
+        # retreive printer commands from logger_cmd
+        logs_path = self._logger_cmd.log_file_path
+        lines = None
+        with open(logs_path, "r") as f:
+            # read last 50 lines
+            history = f.readlines()[-50:]
+        # get printer commands
+        new_cmds = self.get_cmds()
+        cleaned_cmds = remove_cmds(history, new_cmds, self._logger)
+        for cmd in cleaned_cmds:
+            self._logger_cmd.info(cmd)
+        return cleaned_cmds
     #---------------------------------------------------
     # Octoprint-MattaConnect code
     #---------------------------------------------------
@@ -109,7 +255,7 @@ class MattaPrinter:
             self.printing = True
             self.finished = False
             return True
-        self.extruding = False
+        # self.extruding = False
         self.printing = False
         return False
 
@@ -126,15 +272,15 @@ class MattaPrinter:
 
     def is_operational(self):
         """Checks if the printer is operational"""
-        state_flags = self.get_printer_state_object()["flags"]
-        return state_flags["ready"] or state_flags["operational"] or state_flags["error"] # TODO remove error flag
+        state = self.get_printer_state_object()
+        state_flags = state["flags"]
+        return state_flags["ready"] or state_flags["operational"] # or state_flags["error"]
 
     def just_finished(self):
         """Checks if the state has turned from printing to finished"""
         if self.printing == False and self.finished == False:
             return True
         return False
-
 
 
     # ------------------ Non-processed functions from here ------------------
@@ -200,14 +346,23 @@ class MattaPrinter:
         Returns:
             dict: A dictionary containing the printer's state, temperature data, and printer data.
         """
+        printer_data = {}
+        printer_data = self.get_and_refactor_files()
+        # get job data
+        job_data = self.get_job_data()
+        printer_data["state"] = self.get_printer_state_object()
+        printer_data["job"] = job_data["job"]
+        printer_data["progress"] = job_data["progress"]
+        printer_data["offsets"] = {}
+        printer_data["resends"] = {
+            "count":0,
+            "transmitted":0,
+            "ratio":0
+        }
         data = {
-            # TODO change
-            # "state": self._printer.get_state_string(),
-            # "temperature_data": self._printer.get_current_temperatures(),
-            # "printer_data": self._printer.get_current_data(),
-            "state": self.get_printer_state_object()['text'],
+            "state": printer_data["state"]['text'],
             "temperature_data": self.get_printer_temp_object(),
-            "printer_data": None,
+            "printer_data": printer_data,
         }
         return data
 
@@ -289,6 +444,14 @@ class MattaPrinter:
                 self._printer.select_file(
                     json_msg["files"]["file"], sd=on_sd, printAfterSelect=False
                 )
+            elif json_msg["files"]["cmd"] == "upload":
+                file_content = base64.b64decode(json_msg["files"]["content"])
+                content_string = file_content.decode("utf-8")
+                filename  = json_msg["files"]["file"]
+                files = {"file": (filename, content_string)}
+                response = self.post("/server/files/upload", files=files)
+                self._logger.info(f"Upload response: {response}")
+
             elif json_msg["files"]["cmd"] == "delete":
                 destination = FileDestinations.SDCARD if json_msg["files"]["loc"] == "sd" else FileDestinations.LOCAL
                 if json_msg["files"]["type"] == "folder":

@@ -37,5 +37,6 @@ def setup_logging(logger_name, log_file_path):
 
     logger.addHandler(file_handler)
     logger.addHandler(stream_handler)
+    logger.log_file_path = log_file_path
 
     return logger
