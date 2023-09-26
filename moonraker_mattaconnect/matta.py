@@ -197,9 +197,9 @@ class MattaCore:
                 webrtc_data = self.connect_webrtc_stream(offer=json_msg["data"])
                 msg = self.ws_data(extra_data=webrtc_data)
             elif json_msg.get("status", None) != None:
-                terminal_cmds = self._printer.get_printer_cmds()
-                cleaned_cmds = cherry_pick_cmds(self, terminal_cmds)
-                extra_data = {"terminal_cmds" : {"command_list": cleaned_cmds}}
+                terminal_commands = self._printer.get_printer_cmds()
+                cleaned_cmds = cherry_pick_cmds(self, terminal_commands)
+                extra_data = {"terminal_commands" : {"command_list": cleaned_cmds}}
                 msg = self.ws_data(extra_data=extra_data)
             else:
                 self._printer.handle_cmds(json_msg)
@@ -264,7 +264,6 @@ class MattaCore:
             data.update(printer_data)
         if extra_data:
             data.update(extra_data)
-            self._logger_ws.info("Extra data: %s", data["terminal_cmds"])
         return data
 
     @backoff.on_exception(backoff.expo, requests.exceptions.RequestException)

@@ -118,7 +118,49 @@ class MattaPrinter:
         content = self.get("/printer/objects/query?" + query_string[:-1])
         self._logger.info(f"Objects: {content}")
         return content["result"]
- 
+    
+    def get_printer_objects(self):
+        objects_query = ["gcode_move"]
+        query_string = ""
+        for obj in objects_query:
+            query_string += f"{obj}&"
+        content = self.get("/printer/objects/query?" + query_string[:-1])
+        result = content["result"]
+        result = {
+                "flow_rate": result["status"]["gcode_move"]["extrude_factor"],
+                "feed_rate": result["status"]["gcode_move"]["speed_factor"],
+                "z_offset": result["status"]["gcode_move"]["homing_origin"][2],
+        }
+        return result
+    
+    def get_job_data(self):
+        # works only for octoprint
+        # content = self.get("/api/job")
+        # # self._logger.info(f"Job data: {content}")
+        # return content
+        objects_query = ["print_stats", "virtual_sdcard"]
+        query_string = ""
+        for obj in objects_query:
+            query_string += f"{obj}&"
+        content = self.get("/printer/objects/query?" + query_string[:-1])
+        result = content["result"]
+        return result
+
+    def send_gcode(self, gcode_cmd):
+        endpoint = "/printer/gcode/script"
+        response = self.post(endpoint, json={"script": gcode_cmd})
+        return response
+
+    def clear_print_stats(self):
+        gcode = "SDCARD_RESET_FILE"
+        response = self.send_gcode(gcode)
+        return response
+
+    def get_estimate_print_time(self, filename):
+        endpoint = "/server/files/metadata?filename=" + filename
+        response = self.get(endpoint)
+        return response["result"]["estimated_time"]
+
     def get_files(self):
         content = self.get("/server/files/list?root=gcodes")
         return content["result"]
@@ -148,11 +190,6 @@ class MattaPrinter:
             files["files"]["local"][file["path"]]["size"] = file["size"]
             files["files"]["local"][file["path"]]["date"] = file["modified"]
         return files
-
-    def get_job_data(self):
-        content = self.get("/api/job")
-        # self._logger.info(f"Job data: {content}")
-        return content
     
     def home_printer(self):
         endpoint = "/printer/gcode/script"
@@ -167,17 +204,23 @@ class MattaPrinter:
     def select_file(self, filename, sd, printAfterSelect):
         # adds job to queue
         # start queue printing
-        endpoint = "/server/job_queue/job"
-        json = {"filenames": [filename], "reset": False}
+        # endpoint = "/server/job_queue/job"
+        # json = {"filenames": [filename], "reset": False}
+        # if printAfterSelect:
+        #     response = self.post(endpoint, json=json)
+        # else:
+        #     response = None
+        # self._logger.info(f"Select file response: {response}")
+        # response_start = self.queue_start()
+        # self._logger.info(f"Start queue response: {response_start}")
+        # return response
+        # self.queue_reset()
+
+        endpoint = "/printer/print/start"
+        json = {"filename": filename}
         if printAfterSelect:
             response = self.post(endpoint, json=json)
-        else:
-            response = None
-        self._logger.info(f"Select file response: {response}")
-        response_start = self.queue_start()
-        self._logger.info(f"Start queue response: {response_start}")
         return response
-        # self.queue_reset()
     
     def queue_start(self):
         endpoint = "/server/job_queue/start"
@@ -350,9 +393,38 @@ class MattaPrinter:
         printer_data = self.get_and_refactor_files()
         # get job data
         job_data = self.get_job_data()
+
+        # Guide:
+        # job[file][name] = job[filename]
+        # job[estimatedPrintTime] = job[total_duration]
+        # job[filament] = job[filament_used]
+        
+        # progress[completion] = progress
+        # progress[printTime] = job[print_duration]
+        # progress[printTimeLeft] = job[total_duration] - job[print_duration]
+        self._logger.info("Started job data parsing")
         printer_data["state"] = self.get_printer_state_object()
-        printer_data["job"] = job_data["job"]
-        printer_data["progress"] = job_data["progress"]
+        filename = job_data["status"]["print_stats"]["filename"]
+        if filename == "" or filename == None: 
+            estimated_print_time = 0
+        elif job_data["status"]["print_stats"]["print_duration"] < 20 or job_data["status"]["virtual_sdcard"]["progress"] < 0.05:
+            estimated_print_time = self.get_estimate_print_time(job_data["status"]["print_stats"]["filename"])
+        else:
+            self._logger.info(f"Print duration: {job_data['status']['print_stats']['print_duration']}, Progress: {job_data['status']['virtual_sdcard']['progress']}")
+            estimated_print_time = job_data["status"]["print_stats"]["print_duration"] / job_data["status"]["virtual_sdcard"]["progress"]
+        printer_data["job"] = {
+            "file": {
+                "name": job_data["status"]["print_stats"]["filename"],
+                "size" : job_data["status"]["virtual_sdcard"]["file_size"],
+            },
+            "estimatedPrintTime": estimated_print_time,
+            "filament": job_data["status"]["print_stats"]["filament_used"]
+        }
+        printer_data["progress"] = {
+            "completion": job_data["status"]["virtual_sdcard"]["progress"]*100,
+            "printTime": job_data["status"]["print_stats"]["print_duration"],
+            "printTimeLeft": printer_data["job"]["estimatedPrintTime"] - job_data["status"]["print_stats"]["print_duration"],
+        }
         printer_data["offsets"] = {}
         printer_data["resends"] = {
             "count":0,
@@ -433,6 +505,8 @@ class MattaPrinter:
                 self._printer.cancel_print()
             elif json_msg["execute"]["cmd"] == "toggle":
                 self._printer.toggle_pause_print()
+            elif json_msg["execute"]["cmd"] == "reset":
+                self._printer.clear_print_stats()
         elif "files" in json_msg:
             if json_msg["files"]["cmd"] == "print":
                 on_sd = True if json_msg["files"]["loc"] == "sd" else False

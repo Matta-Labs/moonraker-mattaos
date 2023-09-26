@@ -13,3 +13,4 @@ Thumbs.db
 # Environment specific files
 env
 venv
+moonraker_control_plugin.egg-info/

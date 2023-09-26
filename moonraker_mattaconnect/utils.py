@@ -120,14 +120,10 @@ def get_gcode_upload_dir():
     # Force it to be klipper raspberry pi's directory for gcodes
     return os.path.expanduser("~/printer_data/gcodes")
 
-
-
-
 def make_timestamp():
     """Generates a timestamp string in the format 'YYYY-MM-DDTHH:MM:SS.sssZ'"""
     dt = datetime.utcnow().isoformat(sep="T", timespec="milliseconds") + "Z"
     return dt
-
 
 def init_sentry(version):
     sentry_sdk.init(
@@ -173,7 +169,7 @@ def remove_cmds(history, new_cmds, logger):
             # logger.debug(f"cmd: {cmd} is not the same as new_cmds: {new_cmds[0]}")
     return new_cmds
 
-def cherry_pick_cmds(cls, terminal_cmds):
+def cherry_pick_cmds(cls, terminal_commands):
     """
     Cherry pick the commands that have values in the json list
     """
@@ -181,8 +177,8 @@ def cherry_pick_cmds(cls, terminal_cmds):
         data = json.load(file)
         cherry_list = data["terminalCmds"]
     cherry_picked_cmds = []
-    cls._logger.debug(f"cherry_list: {cherry_list}, terminal_cmds: {terminal_cmds}")
-    for cmd in terminal_cmds:
+    cls._logger.debug(f"cherry_list: {cherry_list}, terminal_commands: {terminal_commands}")
+    for cmd in terminal_commands:
         if any(cherry in cmd for cherry in cherry_list):
             cherry_picked_cmds.append(cmd)
     cls._logger.debug(f"cherry_picked_cmds: {cherry_picked_cmds}")

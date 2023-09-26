@@ -124,12 +124,13 @@ class DataEngine:
 
     def create_metadata(self):
         temps = self._printer.get_printer_temp_object()
+        printer_objects = self._printer.get_printer_objects()
         metadata = {
             "count": self.image_count,
             "timestamp": make_timestamp(),            
-            # "flow_rate": self._printer.flow_rate,
-            # "feed_rate": self._printer.feed_rate,
-            # "z_offset": self._printer.z_offset,
+            "flow_rate": printer_objects["flow_rate"] * 100,
+            "feed_rate": printer_objects["feed_rate"] * 100,
+            "z_offset": printer_objects["z_offset"],
             "hotend_target": temps["tool0"]["target"],
             "hotend_actual": temps["tool0"]["actual"],
             "bed_target": temps["bed"]["target"],
@@ -348,9 +349,9 @@ class DataEngine:
         return [
             "count",
             "timestamp",
-            # "flow_rate",
-            # "feed_rate",
-            # "z_offset",
+            "flow_rate",
+            "feed_rate",
+            "z_offset",
             "target_hotend",
             "hotend",
             "target_bed",
@@ -367,12 +368,13 @@ class DataEngine:
     def csv_data_row(self):
         """Fetches data and returns a list for populating a row of a CSV."""
         temps = self._printer.get_printer_temp_object()
+        printer_objects = self._printer.get_printer_objects()
         row = [
             self.image_count,
             make_timestamp(),
-            # self._printer.flow_rate,
-            # self._printer.feed_rate,
-            # self._printer.z_offset,
+            printer_objects["flow_rate"] * 100,
+            printer_objects["feed_rate"] * 100,
+            printer_objects["z_offset"],
             temps["tool0"]["target"],
             temps["tool0"]["actual"],
             temps["bed"]["target"],
@@ -437,4 +439,6 @@ class DataEngine:
                 old_time = current_time
                 self.update_csv()
                 self.update_image()
+                # DEBUG COMMAND
+                # self._logger.info(self._printer.get_all_print_objects())
             time.sleep(0.1)  # slow things down to 10ms to run other threads
