@@ -71,7 +71,8 @@ class MattaCore:
         # self._logger.debug(f"Update in time, {time.perf_counter()} {self.webrtc_request_time}")
         if time.perf_counter() - self.webrtc_request_time < 15:
             # When the WebRTC stream is being requested slow down the websocket send interval
-            self.ws_loop_time = 15
+            # self.ws_loop_time = 15
+            None
         elif self.user_online and self._printer.has_job():
             # When the user is online and printer is printing
             self.ws_loop_time = 1.25 # 1250ms websocket send interval

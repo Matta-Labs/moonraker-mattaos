@@ -393,7 +393,6 @@ class MattaPrinter:
         printer_data = self.get_and_refactor_files()
         # get job data
         job_data = self.get_job_data()
-
         # Guide:
         # job[file][name] = job[filename]
         # job[estimatedPrintTime] = job[total_duration]
@@ -405,7 +404,8 @@ class MattaPrinter:
         self._logger.info("Started job data parsing")
         printer_data["state"] = self.get_printer_state_object()
         filename = job_data["status"]["print_stats"]["filename"]
-        if filename == "" or filename == None: 
+        is_active = job_data["status"]["virtual_sdcard"]["is_active"]
+        if filename == "" or filename == None or is_active == False: 
             estimated_print_time = 0
         elif job_data["status"]["print_stats"]["print_duration"] < 20 or job_data["status"]["virtual_sdcard"]["progress"] < 0.05:
             estimated_print_time = self.get_estimate_print_time(job_data["status"]["print_stats"]["filename"])
