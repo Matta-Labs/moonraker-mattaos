@@ -65,4 +65,51 @@ color_echo "Creating the moonraker-mattaconnect.cfg file..."
 echo "$CONFIG_CONTENT" > "$CONFIG_FILE"
 color_echo "Config file created successfully"
 
+# Create 99-matta.rules file
+RULES_FILE="/etc/udev/rules.d/99-matta.rules"
+RULES_CONTENT='# Rule for USB port 1-1 (change this to match your actual port)
+KERNEL=="video*" KERNELS=="1-1.3:1.0", SYMLINK+="bw_cam"
+
+# Rule for USB port 2-1 (change this to match your actual port)
+KERNEL=="video*" KERNELS=="1-1.1:1.0", SYMLINK+="matta_cam"
+'
+
+color_echo "Creating the 99-matta.rules file..."
+echo "$RULES_CONTENT" | sudo tee "$RULES_FILE" > /dev/null
+color_echo "Rules file created successfully"
+
+# run udevadm to reload rules
+color_echo "Reloading udev rules..."
+sudo udevadm control --reload-rules && sudo udevadm trigger
+
+# Create the creowsnest.conf file
+CREOWSNEST_FILE="/home/${USER}/printer_data/config/crowsnest.conf"
+CREOWSNEST_CONTENT="[crowsnest]
+log_path: /home/pi/printer_data/logs/crowsnest.log
+log_level: verbose                      # Valid Options are quiet/verbose/debug
+delete_log: false                       # Deletes log on every restart, if set to true
+no_proxy: false
+
+[cam 1]
+mode: camera-streamer                         # ustreamer - Provides mjpg and snapshots. (All devices)
+                                        # camera-streamer - Provides webrtc, mjpg and snapshots. (rpi + Raspi OS based only)
+enable_rtsp: false                      # If camera-streamer is used, this enables also usage of an rtsp server
+rtsp_port: 8554                         # Set different ports for each device!
+port: 8080                              # HTTP/MJPG Stream/Snapshot Port
+device: /dev/matta_cam                   # See Log for available ...
+resolution: 1920x1080 #640x480 #2592x1944                   # widthxheight format (Originally 640x480)
+max_fps: 15 #30                             # If Hardware Supports this it will be forced, otherwise ignored/coerced. (originally 15)
+#custom_flags:                          # You can run the Stream Services with custom flags.
+#v4l2ctl:                               # Add v4l2-ctl parameters to setup your camera, see Log what your cam is capable of.
+# focus_automatic_continuous: false   # Turn off focus_automatic_continuous
+# focus_absolute: 500                 # Set focus_absolute to 550
+v4l2ctl: 
+focus_automatic_continuous: 0
+focus_absolute: 500
+"
+
+color_echo "Creating the creowsnest.conf file..."
+echo "$CREOWSNEST_CONTENT" > "$CREOWSNEST_FILE"
+color_echo "Config file created successfully"
+
 color_echo "Installation completed!"
