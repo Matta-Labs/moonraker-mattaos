@@ -261,7 +261,7 @@ class MattaCore:
         }
         # self._logger.info("Auth token: %s", self._settings["auth_token"])
         if self._printer.connected():
-            printer_data = self._printer.get_data()
+            printer_data = self._printer.get_data(self.data_engine)
             data.update(printer_data)
         if extra_data:
             data.update(extra_data)

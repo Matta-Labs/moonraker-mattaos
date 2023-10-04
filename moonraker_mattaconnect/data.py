@@ -1,9 +1,11 @@
 import time
 import threading
+from unittest import result
 import requests
 import csv
 import json
 from .utils import (
+    binary_search,
     get_api_url,
     get_gcode_upload_dir,
     make_timestamp,
@@ -13,6 +15,7 @@ from .utils import (
 )
 import os
 import shutil
+import pandas as pd
 
 
 class DataEngine:
@@ -23,6 +26,7 @@ class DataEngine:
         self._logger_cmd = logger_cmd
         self.image_count = 0
         self.gcode_path = None
+        self.gcode_df = None
         self.csv_print_log = None
         self.csv_writer = None
         self.csv_path = None
@@ -207,7 +211,7 @@ class DataEngine:
             resp = requests.post(url=full_url, data=data, files=files, headers=headers)
             resp.raise_for_status()
         except requests.exceptions.RequestException as e:
-            self._logger.error(e)
+            self._logger.error(str(e))
 
     def finished_upload(self, job_name, gcode_path, csv_path):
         """
@@ -279,6 +283,7 @@ class DataEngine:
                     try:
                         self.setup_print_log()
                         self.gcode_upload(self._printer.current_job, self.gcode_path)
+                        self.preprocess_progress_dict()
                     except Exception as e:
                         self._logger.error(
                             f"Failed to set up data collection for print job: {e}"
@@ -413,6 +418,43 @@ class DataEngine:
                 self.image_count += 1
         except Exception as e:
             self._logger.error(e)
+
+    def preprocess_progress_dict(self):
+        try:
+            with open(self.gcode_path, 'r') as gcode_file:
+                char_count = 0
+                line_count = 0
+                columns = ["line_num", "char_num", "gcode"]
+                data_to_append = []
+                self._logger.debug("Starting to read gcode file" + str(self.gcode_path))
+                for line in gcode_file:
+                    line_length = len(line)
+                    if not line.strip().startswith(';'):
+                        new_row = [line_count, char_count, line]
+                        data_to_append.append(new_row)
+                        line_count += 1
+                    char_count += line_length
+                    
+            self.gcode_df = pd.DataFrame(data_to_append, columns=columns)
+        except Exception as e:
+            self._logger.error("Problem with preprocessing gcode file " + str(e))
+        return
+    
+    def find_gcode_line(self, file_position):
+        char_num_list = self.gcode_df['char_num'].tolist()
+        closest_smaller = binary_search(file_position, char_num_list)
+        result = self.gcode_df.loc[self.gcode_df['char_num'] == closest_smaller]
+        self._logger.debug("Result of binary search: " + str(result))
+        return result
+    
+    def calculate_progress_relative(self, file_position):
+        if file_position == None or file_position == 0:
+            return 0.0
+        result = self.find_gcode_line(file_position)
+        current_line_num = result["line_num"].values[0]
+        progress = current_line_num / len(self.gcode_df.index)
+        self._logger.debug("Values:" + str(current_line_num) + " " + str(progress))
+        return progress * 100
 
     def data_thread_loop(self):
         """

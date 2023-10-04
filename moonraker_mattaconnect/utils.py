@@ -7,6 +7,7 @@ from sys import platform
 
 MATTA_OS_ENDPOINT = "https://os.matta.ai/"
 # MATTA_OS_ENDPOINT = "http://192.168.68.108"
+# MATTA_OS_ENDPOINT = "http://192.168.0.142"
 
 MATTA_TMP_DATA_DIR = os.path.join(os.path.expanduser("~"), ".matta", "moonraker-mattaconnect")
 
@@ -201,6 +202,20 @@ def update_auth_token(cls):
     cls.matta_os._settings["auth_token"] = auth_token
     cls.matta_os.data_engine._settings["auth_token"] = auth_token
     return auth_token
+
+def binary_search(target, list):
+    left, right = 0, len(list) - 1
+    closest_smaller = None
+
+    while left <= right:
+        mid = (left + right) // 2
+        if list[mid] <= target:
+            closest_smaller = list[mid]
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return closest_smaller
 
 # def remove_log_part(lines):
 #     """

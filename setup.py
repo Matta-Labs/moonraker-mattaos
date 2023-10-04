@@ -11,6 +11,7 @@ setup(
         'sentry_sdk',
         'backoff',
         'websocket-client',
+        'pandas',
         'psutil', # TODO docker specific?
     ],
 )

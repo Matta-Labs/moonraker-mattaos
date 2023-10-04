@@ -382,7 +382,7 @@ class MattaPrinter:
         #     return False
         return True
 
-    def get_data(self):
+    def get_data(self, data_engine=None):
         """
         Retrieves data about the printer's current state, temperatures, and other information.
 
@@ -424,6 +424,7 @@ class MattaPrinter:
             "completion": job_data["status"]["virtual_sdcard"]["progress"]*100,
             "printTime": job_data["status"]["print_stats"]["print_duration"],
             "printTimeLeft": printer_data["job"]["estimatedPrintTime"] - job_data["status"]["print_stats"]["print_duration"],
+            "progress_relative": data_engine.calculate_progress_relative(job_data["status"]["virtual_sdcard"]["file_position"])
         }
         printer_data["offsets"] = {}
         printer_data["resends"] = {
