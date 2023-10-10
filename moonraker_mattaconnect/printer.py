@@ -2,7 +2,7 @@ import base64
 import requests
 import re
 import os
-from .utils import commandlines_from_json, make_timestamp, remove_cmds
+from .utils import commandlines_from_json, get_and_refactor_file, make_timestamp, merge_json, remove_cmds
 
 # TODO remove
 # import httpx
@@ -146,6 +146,12 @@ class MattaPrinter:
         result = content["result"]
         return result
 
+    def get_gcode_store(self):
+        endpoint = "/server/gcode_store?count=10"
+        content = self.get(endpoint)
+        gcode_raw_list = content["result"]["gcode_store"]
+        return gcode_raw_list
+
     def send_gcode(self, gcode_cmd):
         endpoint = "/printer/gcode/script"
         response = self.post(endpoint, json={"script": gcode_cmd})
@@ -159,6 +165,9 @@ class MattaPrinter:
     def get_estimate_print_time(self, filename):
         endpoint = "/server/files/metadata?filename=" + filename
         response = self.get(endpoint)
+        # check if estimated time is in response
+        if "estimated_time" not in response["result"]:
+            return 0
         return response["result"]["estimated_time"]
 
     def get_files(self):
@@ -179,16 +188,10 @@ class MattaPrinter:
         # "date":1692807205
         klipper_files = self.get_files()
         files = {}
-        files["files"] = {}
-        files["files"]["local"] = {}
         for file in klipper_files:
-            files["files"]["local"][file["path"]] = {}
-            files["files"]["local"][file["path"]]["name"] = file["path"]
-            files["files"]["local"][file["path"]]["display"] = file["path"]
-            files["files"]["local"][file["path"]]["path"] = file["path"]
-            files["files"]["local"][file["path"]]["type"] = 'machinecode'
-            files["files"]["local"][file["path"]]["size"] = file["size"]
-            files["files"]["local"][file["path"]]["date"] = file["modified"]
+            new_files = get_and_refactor_file(file)
+            files = merge_json(files, new_files)
+        files = {"files": {"local" : files}}
         return files
     
     def home_printer(self):

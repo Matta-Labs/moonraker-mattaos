@@ -4,6 +4,8 @@ import requests
 import csv
 import json
 from .utils import (
+    clean_gcode_list,
+    find_last_gcode_line_num,
     get_api_url,
     get_gcode_upload_dir,
     make_timestamp,
@@ -122,9 +124,25 @@ class DataEngine:
         self._printer.gcode_line_num_no_comments = None
         self._printer.gcode_cmd = None
 
+    def get_gcode_data(self):
+        """
+        Gets the gcode data from the printer.
+        """
+        gcode_raw_list = self._printer.get_gcode_store()
+        gcode_list = clean_gcode_list(gcode_raw_list)
+        gcode_line_num = find_last_gcode_line_num(gcode_list)
+        last_gcode = gcode_list[-1]
+        response =  {
+            "gcode_line_num": gcode_line_num,
+            "gcode_cmd": last_gcode["message"],
+        }
+        self._logger.debug(f"Gcode data: {response}")
+        return response
+
     def create_metadata(self):
         temps = self._printer.get_printer_temp_object()
         printer_objects = self._printer.get_printer_objects()
+        # gcode_data = self.get_gcode_data()
         metadata = {
             "count": self.image_count,
             "timestamp": make_timestamp(),            
@@ -135,8 +153,8 @@ class DataEngine:
             "hotend_actual": temps["tool0"]["actual"],
             "bed_target": temps["bed"]["target"],
             "bed_actual": temps["bed"]["actual"],
-            # "gcode_line_num": self._printer.gcode_line_num_no_comments,
-            # "gcode_cmd": self._printer.gcode_cmd,
+            # "gcode_line_num": gcode_data["gcode_line_num"],
+            # "gcode_cmd": gcode_data["gcode_cmd"],
             "nozzle_tip_coords_x": int(self._settings["nozzle_tip_coords_x"]),
             "nozzle_tip_coords_y": int(self._settings["nozzle_tip_coords_y"]),
             "flip_h": self._settings["flip_h"],

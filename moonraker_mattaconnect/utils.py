@@ -202,24 +202,79 @@ def update_auth_token(cls):
     cls.matta_os.data_engine._settings["auth_token"] = auth_token
     return auth_token
 
-# def remove_log_part(lines):
-#     """
-#     Removes the log part of the lines
+def get_and_refactor_file(file):
+    # Split the path into individual components
+    path = file["path"]
+    components = path.split('/')
 
-#     Example of the Log line:
-#     2023-09-19 10:22:32,443 DEBUG    Printer is: Operational
-#     =>
-#     Printer is: Operational
-#     """
-#     cleaned_lines = []
-#     for line in lines:
-#         if "DEBUG" in line:
-#             cleaned_lines.append(line.split("DEBUG")[1].strip())
-#         if "INFO" in line:
-#             cleaned_lines.append(line.split("INFO")[1].strip())
-#         if "WARNING" in line:
-#             cleaned_lines.append(line.split("WARNING")[1].strip())
-#         if "ERROR" in line:
-#             cleaned_lines.append(line.split("ERROR")[1].strip())
-    
-#     return cleaned_lines
+    # Initialize an empty JSON structure
+    json_structure = {}
+
+    # Initialize a reference to the current level of the JSON structure
+    current_level = json_structure
+    current_path = ""
+    # Iterate through the components of the path
+    for index, component in enumerate(components):
+        # Create an empty dictionary for the current component
+        current_level[component] = {}
+        current_path += "/" + component
+        if index != len(components) - 1:
+            # refactor file
+            current_level[component] = {}
+            current_level[component]["name"] = component
+            current_level[component]["display"] = component
+            current_level[component]["path"] = current_path
+            current_level[component]["type"] = 'folder'
+            current_level[component]["size"] = file["size"]
+            current_level[component]["date"] = file["modified"]
+            current_level[component]["children"] = {}
+            current_level = current_level[component]["children"]
+        else:
+            # refactor folder
+            current_level[component] = {}
+            current_level[component]["name"] = component
+            current_level[component]["display"] = component
+            current_level[component]["path"] = current_path
+            current_level[component]["type"] = 'machinecode'
+            current_level[component]["size"] = file["size"]
+            current_level[component]["date"] = file["modified"]
+            # Update the reference to the current level
+            # current_level = current_level[component]["children"]
+    return json_structure
+
+def merge_json(obj1, obj2):
+    if obj1 == {} or obj1 == None:
+        return obj2
+    if obj2 == {} or obj2 == None:
+        return obj1
+    for key, value in obj2.items():
+        if key in obj1 and isinstance(obj1[key], dict) and isinstance(value, dict):
+            # If both values are dictionaries, recursively merge them
+            merge_json(obj1[key], value)
+        elif key in obj1 and isinstance(obj1[key], set) and isinstance(value, set):
+            # If both values are sets, merge them
+            obj1[key] |= value
+        else:
+            # Otherwise, set or update the value in obj1
+            obj1[key] = value
+    return obj1
+
+def is_temperature_command(gcode):
+    if "M104" in gcode or "M109" in gcode:
+        return True
+    return False
+
+def clean_gcode_list(gcode_list):
+    clean_list = []
+    for index, gcode in enumerate(gcode_list):
+        if gcode["type"] == "response":
+            continue
+        if is_temperature_command(gcode["message"]):
+            continue
+        clean_list.append(gcode)
+    return clean_list
+
+def find_last_gcode_line_num(gcode_list):
+    # TODO: Implement this
+    pass
+
