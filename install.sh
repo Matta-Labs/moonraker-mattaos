@@ -85,7 +85,7 @@ sudo udevadm control --reload-rules && sudo udevadm trigger
 # Create the crowsnest.conf file
 CROWSNEST_FILE="/home/${USER}/printer_data/config/crowsnest.conf"
 CROWSNEST_CONTENT="[crowsnest]
-log_path: /home/pi/printer_data/logs/crowsnest.log
+log_path: /home/${USER}/printer_data/logs/crowsnest.log
 log_level: verbose                      # Valid Options are quiet/verbose/debug
 delete_log: false                       # Deletes log on every restart, if set to true
 no_proxy: false
