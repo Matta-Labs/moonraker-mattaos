@@ -82,9 +82,9 @@ color_echo "Rules file created successfully"
 color_echo "Reloading udev rules..."
 sudo udevadm control --reload-rules && sudo udevadm trigger
 
-# Create the creowsnest.conf file
-CREOWSNEST_FILE="/home/${USER}/printer_data/config/crowsnest.conf"
-CREOWSNEST_CONTENT="[crowsnest]
+# Create the crowsnest.conf file
+CROWSNEST_FILE="/home/${USER}/printer_data/config/crowsnest.conf"
+CROWSNEST_CONTENT="[crowsnest]
 log_path: /home/pi/printer_data/logs/crowsnest.log
 log_level: verbose                      # Valid Options are quiet/verbose/debug
 delete_log: false                       # Deletes log on every restart, if set to true
@@ -109,7 +109,7 @@ focus_absolute: 500
 "
 
 color_echo "Creating the creowsnest.conf file..."
-echo "$CREOWSNEST_CONTENT" > "$CREOWSNEST_FILE"
+echo "$CROWSNEST_CONTENT" > "$CROWSNEST_FILE"
 color_echo "Config file created successfully"
 
 color_echo "Installation completed!"
