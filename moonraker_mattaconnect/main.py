@@ -92,6 +92,7 @@ class MattaConnectPlugin():
             "nozzle_tip_coords_x": self.nozzle_tip_coords_x,
             "nozzle_tip_coords_y": self.nozzle_tip_coords_y,
             "webrtc_url": self.webrtc_url,
+            "webrtc_auth_key": "",
             "live_upload": self.live_upload,
             "flip_h": self.flip_h,
             "flip_v": self.flip_v,

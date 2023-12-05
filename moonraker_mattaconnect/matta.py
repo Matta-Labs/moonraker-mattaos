@@ -10,6 +10,7 @@ import concurrent.futures
 
 from moonraker_mattaconnect.utils import (
     cherry_pick_cmds,
+    inject_auth_key,
     make_timestamp,
     get_cloud_http_url,
     get_cloud_websocket_url,
@@ -33,7 +34,6 @@ class MattaCore:
         self.nozzle_camera_count = 0
         self.ws = None
         self.ws_loop_time = 5
-        self.webrtc_request_time = 0
         self.terminal_cmds = []
         # get OS type (linux, windows, mac)
         self.os = "linux" # TODO remove force OS type
@@ -68,12 +68,7 @@ class MattaCore:
         """
         Updates the WebSocket send interval based on the current print job status.
         """
-        # self._logger.debug(f"Update in time, {time.perf_counter()} {self.webrtc_request_time}")
-        if time.perf_counter() - self.webrtc_request_time < 15:
-            # When the WebRTC stream is being requested slow down the websocket send interval
-            # self.ws_loop_time = 15
-            None
-        elif self.user_online and self._printer.has_job():
+        if self.user_online and self._printer.has_job():
             # When the user is online and printer is printing
             self.ws_loop_time = 1.25 # 1250ms websocket send interval
         elif self.user_online:
@@ -106,68 +101,29 @@ class MattaCore:
         self._logger_ws.debug("Connecting websocket")
         try:
             full_url = get_cloud_websocket_url() + "api/v1/ws/printer"
+            if self.ws_connected():
+                self.ws.disconnect()
+                self.ws = None
+                if self.ws_thread:
+                    self.ws_thread.join()
+                    self.ws_thread = None
             self.ws = Socket(
                 logger_ws = self._logger_ws,
-                on_open=lambda ws: self.ws_on_open(ws),
-                on_message=lambda ws, msg: self.ws_on_message(ws, msg),
-                on_close=lambda ws, close_status_code, close_msg: self.ws_on_close(
-                    ws, close_status_code, close_msg
-                ),
-                on_error=lambda ws, error: self.ws_on_error(ws, error),
+                on_message=lambda _, msg: self.ws_on_message(msg),
                 url=full_url,
                 token=self._settings["auth_token"],
             )
-            ws_thread = threading.Thread(target=self.ws.run)
-            ws_thread.daemon = True
-            ws_thread.start()
+            self.ws_thread = threading.Thread(target=self.ws.run)
+            self.ws_thread.daemon = True
+            self.ws_thread.start()
             if wait:
                 time.sleep(2) # wait for 2 seconds
         except Exception as e:
             self._logger_ws.error("ws_on_close: %s", e)
             pass
 
-    def ws_on_open(self, ws):
-        """
-        Callback function called when the WebSocket connection is opened.
 
-        Args:
-            ws: The WebSocket instance.
-
-        """
-        self._logger_ws.debug("Opening MattaConnect websocket...")
-
-    def ws_on_close(self, ws, close_status_code, close_msg):
-        """
-        Callback function called when the WebSocket connection is closed.
-
-        Args:
-            ws: The WebSocket instance.
-            close_status_code (int): The close status code.
-            close_msg (str): The close message.
-
-        """
-        self._logger_ws.debug(
-            f"Closing websocket... code: {close_status_code} msg: {close_msg}"
-        )
-        try:
-            self.ws.disconnect()
-            self.ws = None
-        except Exception as e:
-            self._logger_ws.error("ws_on_close: %s", e)
-            pass
-
-    def ws_on_error(self, ws, error):
-        """
-        Callback function called when a WebSocket error occurs.
-
-        Args:
-            ws: The WebSocket instance.
-            error: The error that occurred.
-
-        """
-        self._logger_ws.error("ws_on_error: %s", error)
-
-    def ws_on_message(self, ws, msg):
+    def ws_on_message(self, msg):
         """
         Callback function called when a message is received over the WebSocket connection.
 
@@ -189,13 +145,29 @@ class MattaCore:
                 self.user_online = False
                 msg = self.ws_data()
             elif json_msg.get("webrtc", None) == "request":
-                webrtc_data = self.request_webrtc_stream()
-                msg = self.ws_data(extra_data=webrtc_data)
+                # check if auth_key has already been received
+                self._logger_ws.info("Received webrtc request")
+                webrtc_auth_key = json_msg.get("auth_key", None)
+                self._logger_ws.info("Received webrtc auth key: %s", webrtc_auth_key)
+                self._logger_ws.info("Last webrtc auth key: %s", self._settings["webrtc_auth_key"])
+                if webrtc_auth_key is not None and webrtc_auth_key != self._settings["webrtc_auth_key"]:
+                    # save auth_key
+                    self._settings["webrtc_auth_key"] = webrtc_auth_key
+                    self._logger_ws.info("Requesting webrtc stream")
+                    webrtc_data = self.request_webrtc_stream()
+                    self._logger_ws.info("Injecting auth key into webrtc data: %s", webrtc_data)
+                    webrtc_data = inject_auth_key(webrtc_data, json_msg, self._logger)
+                    msg = self.ws_data(extra_data=webrtc_data)
             elif json_msg.get("webrtc", None) == "remote_candidate":
-                webrtc_data = self.remote_webrtc_stream(candidate=json_msg["data"])
+                try:
+                    webrtc_data = self.remote_webrtc_stream(candidate=json_msg.get("data", None))
+                except Exception as e:
+                    self._logger_ws.error("This is stupid error: %s", e)
+                webrtc_data = inject_auth_key(webrtc_data, json_msg, self._logger)
                 msg = self.ws_data(extra_data=webrtc_data)
             elif json_msg.get("webrtc", None) == "offer":
-                webrtc_data = self.connect_webrtc_stream(offer=json_msg["data"])
+                webrtc_data = self.connect_webrtc_stream(offer=json_msg.get("data", None))
+                webrtc_data = inject_auth_key(webrtc_data, json_msg, self._logger)
                 msg = self.ws_data(extra_data=webrtc_data)
             elif json_msg.get("status", None) != None:
                 terminal_commands = self._printer.get_printer_cmds()
@@ -221,9 +193,6 @@ class MattaCore:
                 self._logger_ws.info("Sending...")
                 self.ws.send_msg(msg)
                 self._logger_ws.info("Sent")
-            else:
-                self.ws_connect()
-                self.ws.send_msg(msg)
         except Exception as e:
             self._logger_ws.error("ws_send: %s", e)
         
@@ -267,7 +236,6 @@ class MattaCore:
             data.update(extra_data)
         return data
 
-    @backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
     def test_auth_token(self, token):
         """
         Tests the validity of an authorization token.
@@ -294,12 +262,9 @@ class MattaCore:
                 headers=headers,
             )
             if resp.status_code == 200:
-                # self._settings.set(["auth_token"], token, force=True)
-                # self._settings.save()
-                # self._settings["auth_token"] = token # TODO test this
+                # TODO test this
                 if self.ws_connected():
                     self.ws.disconnect()
-                self.ws_connect()
                 status_text = "All is tickety boo! Your token is valid."
                 success = True
             elif resp.status_code == 401:
@@ -358,6 +323,7 @@ class MattaCore:
                         self.ws = None
                 except Exception as e:
                     self._logger_ws.error("ws_send_data: %s", e)
+            time.sleep(0.1)
 
     def request_webrtc_stream(self):
         """
@@ -370,8 +336,6 @@ class MattaCore:
         """
         self._logger_ws.info("Requesting WebRTC stream")
         # update the last time we requested a webrtc stream
-        self.webrtc_request_time = time.perf_counter()
-        self.update_ws_send_interval()
         ice_servers = [{"urls": ["stun:stun.l.google.com:19302"]}]
         params = {
             "type": "request",
@@ -403,10 +367,11 @@ class MattaCore:
         Returns:
             dict: A dictionary containing WebRTC data if the request is successful, None otherwise.
         """
+        self._logger_ws.info("Sending remote webrtc candidate")
         params = {
-            "type": candidate["type"],
-            "id": candidate["id"],
-            "candidates": candidate["candidates"],
+            "type": candidate.get("type", None),
+            "id": candidate.get("id", None),
+            "candidates": candidate.get("candidates", None),
         }
         headers = {"Content-Type": "application/json"}
         try:
@@ -414,6 +379,7 @@ class MattaCore:
                 self._settings["webrtc_url"], json=params, headers=headers
             )
             if resp.status_code == 200:
+                print("remote_webrtc_stream: ")
                 return {"webrtc_data": resp.json()}
         except requests.exceptions.RequestException as e:
             self._logger_ws.error(e)
