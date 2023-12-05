@@ -3,6 +3,7 @@ import psutil
 from datetime import datetime
 import sentry_sdk
 import os
+import requests
 from sys import platform
 
 MATTA_OS_ENDPOINT = "https://os.matta.ai/"
@@ -277,6 +278,21 @@ def clean_gcode_list(gcode_list):
 def find_last_gcode_line_num(gcode_list):
     # TODO: Implement this
     pass
+
+def get_file_from_backend(bucket_file, auth_token):
+    """Gets a file from the backend"""
+    full_url = get_api_url() + "print-jobs/printer/gcode/uploadfile"
+    headers = generate_auth_headers(auth_token)
+    data = {"bucket_file": bucket_file}
+    try:
+        resp = requests.post(
+            url=full_url, data=data, headers=headers, timeout=5,
+        )
+        # print data from resp
+        resp.raise_for_status()
+        return resp.text
+    except Exception as e:
+        raise e        # Windows
 
 def inject_auth_key(webrtc_data, json_msg, logger):
     """

@@ -46,7 +46,7 @@ class MattaCore:
         self._logger.debug("Starting MattaConnect Plugin...")
 
         # Start printer
-        self._printer = MattaPrinter(self._logger, self._logger_cmd, self.MOONRAKER_API_URL)
+        self._printer = MattaPrinter(self._logger, self._logger_cmd, self.MOONRAKER_API_URL, settings)
 
         # Start websocket
         self.user_online = False

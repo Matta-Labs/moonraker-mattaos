@@ -2,7 +2,7 @@ import base64
 import requests
 import re
 import os
-from .utils import commandlines_from_json, get_and_refactor_file, make_timestamp, merge_json, remove_cmds
+from .utils import commandlines_from_json, get_and_refactor_file, make_timestamp, merge_json, remove_cmds, get_file_from_backend
 
 # TODO remove
 # import httpx
@@ -10,11 +10,12 @@ import time
 
 class MattaPrinter:
     """Virtual Printer class for storing current parameters"""
-    def __init__(self, logger, logger_cmd, MOONRAKER_API_URL):
+    def __init__(self, logger, logger_cmd, MOONRAKER_API_URL, settings):
         self._logger = logger
         self._logger_cmd = logger_cmd
         self._printer = self # TODO change in the future
         self.MOONRAKER_API_URL = MOONRAKER_API_URL
+        self._settings = settings
 
         self.printing = False  # True when print job is running
         self.finished = True  # True for loop when print job has just finished
@@ -154,7 +155,12 @@ class MattaPrinter:
 
     def send_gcode(self, gcode_cmd):
         endpoint = "/printer/gcode/script"
+        # check if gcode_cmd is a list
+        if isinstance(gcode_cmd, list):
+            gcode_cmd = "\n".join(gcode_cmd)
+        self._logger.info(f"Sending gcode: {gcode_cmd}")
         response = self.post(endpoint, json={"script": gcode_cmd})
+        self._logger.info(f"Response: {response}")
         return response
 
     def clear_print_stats(self):
@@ -194,14 +200,62 @@ class MattaPrinter:
         files = {"files": {"local" : files}}
         return files
     
-    def home_printer(self):
+    def home(self, axes=[]):
+        """
+        Home the printer axes.
+        """
         endpoint = "/printer/gcode/script"
-        response = self.post(endpoint, json={"script": "G28"})
-        # response = requests.post(f"{self.MOONRAKER_API_URL}/printer/gcode/script", json={"script": "G28"})
-        # if response.status_code == 200:
-        #     self.logger.info(f"Homing Successful; {response.status_code} {response.text}")
-        # else:
-        #     self.logger.error(f"Homing Unsuccessful; {response.status_code} {response.text}")
+        axes_string = ""
+        for axis in axes:
+            axes_string += f" {axis}"
+        response = self.post(endpoint, json={"script": f"G28{axes_string}"})
+        return response
+
+    def jog(self, motion, relative=True):
+        """
+        Move the printer axes.
+        """
+        endpoint = "/printer/gcode/script"
+        if relative:
+            command = "G91\n"  # Set to relative positioning
+        else:
+            command = "G90\n"  # Set to absolute positioning
+
+        for axis, distance in motion.items():
+            command += f"G0 {axis.upper()}{distance}\n"
+        self._logger.info(f"Jog command: {command}")
+        response = self.post(endpoint, json={"script": command})
+        self._logger.info(f"Jog response: {response}")
+        return respons
+
+    def set_temperature(self, heater, value):
+        """
+        Set the temperature of a heater.
+
+        Args:
+            heater (str): The heater to set the temperature of.
+            value (float): The temperature value to set.
+
+        """
+        endpoint = "/printer/gcode/script"
+        if heater == "bed":
+            response = self.post(endpoint, json={"script": f"M140 S{value}"}) # set bed temp
+        elif heater == "hotend" or heater == "tool0":
+            response = self.post(endpoint, json={"script": f"M104 S{value}"}) # set hotend temp
+        return response
+
+    def extrude(self, amount):
+        """
+        Extrude filament.
+
+        Args:
+            amount (float): The amount of filament to extrude.
+
+        """
+        endpoint = "/printer/gcode/script"
+        self._logger.info(f"Extrude amount: {amount}")
+        response = self.post(endpoint, json={"script": f"G1 E{amount}"})
+        self._logger.info(f"Extrude response: {response}")
         return response
     
     def select_file(self, filename, sd, printAfterSelect):
@@ -481,12 +535,14 @@ class MattaPrinter:
         if "motion" in json_msg:
             if json_msg["motion"]["cmd"] == "home":
                 try:
-                    self._printer.home(axes=json_msg["motion"]["axes"])
-                except KeyError:
-                    self._printer.home()
+                    axes = json_msg["motion"]["axes"]
+                    self._printer.home(axes)
+                except KeyError as e:
+                    self._logger.error(f"KeyError in virtual printer: {e}")
+
             elif json_msg["motion"]["cmd"] == "move":
                 self._printer.jog(
-                    axes=json_msg["motion"]["axes"],
+                    motion=json_msg["motion"]["axes"],
                     relative=True,
                 )
             elif json_msg["motion"]["cmd"] == "extrude":
@@ -528,6 +584,16 @@ class MattaPrinter:
                 files = {"file": (filename, content_string)}
                 response = self.post("/server/files/upload", files=files)
                 self._logger.info(f"Upload response: {response}")
+            elif json_msg["files"]["cmd"] == "upload_big":
+                bucket_file = json_msg["files"]["content"]
+                filename  = json_msg["files"]["file"]
+                self._logger.info(f"Bucket file: {bucket_file}")
+                # call backend to get file
+                response = get_file_from_backend(bucket_file, self._settings["auth_token"])
+                self._logger.info(f"Gcode download response: {response[:100]}")
+                files = {"file": (filename, response)}
+                response = self.post("/server/files/upload", files=files)
+                self._logger.info(f"Upload response: {response}")
 
             elif json_msg["files"]["cmd"] == "delete":
                 destination = FileDestinations.SDCARD if json_msg["files"]["loc"] == "sd" else FileDestinations.LOCAL
@@ -545,4 +611,5 @@ class MattaPrinter:
                 )
         elif "gcode" in json_msg:
             if json_msg["gcode"]["cmd"] == "send":
-                self._printer.commands(commands=json_msg["gcode"]["lines"])
+
+                self._printer.send_gcode(gcode_cmd=json_msg["gcode"]["lines"])

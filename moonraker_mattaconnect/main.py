@@ -261,7 +261,7 @@ class MattaConnectPlugin():
         @self.app.route('/api/home_printer', methods=['POST'])
         def home_printer():
             self.logger.info("Homing Printer.")
-            response = self.matta_os._printer.home_printer()
+            response = self.matta_os._printer.home()
             # self.logger.debug(response)
             return str(response), 200
 
