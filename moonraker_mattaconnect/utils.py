@@ -4,6 +4,7 @@ from datetime import datetime
 import sentry_sdk
 import os
 import requests
+import threading
 from sys import platform
 
 MATTA_OS_ENDPOINT = "https://os.matta.ai/"

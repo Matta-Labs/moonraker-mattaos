@@ -279,7 +279,6 @@ class DataEngine:
         try:
             state = self._printer.get_printer_state_object()
             state = state['text']
-            self._logger.debug(f"Printer is: {state}")
             if state == 'Error':
                 self._logger.debug("Error temporarily classified as operational")
         except Exception as e:

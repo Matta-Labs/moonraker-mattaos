@@ -178,8 +178,10 @@ class MattaCore:
             else:
                 self._printer.handle_cmds(json_msg)
                 msg = self.ws_data()
+        # self.terminal_cmds = self.get_cmds()
         self.ws_send(msg)
         self.update_ws_send_interval()
+
     
     def ws_send(self, msg):
         """
@@ -299,16 +301,16 @@ class MattaCore:
                 while self.ws_connected():
                     current_time = time.perf_counter()
                     if (current_time - old_time) > self.ws_loop_time:
-                        self._logger_ws.debug(f"Sending data: {current_time - old_time}, Loop-time: {self.ws_loop_time}")
+                        # self._logger_ws.debug(f"Sending data: {current_time - old_time}, Loop-time: {self.ws_loop_time}")
                         # time_buffer = max(
                         #     0, current_time - old_time - self.ws_loop_time
                         # )
                         old_time = current_time
                         msg = self.ws_data()
                         # time.sleep(1)  # slow things down to 100ms
-                        self._logger_ws.debug("Sending ws_data")
+                        # self._logger_ws.debug("Sending ws_data")
                         self.ws.send_msg(msg)
-                        self._logger_ws.debug("Sent ws_data")
+                        # self._logger_ws.debug("Sent ws_data")
                         self.update_ws_send_interval()
                     time.sleep(0.1)  # slow things down to 100ms
                     
