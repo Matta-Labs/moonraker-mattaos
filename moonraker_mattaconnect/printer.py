@@ -200,7 +200,7 @@ class MattaPrinter:
         # ],
         # "size":14474412,
         # "date":1692807205
-        self.logger.info("Getting and refactoring files")
+        self._logger.info("Getting and refactoring files")
         klipper_files = self.get_files()
         files = {}
         for file in klipper_files:
