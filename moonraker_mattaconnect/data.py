@@ -459,4 +459,4 @@ class DataEngine:
                 self.update_image()
                 # DEBUG COMMAND
                 # self._logger.info(self._printer.get_all_print_objects())
-            time.sleep(0.1)  # slow things down to 10ms to run other threads
+            time.sleep(0.1)  # slow things down to 10ms to run other threads!!
