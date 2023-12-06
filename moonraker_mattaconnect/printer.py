@@ -1,4 +1,5 @@
 import base64
+import threading
 import requests
 import re
 import os
@@ -19,6 +20,8 @@ class MattaPrinter:
 
         self.printing = False  # True when print job is running
         self.finished = True  # True for loop when print job has just finished
+        self.cancelling = False  # True when print job is cancelling
+        self.pausing = False  # True when print job is pausing
 
         self.flow_rate = 100  # in percent
         self.feed_rate = 100  # in percent
@@ -53,7 +56,7 @@ class MattaPrinter:
             response.raise_for_status()  # Raise an error for bad responses
             return response.json()
         except requests.exceptions.RequestException as e:
-            print(f"POST request error: {e}")
+            self._logger.info(f"POST request error: {e}")
             return None
 
     def delete(self, endpoint):
@@ -63,7 +66,7 @@ class MattaPrinter:
             response.raise_for_status()  # Raise an error for bad responses
             return response.json()
         except requests.exceptions.RequestException as e:
-            print(f"DELETE request error: {e}")
+            self._logger.info(f"DELETE request error: {e}")
             return None
 
     # async def get(self, endpoint):
@@ -85,10 +88,15 @@ class MattaPrinter:
     #         except httpx.HTTPError as e:
     #             print(f"POST request error: {e}")
     #             return None
-
     # contains ["text"] and ["flags"] (a bool for each flag)
     def get_printer_state_object(self):
         content = self.get("/api/printer")
+        if self.cancelling == True:
+            content["state"]["text"] = 'Cancelling'
+        if self.pausing == True:
+            content["state"]["text"] = 'Pausing'
+        # self._logger.debug(f"Printer is: {state}")
+
         return content["state"]
     
     # contains ["bed"] and ["tool0"], each with ["actual"], ["offset"], ["target"]
@@ -299,15 +307,41 @@ class MattaPrinter:
         response = self.delete(endpoint)
         return response
 
+    def run_pause_thread(self, endpoint, json):
+        self.pausing = True
+        try:
+            response = self.post(endpoint, json=json)
+        except Exception as e:
+            self._logger.error(f"Error pausing print: {e}")
+        self._logger.info(f"Pause response: {response}")
+        self.pausing = False
+
+    def run_cancel_thread(self, endpoint, json):
+        self.cancelling = True
+        try:
+            response = self.post(endpoint, json=json)
+        except Exception as e:
+            self._logger.error(f"Error cancelling print: {e}")
+        self._logger.info(f"Cancel response: {response}")
+        self.cancelling = False
+
     def pause_print(self):
+        # set status flag to pausing
+        self.pausing = True
+        self._logger.info("Pausing print")
         endpoint = "/printer/print/pause"
-        response = self.post(endpoint, json={})
-        return response
-    
+        thread = threading.Thread(target=self.run_pause_thread, args=(endpoint, {}))
+        thread.start()
+        
+        return {"status": "ok"}
+
     def cancel_print(self):
+        # set status flag to cancelling
+        self._logger.info("Cancelling print")
         endpoint = "/printer/print/cancel"
-        response = self.post(endpoint, json={})
-        return response
+        thread = threading.Thread(target=self.run_cancel_thread, args=(endpoint, {}))
+        thread.start()
+        return {"status": "ok"}
     
     def resume_print(self):
         endpoint = "/printer/print/resume"
@@ -318,6 +352,7 @@ class MattaPrinter:
         endpoint = "/server/gcode_store?count=50"
         response = self.get(endpoint)
         new_cmds = commandlines_from_json(response["result"])
+        self._logger.info(f"New cmds: {new_cmds}")
         return new_cmds
     
     def get_printer_cmds(self):
@@ -596,11 +631,10 @@ class MattaPrinter:
                 self._logger.info(f"Upload response: {response}")
 
             elif json_msg["files"]["cmd"] == "delete":
-                destination = FileDestinations.SDCARD if json_msg["files"]["loc"] == "sd" else FileDestinations.LOCAL
-                if json_msg["files"]["type"] == "folder":
-                    self._file_manager.remove_folder(path=json_msg["files"]["file"], destination=destination)
-                else: 
-                    self._file_manager.remove_file(path=json_msg["files"]["file"], destination=destination)
+                filename = json_msg["files"]["file"]
+                response = self.delete(f"/server/files/gcodes/{filename}")
+                self._logger.info(f"Delete response: {response}")
+            
             elif json_msg["files"]["cmd"] == "new_folder":
                 destination = FileDestinations.SDCARD if json_msg["files"]["loc"] == "sd" else FileDestinations.LOCAL
                 self._file_manager.add_folder(
