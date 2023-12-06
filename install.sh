@@ -59,28 +59,18 @@ CONFIG_FILE="/home/${USER}/printer_data/config/moonraker-mattaconnect.cfg"
 CONFIG_CONTENT="[moonraker_control]
 enabled = true
 printer_ip = localhost
-printer_port = 7125"
+printer_port = 7125
+[mattaconnect_settings]
+webrtc_stream_url = http://localhost/webrtc/stream
+camera_snapshot_url = http://m01.local/webcam/?action=snapshot
+flip_webcam_horiztonally = false
+flip_webcam_vertically = false
+rotate_webcam_90CC = false
+auth_token = < paste your auth token here >"
 
 color_echo "Creating the moonraker-mattaconnect.cfg file..."
 echo "$CONFIG_CONTENT" > "$CONFIG_FILE"
 color_echo "Config file created successfully"
-
-# Create 99-matta.rules file
-RULES_FILE="/etc/udev/rules.d/99-matta.rules"
-RULES_CONTENT='# Rule for USB port 1-1 (change this to match your actual port)
-KERNEL=="video*" KERNELS=="1-1.3:1.0", SYMLINK+="bw_cam"
-
-# Rule for USB port 2-1 (change this to match your actual port)
-KERNEL=="video*" KERNELS=="1-1.1:1.0", SYMLINK+="matta_cam"
-'
-
-color_echo "Creating the 99-matta.rules file..."
-echo "$RULES_CONTENT" | sudo tee "$RULES_FILE" > /dev/null
-color_echo "Rules file created successfully"
-
-# run udevadm to reload rules
-color_echo "Reloading udev rules..."
-sudo udevadm control --reload-rules && sudo udevadm trigger
 
 # Create the crowsnest.conf file
 CROWSNEST_FILE="/home/${USER}/printer_data/config/crowsnest.conf"
@@ -96,7 +86,7 @@ mode: camera-streamer                         # ustreamer - Provides mjpg and sn
 enable_rtsp: false                      # If camera-streamer is used, this enables also usage of an rtsp server
 rtsp_port: 8554                         # Set different ports for each device!
 port: 8080                              # HTTP/MJPG Stream/Snapshot Port
-device: /dev/matta_cam                   # See Log for available ...
+device: /dev/video0                     # See Log for available ...
 resolution: 1920x1080 #640x480 #2592x1944                   # widthxheight format (Originally 640x480)
 max_fps: 15 #30                             # If Hardware Supports this it will be forced, otherwise ignored/coerced. (originally 15)
 #custom_flags:                          # You can run the Stream Services with custom flags.

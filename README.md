@@ -98,6 +98,7 @@ docker build -t mattaconnect .
 docker run -it --rm --workdir /home/pi mattaconnect bash
 
 cd moonraker-mattaconnect
+chmod +x install.sh
 ./install.sh
 
 # Temp fix for service not starting:
