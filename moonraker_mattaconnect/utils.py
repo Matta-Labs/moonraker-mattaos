@@ -193,11 +193,13 @@ def get_auth_token(cls):
         data = json.load(file)
         return data["authToken"]
 
-def update_auth_token(cls):
+
+
+def update_auth_token(cls, _settings):
     """
     Updates the auth token from the config file
     """
-    auth_token = get_auth_token(cls)
+    auth_token = _settings["auth_token"]
     cls._settings["auth_token"] = auth_token
     cls.matta_os._settings["auth_token"] = auth_token
     cls.matta_os.data_engine._settings["auth_token"] = auth_token

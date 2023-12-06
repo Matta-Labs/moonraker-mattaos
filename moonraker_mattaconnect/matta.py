@@ -107,6 +107,7 @@ class MattaCore:
                 if self.ws_thread:
                     self.ws_thread.join()
                     self.ws_thread = None
+            self._logger_ws.debug("Connecting to websocket: %s", self._settings["auth_token"])
             self.ws = Socket(
                 logger_ws = self._logger_ws,
                 on_message=lambda _, msg: self.ws_on_message(msg),

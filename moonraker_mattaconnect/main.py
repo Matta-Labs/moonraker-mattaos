@@ -304,14 +304,17 @@ class MattaConnectPlugin():
             data = flask.request.get_json()
             with open(self.settings_path, "w") as file:
                 json.dump(data, file)
-            update_auth_token(self)
+            update_auth_token(self, self._settings)
             return "OK", 200
 
         @self.app.route('/api/get_values', methods=['GET'])
         def get_values():
-            with open(self.settings_path, "r") as file:
-                data = json.load(file)
-            return data, 200
+            # with open(self.settings_path, "r") as file:
+            #     self.logger.debug("Getting values from settings.json")
+            #     data = json.load(file)
+
+            self.logger.debug(self._settings)
+            return self._settings, 200
 
 
     def start_flask(self):

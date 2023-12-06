@@ -192,6 +192,7 @@ class MattaPrinter:
         # ],
         # "size":14474412,
         # "date":1692807205
+        self.logger.info("Getting and refactoring files")
         klipper_files = self.get_files()
         files = {}
         for file in klipper_files:
@@ -460,6 +461,7 @@ class MattaPrinter:
         # progress[printTimeLeft] = job[total_duration] - job[print_duration]
         self._logger.info("Started job data parsing")
         printer_data["state"] = self.get_printer_state_object()
+        self._logger.info("Print stats: ", job_data["status"]["print_stats"])
         filename = job_data["status"]["print_stats"]["filename"]
         is_active = job_data["status"]["virtual_sdcard"]["is_active"]
         if filename == "" or filename == None or is_active == False: 

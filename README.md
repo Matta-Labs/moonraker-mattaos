@@ -74,10 +74,10 @@ cd ~/moonraker-mattaconnect
 ./install.sh
 
 # Solve bug of systemctl not running properly in bash manually
-sudo systemctl enable moonraker-control-plugin        
+sudo systemctl enable moonraker-mattaconnect        
 sudo systemctl daemon-reload
-sudo systemctl start moonraker-control-plugin
-sudo systemctl status moonraker-control-plugin 
+sudo systemctl start moonraker-mattaconnect  
+sudo systemctl status moonraker-mattaconnect  
 ```
 
 Afterwards:
