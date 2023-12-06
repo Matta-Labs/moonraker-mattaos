@@ -60,7 +60,7 @@ CONFIG_CONTENT="[moonraker_control]
 enabled = true
 printer_ip = localhost
 printer_port = 7125
-[mattaconnect settings]
+[mattaconnect_settings]
 webrtc_stream_url = http://localhost/webrtc/stream
 camera_snapshot_url = http://m01.local/webcam/?action=snapshot
 flip_webcam_horiztonally = false

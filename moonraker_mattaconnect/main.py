@@ -55,17 +55,17 @@ class MattaConnectPlugin():
 
         # Default settings
         self.settings_path = "moonraker_mattaconnect/settings/settings.json"
-        # self.auth_token = "6DXwm1Lm-7nyPC04qDsDbzvjP73Paeb29AETk8o0QyI"
-        self.auth_token = get_auth_token(self) #"pTF27aoUyAyfmCIxj7JHAX_nqhwlPH9vKp4TwG-ut1E"
-        self.snapshot_url = "http://localhost/webcam/snapshot"
+        # self.auth_token = get_auth_token(self)
+        self.auth_token = self.config.get('mattaconnect_settings', 'auth_token')
+        self.snapshot_url = self.config.get('mattaconnect_settings', 'camera_snapshot_url')
         self.default_z_offset = 0.0
         self.nozzle_tip_coords_x = 10.0
         self.nozzle_tip_coords_y = 10.0
-        self.webrtc_url = "http://localhost/webcam/webrtc"
+        self.webrtc_url = self.config.get('mattaconnect_settings', 'webrtc_stream_url')
         self.live_upload = False
-        self.flip_h = False
-        self.flip_v = False
-        self.rotate = False
+        self.flip_h = self.config.getboolean('mattaconnect_settings', 'flip_webcam_horiztonally')
+        self.flip_v = self.config.getboolean('mattaconnect_settings', 'flip_webcam_vertically')
+        self.rotate = self.config.getboolean('mattaconnect_settings', 'rotate_webcam_90CC')
 
         self._settings = self.get_settings_defaults()
 
