@@ -19,6 +19,7 @@ class Socket:
         try:
             if isinstance(msg, dict):
                 msg = json.dumps(msg)
+                self._logger_ws.debug("Sending message: %s", msg)
             if self.connected() and self.socket is not None:
                 self.socket.send(msg)
         except Exception as e:

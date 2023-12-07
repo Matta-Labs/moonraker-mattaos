@@ -178,7 +178,6 @@ class MattaCore:
             else:
                 self._printer.handle_cmds(json_msg)
                 msg = self.ws_data()
-        # self.terminal_cmds = self.get_cmds()
         self.ws_send(msg)
         self.update_ws_send_interval()
 
@@ -306,11 +305,13 @@ class MattaCore:
                         #     0, current_time - old_time - self.ws_loop_time
                         # )
                         old_time = current_time
+                        # get terminal commands
+                        self.terminal_cmds = self._printer.get_printer_cmds(clean=False)
                         msg = self.ws_data()
                         # time.sleep(1)  # slow things down to 100ms
-                        # self._logger_ws.debug("Sending ws_data")
+                        self._logger_ws.debug("Sending ws_data")
                         self.ws.send_msg(msg)
-                        # self._logger_ws.debug("Sent ws_data")
+                        self._logger_ws.debug("Sent ws_data")
                         self.update_ws_send_interval()
                     time.sleep(0.1)  # slow things down to 100ms
                     

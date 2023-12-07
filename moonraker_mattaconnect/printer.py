@@ -161,19 +161,24 @@ class MattaPrinter:
         gcode_raw_list = content["result"]["gcode_store"]
         return gcode_raw_list
 
-    def send_gcode(self, gcode_cmd):
+    def send_gcode(self, gcode_cmd, threaded=False):
         endpoint = "/printer/gcode/script"
         # check if gcode_cmd is a list
         if isinstance(gcode_cmd, list):
             gcode_cmd = "\n".join(gcode_cmd)
         self._logger.info(f"Sending gcode: {gcode_cmd}")
-        response = self.post(endpoint, json={"script": gcode_cmd})
-        self._logger.info(f"Response: {response}")
-        return response
+        if threaded:
+            thread = threading.Thread(target=self.post, args=(endpoint, {"script": gcode_cmd}))
+            thread.start()
+            return {"status": "ok"}
+        else:
+            response = self.post(endpoint, json={"script": gcode_cmd})
+            self._logger.info(f"Response: {response}")
+            return response
 
     def clear_print_stats(self):
         gcode = "SDCARD_RESET_FILE"
-        response = self.send_gcode(gcode)
+        response = self.send_gcode(gcode, threaded=True)
         return response
 
     def get_estimate_print_time(self, filename):
@@ -325,6 +330,8 @@ class MattaPrinter:
             self._logger.error(f"Error cancelling print: {e}")
         self._logger.info(f"Cancel response: {response}")
         self.cancelling = False
+        self.clear_print_stats()
+        self._logger.info("Print stats cleared")
 
     def pause_print(self):
         # set status flag to pausing
@@ -356,7 +363,7 @@ class MattaPrinter:
         self._logger.info(f"New cmds: {new_cmds}")
         return new_cmds
     
-    def get_printer_cmds(self):
+    def get_printer_cmds(self, clean=True):
         """
         Gets the printer commands from the printer object.
 
@@ -371,6 +378,8 @@ class MattaPrinter:
             history = f.readlines()[-50:]
         # get printer commands
         new_cmds = self.get_cmds()
+        if not clean:
+            return new_cmds
         cleaned_cmds = remove_cmds(history, new_cmds, self._logger)
         for cmd in cleaned_cmds:
             self._logger_cmd.info(cmd)
