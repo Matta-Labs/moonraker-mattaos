@@ -78,6 +78,7 @@ class MattaConnectPlugin():
         self.flask_thread = threading.Thread(target=self.start_flask)
         self.flask_thread.setDaemon(True)
         self.flask_thread.start()
+        self.matta_os.test_auth_token(token=self._settings["auth_token"])
 
         while True:
             time.sleep(30)

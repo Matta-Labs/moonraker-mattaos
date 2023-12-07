@@ -280,7 +280,7 @@ class MattaCore:
                 full_url,
                 generate_auth_headers(token),
             )
-            status_text = "Error. Please check OctoPrint's internet connection"
+            status_text = "Error. Please check Klipper's internet connection"
         return success, status_text
 
     def websocket_thread_loop(self):
