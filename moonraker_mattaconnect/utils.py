@@ -171,39 +171,39 @@ def remove_cmds(history, new_cmds, logger):
             # logger.debug(f"cmd: {cmd} is not the same as new_cmds: {new_cmds[0]}")
     return new_cmds
 
-def cherry_pick_cmds(cls, terminal_commands):
+def cherry_pick_cmds(self, terminal_commands):
     """
     Cherry pick the commands that have values in the json list
     """
-    with open(cls._settings["path"], "r") as file:
+    with open(self._settings["path"], "r") as file:
         data = json.load(file)
         cherry_list = data["terminalCmds"]
     cherry_picked_cmds = []
-    cls._logger.debug(f"cherry_list: {cherry_list}, terminal_commands: {terminal_commands}")
+    self._logger.debug(f"cherry_list: {cherry_list}, terminal_commands: {terminal_commands}")
     for cmd in terminal_commands:
         if any(cherry in cmd for cherry in cherry_list):
             cherry_picked_cmds.append(cmd)
-    cls._logger.debug(f"cherry_picked_cmds: {cherry_picked_cmds}")
+    self._logger.debug(f"cherry_picked_cmds: {cherry_picked_cmds}")
     return cherry_picked_cmds
 
-def get_auth_token(cls):
+def get_auth_token(self):
     """
     Gets the auth token from the config file
     """
-    with open(cls.settings_path, "r") as file:
+    with open(self.settings_path, "r") as file:
         data = json.load(file)
         return data["authToken"]
 
 
 
-def update_auth_token(cls, _settings):
+def update_auth_token(self, _settings):
     """
     Updates the auth token from the config file
     """
     auth_token = _settings["auth_token"]
-    cls._settings["auth_token"] = auth_token
-    cls.matta_os._settings["auth_token"] = auth_token
-    cls.matta_os.data_engine._settings["auth_token"] = auth_token
+    self._settings["auth_token"] = auth_token
+    self.matta_os._settings["auth_token"] = auth_token
+    self.matta_os.data_engine._settings["auth_token"] = auth_token
     return auth_token
 
 def get_and_refactor_file(file):

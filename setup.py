@@ -9,8 +9,8 @@ setup(
         'Flask',
         'requests',
         'sentry_sdk',
-        'backoff',
         'websocket-client',
         'psutil', # TODO docker specific?
+        'pillow==9.5.0'
     ],
 )

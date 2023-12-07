@@ -15,6 +15,8 @@ from .utils import (
 )
 import os
 import shutil
+from PIL import Image
+import io
 
 
 class DataEngine:
@@ -209,7 +211,26 @@ class DataEngine:
             requests.exceptions.RequestException: If an error occurs during the upload.
         """
         self._logger.debug("Posting image")
-        image_name = f"image_{self.image_count}.jpg"
+        image_name = f"image_{self.image_count}.png"
+
+        # Load the image using PIL
+        pil_image = Image.open(io.BytesIO(image))
+
+        # Flip the image if necessary
+        if self._settings["flip_h"]:
+            pil_image = pil_image.transpose(Image.FLIP_LEFT_RIGHT)
+        if self._settings["flip_v"]:
+            pil_image = pil_image.transpose(Image.FLIP_TOP_BOTTOM)
+        if self._settings["rotate"]:
+            pil_image = pil_image.transpose(Image.ROTATE_90)
+
+        self._logger.debug("Image transforms complete")
+        # Convert the PIL image back to bytes
+        byte_arr = io.BytesIO()
+        pil_image.save(byte_arr, format="PNG")
+        image = byte_arr.getvalue()
+
+        self._logger.debug("Image loaded")
         metadata = {
             "name": image_name,
             "img_file": image_name,
@@ -217,15 +238,18 @@ class DataEngine:
         metadata.update(self.create_metadata())
         data = {"data": json.dumps(metadata)}
         files = {
-            "image_obj": (image_name, image, "image/generic"),
+            "image_obj": (image_name, image, "image/png"),
         }
         full_url = get_api_url() + "images/print/predict/new-image"
         headers = generate_auth_headers(self._settings["auth_token"])
         try:
-            resp = requests.post(url=full_url, data=data, files=files, headers=headers)
+            resp = requests.post(
+                url=full_url, data=data, files=files, headers=headers, timeout=5,
+            )
+            self._logger.debug("Image posted")
             resp.raise_for_status()
         except requests.exceptions.RequestException as e:
-            self._logger.error(e)
+            self._logger.info(e)
 
     def finished_upload(self, job_name, gcode_path, csv_path):
         """
@@ -424,10 +448,10 @@ class DataEngine:
 
     def update_image(self):
         try:
-            resp = requests.get(self._settings["snapshot_url"], stream=True)
-            if resp.status_code == 200:
-                self.image_upload(resp.content)
-                self.image_count += 1
+            resp = requests.get(self._settings["snapshot_url"], stream=True)     
+            self._logger.debug("Image fetched, about to upload")
+            self.image_upload(resp.content)
+            self.image_count += 1
         except Exception as e:
             self._logger.error(e)
 
@@ -455,6 +479,7 @@ class DataEngine:
                 time_buffer = max(0, current_time - old_time - SAMPLING_TIMEOUT)
                 old_time = current_time
                 self.update_csv()
+                self._logger.debug("CSV updated, about to update image")
                 self.update_image()
                 # DEBUG COMMAND
                 # self._logger.info(self._printer.get_all_print_objects())

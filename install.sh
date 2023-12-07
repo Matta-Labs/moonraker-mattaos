@@ -61,12 +61,12 @@ enabled = true
 printer_ip = localhost
 printer_port = 7125
 [mattaconnect_settings]
-webrtc_stream_url = http://localhost/webrtc/stream
-camera_snapshot_url = http://m01.local/webcam/?action=snapshot
+webrtc_stream_url = http://localhost/webcam/webrtc
+camera_snapshot_url = http://localhost/webcam/snapshot
 flip_webcam_horiztonally = false
 flip_webcam_vertically = false
 rotate_webcam_90CC = false
-auth_token = < paste your auth token here >"
+auth_token = <paste your auth token here>"
 
 color_echo "Creating the moonraker-mattaconnect.cfg file..."
 echo "$CONFIG_CONTENT" > "$CONFIG_FILE"
