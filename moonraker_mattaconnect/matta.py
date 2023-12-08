@@ -282,6 +282,36 @@ class MattaCore:
             )
             status_text = "Error. Please check Klipper's internet connection"
         return success, status_text
+    
+    def take_snapshot(self, url):
+        """
+        Takes a snapshot of the current print job.
+
+        Args:
+            url (str): The URL to send the snapshot to.
+
+        Returns:
+            Image: The snapshot image.
+        """
+        success = False
+        image = None
+        status_text = "Oh no! An unknown error occurred."
+        if url == "":
+            status_text = "Please add snapshot URL to the moonraker-mattaconnect.conf file."
+            return success, status_text, image
+        try:
+            resp = requests.get(url, stream=True)  # Add a timeout
+        except requests.exceptions.RequestException as e:
+            self._logger.debug("Error when sending request: %s", e)
+            status_text = "Error when sending request: " + str(e)
+            return success, status_text, image
+        if resp.status_code == 200:
+            success = True
+            image = resp.content
+            status_text = "Image captured successfully."
+        else:
+            status_text = "Error: received status code " + str(resp.status_code)
+        return success, status_text, image
 
     def websocket_thread_loop(self):
         """

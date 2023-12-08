@@ -186,13 +186,14 @@ def cherry_pick_cmds(self, terminal_commands):
     self._logger.debug(f"cherry_picked_cmds: {cherry_picked_cmds}")
     return cherry_picked_cmds
 
-def get_auth_token(self):
-    """
-    Gets the auth token from the config file
-    """
-    with open(self.settings_path, "r") as file:
-        data = json.load(file)
-        return data["authToken"]
+## Outdated, now gotten from .conf
+# def get_auth_token(self):
+#     """
+#     Gets the auth token from the config file
+#     """
+#     with open(self.settings_path, "r") as file:
+#         data = json.load(file)
+#         return data["authToken"]
 
 
 

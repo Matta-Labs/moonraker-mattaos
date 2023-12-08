@@ -1,6 +1,7 @@
 import flask
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import requests
+import base64
 from configparser import ConfigParser
 import time
 import threading
@@ -10,7 +11,7 @@ import json
 
 from moonraker_mattaconnect.matta import MattaCore # TODO not sure if this format is right?
 from moonraker_mattaconnect.printer import MattaPrinter
-from moonraker_mattaconnect.utils import init_sentry, update_auth_token, get_auth_token
+from moonraker_mattaconnect.utils import init_sentry, update_auth_token
 
 #---------------------------------------------------
 # Set-up
@@ -31,9 +32,9 @@ class MattaConnectPlugin():
 
     def __init__(self):
         # Logging
-        self.logger = setup_logging("moonraker-mattaconnect", LOG_FILE_PATH)
-        self.logger_ws = setup_logging("moonraker-mattaconnect-ws", WS_LOG_FILE_PATH)
-        self.logger_cmd = setup_logging("moonraker-mattaconnect-cmd", CMD_LOG_FILE_PATH)
+        self._logger = setup_logging("moonraker-mattaconnect", LOG_FILE_PATH)
+        self._logger_ws = setup_logging("moonraker-mattaconnect-ws", WS_LOG_FILE_PATH)
+        self._logger_cmd = setup_logging("moonraker-mattaconnect-cmd", CMD_LOG_FILE_PATH)
         # Config 
         self.config = ConfigParser()
         self.config.read(CONFIG_FILE_PATH)
@@ -43,24 +44,23 @@ class MattaConnectPlugin():
         # TODO make this a function instead of this long string of text
         self.MOONRAKER_API_URL = f"http://{self.config.get('moonraker_control', 'printer_ip')}:{self.config.get('moonraker_control', 'printer_port')}"
 
-        self.logger.info("---------- Starting MattaConnectPlugin ----------")
+        self._logger.info("---------- Starting MattaConnectPlugin ----------")
         # Logger tests
 
-        self.logger.info("---- Logging Tests ----")
-        self.logger.debug("Debug logging test")
-        self.logger.info("Info logging test")
-        self.logger.warning("Warning logging test")
-        self.logger.error("Error logging test")
-        self.logger.info("-----------------------")
+        self._logger.info("---- Logging Tests ----")
+        self._logger.debug("Debug logging test")
+        self._logger.info("Info logging test")
+        self._logger.warning("Warning logging test")
+        self._logger.error("Error logging test")
+        self._logger.info("-----------------------")
 
         # Default settings
         self.settings_path = "moonraker_mattaconnect/settings/settings.json"
-        # self.auth_token = get_auth_token(self)
         self.auth_token = self.config.get('mattaconnect_settings', 'auth_token')
         self.snapshot_url = self.config.get('mattaconnect_settings', 'camera_snapshot_url')
         self.default_z_offset = 0.0
-        self.nozzle_tip_coords_x = 10.0
-        self.nozzle_tip_coords_y = 10.0
+        self.nozzle_tip_coords_x = self.config.get('mattaconnect_settings', 'nozzle_tip_coords_x')
+        self.nozzle_tip_coords_y = self.config.get('mattaconnect_settings', 'nozzle_tip_coords_y')
         self.webrtc_url = self.config.get('mattaconnect_settings', 'webrtc_stream_url')
         self.live_upload = False
         self.flip_h = self.config.getboolean('mattaconnect_settings', 'flip_webcam_horiztonally')
@@ -72,8 +72,8 @@ class MattaConnectPlugin():
         # ------------- START PROCESS ---------------
 
         # init_sentry("TEMP_KLIPPER_VERSION_PLACEHOLDER")
-        self.matta_os = MattaCore(self.logger, self.logger_ws, self.logger_cmd, self._settings, self.MOONRAKER_API_URL)
-        self.logger.info("Matta class" + str(self.matta_os))
+        self.matta_os = MattaCore(self._logger, self._logger_ws, self._logger_cmd, self._settings, self.MOONRAKER_API_URL)
+        self._logger.info("Matta class" + str(self.matta_os))
         self.setup_routes()
         self.flask_thread = threading.Thread(target=self.start_flask)
         self.flask_thread.setDaemon(True)
@@ -82,7 +82,7 @@ class MattaConnectPlugin():
 
         while True:
             time.sleep(30)
-            self.logger.info("MattaConnect is running")
+            self._logger.info("MattaConnect is running")
 
     def get_settings_defaults(self):
         """Returns the plugin's default and configured settings"""
@@ -108,11 +108,11 @@ class MattaConnectPlugin():
     #     flask_thread.start()
 
     #     # init_sentry("TEMP_KLIPPER_VERSION_PLACEHOLDER")
-    #     self.matta_os = MattaCore(self.logger, self.logger_ws, self._settings, self.MOONRAKER_API_URL)
+    #     self.matta_os = MattaCore(self._logger, self._logger_ws, self._settings, self.MOONRAKER_API_URL)
 
     #     # Temp loop to trap the service.
     #     # while True:
-    #     #     self.logger.info("MattaConnect is running")
+    #     #     self._logger.info("MattaConnect is running")
     #     #     time.sleep(30)
 
 
@@ -189,7 +189,7 @@ class MattaConnectPlugin():
         try:
             self.matta_os._printer.parse_line_for_updates(line)
         except AttributeError:
-            self.matta_os._printer = MattaPrinter(self.logger, self.logger_cmd, self.MOONRAKER_API_URL)
+            self.matta_os._printer = MattaPrinter(self._logger, self._logger_cmd, self.MOONRAKER_API_URL)
 
         if "UPDATED" in line:
             self.executed_update = True
@@ -244,7 +244,7 @@ class MattaConnectPlugin():
                 elif "plugin:matta_os" in tags or "api:printer.command" in tags:
                     self.matta_os.terminal_cmds.append(cmd)
         except Exception as e:
-            self.logger.error(e)
+            self._logger.error(e)
         return cmd
 
 
@@ -256,27 +256,38 @@ class MattaConnectPlugin():
     def setup_routes(self):
         @self.app.route('/')
         def index():
-            self.logger.debug("Index request.")
+            self._logger.debug("Index request.")
             return render_template('index.html')
         
         @self.app.route('/api/home_printer', methods=['POST'])
         def home_printer():
-            self.logger.info("Homing Printer.")
+            self._logger.info("Homing Printer.")
             response = self.matta_os._printer.home()
-            # self.logger.debug(response)
+            # self._logger.debug(response)
             return str(response), 200
 
         @self.app.route('/api/get_printer_state', methods=['GET'])
         def get_printer_state():
-            self.logger.info("Getting printer state.")
+            self._logger.info("Getting printer state.")
             response = self.matta_os._printer.get_printer_state_object()
-            self.logger.debug(response)
+            self._logger.debug(response)
             return response["text"], 200
 
         @self.app.route('/api/get_temps', methods=['GET'])
         def get_temps():
             temps = self.matta_os._printer.get_printer_temp_object()
             return temps, 200
+        
+        @self.app.route('/api/get_snapshot', methods=['GET'])
+        def get_snapshot():
+            success, status_text, image = self.matta_os.take_snapshot(self._settings["snapshot_url"])
+            if image is not None:
+                # Convert the image to base64
+                image_base64 = base64.b64encode(image).decode("utf-8")
+            else:
+                image_base64 = None
+                self._logger.info("No image returned")
+            return flask.jsonify({"success": success, "text": status_text, "image": image_base64})
 
         @self.app.route('/api/test_auth_token', methods=['GET'])
         def test_auth_token():
@@ -286,44 +297,55 @@ class MattaConnectPlugin():
             #     success, status_text = self.matta_os.test_auth_token(token=auth_token)
             #     return flask.jsonify({"success": success, "text": status_text})
             try:
-                self.logger.info("Testing auth_token.")
+                self._logger.info("Testing auth_token.")
                 success, status_text = self.matta_os.test_auth_token(token=self._settings["auth_token"])
-                self.logger.debug(success, status_text)
+                self._logger.debug(success, status_text)
 
                 if success:
-                    self.logger.debug(f"Success: {status_text}")
-                    self.logger.debug(f"Success_code: {success}")   
+                    self._logger.debug(f"Success: {status_text}")
+                    self._logger.debug(f"Success_code: {success}")   
                 else:
-                    self.logger.error(f"Error testing auth_token. Success: {success}, Text: {status_text}")
+                    self._logger.error(f"Error testing auth_token. Success: {success}, Text: {status_text}")
                 return status_text, 200
                 # success: bool; status_text: eg "All is tickety boo! Your token is valid."
             except Exception as e:
-                self.logger.error(e)
+                self._logger.error(e)
                 return status_text, 400
+            
         @self.app.route('/api/save_values', methods=['POST'])
         def save_values():
-            data = flask.request.get_json()
-            with open(self.settings_path, "w") as file:
-                json.dump(data, file)
-            update_auth_token(self, self._settings)
-            return "OK", 200
+            data = request.get_json()
+            nozzleX = data.get('nozzleX')
+            nozzleY = data.get('nozzleY')
+
+            # Save the coordinates to the settings
+            self._settings['nozzle_tip_coords_x'] = nozzleX
+            self._settings['nozzle_tip_coords_y'] = nozzleY
+            
+            self.config.set('mattaconnect_settings', 'nozzle_tip_coords_x', str(nozzleX))
+            self.config.set('mattaconnect_settings', 'nozzle_tip_coords_y', str(nozzleY))
+            
+            with open(CONFIG_FILE_PATH, 'w') as configfile:
+                self.config.write(configfile)
+
+            return 'Coordinates saved', 200
 
         @self.app.route('/api/get_values', methods=['GET'])
         def get_values():
             # with open(self.settings_path, "r") as file:
-            #     self.logger.debug("Getting values from settings.json")
+            #     self._logger.debug("Getting values from settings.json")
             #     data = json.load(file)
 
-            self.logger.debug(self._settings)
+            self._logger.debug(self._settings)
             return self._settings, 200
 
 
     def start_flask(self):
-        self.logger.info("Starting Flask server...")
+        self._logger.info("Starting Flask server...")
         self.app.run(host='0.0.0.0', port=5001)
         while True:
             time.sleep(30)
-            self.logger.info("Flask server is running")
+            self._logger.info("Flask server is running")
 
 
 if __name__ == '__main__':

@@ -1,22 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Moonraker Control Plugin</title>
+    <title>Moonraker-MattaOS Nozzle Finder</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <script>
+        var snapshotUrl = "{{ snapshot_url }}";
+    </script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans&display=swap" />
+    
 </head>
 <body>
     <div class="container">
-        <h1>Moonraker Control Plugin</h1>
-        <!-- single line text box-->
+        <div style="display: flex; align-items: center;">
+            <img class="emblem" src="https://matta-os.fra1.cdn.digitaloceanspaces.com/site-assets/Emblem_Black.svg" width="32px">
+            <h1>Moonraker-MattaOS Plugin</h1>
+        </div>
+        <h2>Nozzle Finder</h2>
+        <p>
+            1. Click Snap to get a snapshot from your Printer's camera.
+            <br/>
+            2. Click on the nozzle tip to show Grey-1 where to look! 
+            <br/>
+            3. Click Save and close the tab.
+        </p>
+        <div>
+            <button class="snap-button" id="snapBtn">Snap</button>
+        </div>
+        <div class="camPreviewContainerWrapper" id="camPreviewContainerWrapper">
+            <div class="camPreviewContainer" id="camPreviewContainer">
+                <img class="camPreview" id="camPreview" src="https://matta-os.fra1.cdn.digitaloceanspaces.com/site-assets/placeholder.png" alt="Camera Preview">
+                <div id="crosshair" class="crosshair"></div>
+            </div>
+        </div>
+        <div class = "coordinates-box">
+            <p>
+                Coordinates:
+                <span id="nozzle_tip_coords_x" value="nozzle_tip_coords_x" data-bind="nozzle_tip_coords_x">X Coordinates</span>,
+                <span id="nozzle_tip_coords_y" value="nozzle_tip_coords_y" data-bind="nozzle_tip_coords_y">Y Coordinates</span>
+            </p>
+        </div>    
+        <div>
+            <button class="save-button" id="saveAllBtn">Save</button>
+        </div>
+        
+        
+        <!-- single line text box
         <input type="text" id="authToken" name="auth token" placeholder=""> <br>
         <button id="testAuthTokenButton">Connect</button> <br>
         <textarea id="terminalCmds" rows="20" cols="100"></textarea> <br>
         <button id="saveAllBtn">Save</button>
         <button id="homePrinterButton">Home Printer</button>
         <button id="getPrinterStateButton">Get Printer State</button>
-        <button id="getTempsButton">Get Temperatures</button>
+        <button id="getTempsButton">Get Temperatures</button> -->
 
         <div id="resultContainer"></div>
 
