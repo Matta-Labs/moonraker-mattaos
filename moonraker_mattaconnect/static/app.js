@@ -10,11 +10,26 @@ const IMAGE_PLACEHOLDER = "https://matta-os.fra1.cdn.digitaloceanspaces.com/site
 //---------------------------------------------------
 
 function setXY(event) {
+    $.get("/api/get_settings", function(data) {
         let rect = camPreview.getBoundingClientRect();
+        rotate = data['rotate'];
+
+        if (rotate == true) {
+            let aspectRatio = camPreview.offsetHeight / camPreview.offsetWidth;
+            const CAM_PREVIEW_WIDTH = camPreview.offsetWidth;
+            let width = CAM_PREVIEW_WIDTH;
+            let height = CAM_PREVIEW_WIDTH * aspectRatio;
+            let difference = Math.abs(width - height) / 2;
+            let x = event.clientX - rect.left + difference;
+            let y = event.clientY - rect.top;
+            self.updateCrosshairPosition(x, y);
+            return
+        }
         let x = event.clientX - rect.left;
         let y = event.clientY - rect.top;
         self.updateCrosshairPosition(x, y);
-    };
+    });
+};
 
 self.updateCrosshairPosition = (x, y) => {
     crosshair.style.left = x + 'px';
@@ -29,8 +44,19 @@ self.calculateAndUpdateNozzleCoords = (x, y) => {
 
     let clientWidth = camPreview.clientWidth;
     let clientHeight = camPreview.clientHeight;
+
+    let nozzleX;
     
-    let nozzleX = parseInt(x / clientWidth * naturalWidth);
+    if (rotate == true) {
+        let aspectRatio = camPreview.offsetHeight / camPreview.offsetWidth;
+        const CAM_PREVIEW_WIDTH = camPreview.offsetWidth;
+        let width = CAM_PREVIEW_WIDTH;
+        let height = CAM_PREVIEW_WIDTH * aspectRatio;
+        let difference = Math.abs(width - height) / 2;
+        nozzleX = parseInt((x - difference) / clientWidth * naturalWidth);
+    } else {
+        nozzleX = parseInt(x / clientWidth * naturalWidth);
+    }
     let nozzleY = parseInt(y / clientHeight * naturalHeight);
 
     nozzle_tip_coords_x.textContent = nozzleX;
@@ -108,8 +134,6 @@ $(document).ready(function() {
                 if (rotate == true) {
 
                     transform += 'rotate(-90deg)';
-                    // get the width and height of the parent container
-                    // camPreview.style.height = "auto";
                     let camPreview = document.getElementById('camPreview');
                     camPreview.src = 'data:image/jpeg;base64,' + image;
                     camPreview.onload = function() {
