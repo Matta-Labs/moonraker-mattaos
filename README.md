@@ -24,6 +24,8 @@ Matta is working towards building full AI-powered closed-loop control of 3D prin
 
 ## 🚀 Plugin Installation
     
+Before installing, please ensure you have <a href="https://github.com/Arksine/moonraker">Moonraker</a>, the Python 3 based web server for communcation with Klipper, installed on your Pi. Moonraker comes pre-installed with both the MainsailOS and Fluidd Raspberry Pi images. If you do not have Moonraker installed, you can find the installation guide <a href="https://moonraker.readthedocs.io/en/latest/installation/">here</a>.
+
 There are number of ways to install, please see below:
 
 <details>
