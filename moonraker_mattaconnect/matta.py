@@ -36,9 +36,7 @@ class MattaCore:
         self.ws_loop_time = 5
         self.terminal_cmds = []
         # get OS type (linux, windows, mac)
-        self.os = "linux" # TODO remove force OS type
-        # get OctoPrint version
-        self.klipper_version = "TEMP_KLIIPPER_VERSION_STRING" # TODO change this
+        self.os = "Linux" # TODO remove force OS type
 
 
         # ---------------------------------------------------------
@@ -216,7 +214,7 @@ class MattaCore:
             "files": self._printer.get_and_refactor_files()["files"], # None, # self._file_manager.list_files(recursive=True), # TODO no file manager
             "terminal_cmds": self.terminal_cmds,
             "system": {
-                "version": self.klipper_version,
+                "version": self._printer.get_klipper_version(),
                 "os": self.os,
                 "memory": get_current_memory_usage(self.os),
             },

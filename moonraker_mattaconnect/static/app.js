@@ -106,7 +106,7 @@ $(document).ready(function() {
                     transform += 'scaleY(-1) ';
                 }
                 if (rotate == true) {
-                    console.log("rotate");
+
                     transform += 'rotate(-90deg)';
                     // get the width and height of the parent container
                     // camPreview.style.height = "auto";
@@ -131,11 +131,9 @@ $(document).ready(function() {
                         $('#camPreview').css('transform', transform);
                     }
                 } else {
-                    console.log("nope");
                     let camPreview = document.getElementById('camPreview');
                     camPreview.src = 'data:image/jpeg;base64,' + image;
                     camPreview.onload = function() {
-                        console.log("Not rotating");
                         let aspectRatio = camPreview.offsetHeight / camPreview.offsetWidth;
                         let width = CAM_PREVIEW_WIDTH;
                         let height = CAM_PREVIEW_WIDTH * aspectRatio;
@@ -151,49 +149,7 @@ $(document).ready(function() {
                     }
 
                 }
-                
-                
-
-                    // if (rotate == true) {
-                    //     const camPreviewContainer = document.getElementById('camPreviewContainer');
-                    //     let parentWidth = camPreviewContainer.offsetWidth;
-                    //     let parentHeight = camPreviewContainer.offsetHeight;
-                    //     const camPreview = document.getElementById('camPreview');
-                    //     console.log("parentWidth: " + parentWidth);
-                    //     console.log("parentHeight: " + parentHeight);
-                    //     camPreview.style.height = parentWidth + "px";
-                    //     camPreview.style.width =  parentWidth * aspectRatio + "px";
-                    //     camPreviewContainer.style.height = parentWidth * aspectRatio + "px";
-                    //     camPreviewContainer.style.width = parentWidth + "px";
-                    // }
             });
-    
-            // camPreview.onload = function(rotate) {
-
-            //     let aspectRatio = camPreview.offsetHeight / camPreview.offsetWidth;
-            //     let width = CAM_PREVIEW_WIDTH;
-            //     let height = CAM_PREVIEW_WIDTH * aspectRatio;
-
-            //     // If the image is rotated, swap its width and height
-            //     if (rotate == true) {
-            //         console.log("Swapping width and height")
-            //         camPreviewContainer.style.width = width + "px";
-            //         camPreviewContainer.style.height = height + "px";
-            //         camPreview.style.width = width + "px";
-            //         camPreview.style.height = height + "px";
-            //         camPreview.style.maxWidth = width + "px";
-            //         camPreview.style.maxHeight = height + "px";
-            //     } else {
-            //         camPreviewContainer.style.width = width + "px";
-            //         camPreviewContainer.style.height = width + "px";
-            //         camPreviewContainer.style.marginBottom = "36px";
-            //         camPreviewContainer.style.backgroundColor = "black";
-            //         camPreview.style.width = width + "px";
-            //         camPreview.style.height = height + "px";
-            //         camPreview.style.maxWidth = width + "px";
-            //         camPreview.style.maxHeight = height + "px";
-            //     }
-            // }
         });
     });
 });

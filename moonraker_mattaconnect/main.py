@@ -71,7 +71,6 @@ class MattaConnectPlugin():
 
         # ------------- START PROCESS ---------------
 
-        # init_sentry("TEMP_KLIPPER_VERSION_PLACEHOLDER")
         self.matta_os = MattaCore(self._logger, self._logger_ws, self._logger_cmd, self._settings, self.MOONRAKER_API_URL)
         self._logger.info("Matta class" + str(self.matta_os))
         self.setup_routes()

@@ -89,6 +89,12 @@ class MattaPrinter:
     #             print(f"POST request error: {e}")
     #             return None
     # contains ["text"] and ["flags"] (a bool for each flag)
+
+    # def get_printer_info(self):
+    #     content = self.get("/api/printer")
+    #     self._logger.info(content["info"])
+    #     return content["info"]
+
     def get_printer_state_object(self):
         content = self.get("/api/printer")
         if self.cancelling == True:
@@ -98,6 +104,10 @@ class MattaPrinter:
         # self._logger.debug(f"Printer is: {state}")
 
         return content["state"]
+    
+    def get_klipper_version(self):
+        content = self.get("/printer/info")
+        return content["result"]["software_version"]
     
     # contains ["bed"] and ["tool0"], each with ["actual"], ["offset"], ["target"]
     def get_printer_temp_object(self):
@@ -239,7 +249,7 @@ class MattaPrinter:
         self._logger.info(f"Jog command: {command}")
         response = self.post(endpoint, json={"script": command})
         self._logger.info(f"Jog response: {response}")
-        return respons
+        return response
 
     def set_temperature(self, heater, value):
         """
@@ -504,6 +514,7 @@ class MattaPrinter:
         # progress[printTimeLeft] = job[total_duration] - job[print_duration]
         self._logger.info("Started job data parsing")
         printer_data["state"] = self.get_printer_state_object()
+        # printer_data["info"] = self.get_printer_info()
         self._logger.info("Print stats: ", job_data["status"]["print_stats"])
         filename = job_data["status"]["print_stats"]["filename"]
         is_active = job_data["status"]["virtual_sdcard"]["is_active"]
@@ -533,6 +544,7 @@ class MattaPrinter:
             "transmitted":0,
             "ratio":0
         }
+        # printer_data["info"] = self.get_printer_info()
         data = {
             "state": printer_data["state"]['text'],
             "temperature_data": self.get_printer_temp_object(),
