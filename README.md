@@ -33,36 +33,36 @@ There are number of ways to install, please see below:
   First, clone this repository onto your computer, then:
 
   ```bash
-  cd moonraker-mattaconnect
-  scp -r "../moonraker-mattaconnect" "<piusername@pihostname>:~/moonraker-mattaconnect"
-  rsync -avh "../moonraker-mattaconnect/." "<piusername@pihostname>:~/moonraker-mattaconnect/."
+  cd moonraker-mattaos
+  scp -r "../moonraker-mattaos" "<piusername@pihostname>:~/moonraker-mattaos"
+  rsync -avh "../moonraker-mattaos/." "<piusername@pihostname>:~/moonraker-mattaos/."
   ```
 
   SSH into your Pi, then install the plugin with the `install.sh` script:
 
   ```bash
-  cd ~/moonraker-mattaconnect
+  cd ~/moonraker-mattaos
   ./install.sh
   ```
 
   Check the plugin is running with:
   ```shell
-  sudo systemctl status moonraker-mattaconnect
+  sudo systemctl status moonraker-mattaos
   ```
 
   If not, start it manually with:
   ```shell
-  sudo systemctl enable moonraker-mattaconnect        
+  sudo systemctl enable moonraker-mattaos        
   sudo systemctl daemon-reload
-  sudo systemctl start moonraker-mattaconnect  
-  sudo systemctl status moonraker-mattaconnect 
+  sudo systemctl start moonraker-mattaos  
+  sudo systemctl status moonraker-mattaos 
   ```
 
   ✨ Thats it! Now the MattaOS plugin should be installed.
 
   To uninstall, use the `uninstall.sh` script:
   ```bash
-  cd ~/moonraker-mattaconnect
+  cd ~/moonraker-mattaos
   ./uninstall.sh
   ```
 
@@ -81,32 +81,32 @@ ssh username@hostname.local
 *Note: the default password for Pis is `raspberry` it should probably be changed if it is still the password.*
 
 ```shell
-git clone git@github.com:Matta-Labs/moonraker-mattaconnect.git
+git clone git@github.com:Matta-Labs/moonraker-mattaos.git
 ```
 
 ```shell
-cd ~/moonraker-mattaconnect
+cd ~/moonraker-mattaos
 bash install.sh
 ```
 
 Check the plugin is running with:
 ```shell
-sudo systemctl status moonraker-mattaconnect
+sudo systemctl status moonraker-mattaos
 ```
 
 If not, start it manually with:
 ```shell
-sudo systemctl enable moonraker-mattaconnect        
+sudo systemctl enable moonraker-mattaos        
 sudo systemctl daemon-reload
-sudo systemctl start moonraker-mattaconnect  
-sudo systemctl status moonraker-mattaconnect 
+sudo systemctl start moonraker-mattaos  
+sudo systemctl status moonraker-mattaos 
 ```
 
 ✨ Thats it! Now the MattaOS plugin should be installed.
 
 To uninstall, use the `uninstall.sh` script:
 ```bash
-cd ~/moonraker-mattaconnect
+cd ~/moonraker-mattaos
 ./uninstall.sh
 ```
 </details>
@@ -125,19 +125,19 @@ Also please feel free to contribute your own nozzle camera designs to the repo!
 
 First sign-up for a free Matta account at <a>https://os.matta.ai</a>, then configure plugin settings to get started!
 
-Create a new machine in MattaOS, copy the generated Authorisation token, then add this to the ```moonraker-mattaconnect.conf``` file in your Pi, or using the helpful Mainsail config file editor. Then reboot your Pi with ```sudo reboot```, or the restart the plugin using the power options in Mainsail.
+Create a new machine in MattaOS, copy the generated Authorisation token, then add this to the ```moonraker-mattaos.cfg``` file in your Pi, or using the helpful Mainsail config file editor. Then reboot your Pi with ```sudo reboot```, or the restart the plugin using the power options in Mainsail.
 
 <br/>
-<div align="center"><img src="https://matta-os.fra1.cdn.digitaloceanspaces.com/site-assets/MattaOSSetupCrop.gif" width=650 /><p>Machine setup and plugin configuration workflow</p></div>
+<div align="center"><img src="https://matta-os.fra1.cdn.digitaloceanspaces.com/site-assets/KlipperPluginSetup.gif" width=650 /><p>Machine setup and plugin configuration workflow</p></div>
 <br/>
 
 Next go to ```http://<hostname>:5001``` and follow the instructions to locate your extruder nozzle tip.
 
 <br/>
-<div align="center"><img src="https://matta-os.fra1.cdn.digitaloceanspaces.com/site-assets/MattaOSSetupCrop.gif" width=650 /><p>Machine setup and plugin configuration workflow</p></div>
+<div align="center"><img src="https://matta-os.fra1.cdn.digitaloceanspaces.com/site-assets/KlipperSnap.gif" width=650 /><p>Machine setup and plugin configuration workflow</p></div>
 <br/>
 
-In ```moonraker-mattaconnect.conf``` there are a few variables which need to be configured for use:
+In ```moonraker-mattaos.conf``` there are a few variables which need to be configured for use:
 
 <h3>Mandatory configuration variables</h3>
 <details>
@@ -146,7 +146,7 @@ In ```moonraker-mattaconnect.conf``` there are a few variables which need to be 
 
 1. Create a printer in MattaOS.
 2. Copy the Authorisation token from the new printer's setup page.
-3. Paste this into the ```authorization_token``` variable in ```moonraker-mattaconnect.conf```
+3. Paste this into the ```authorization_token``` variable in ```moonraker-mattaos.conf```
 4. Restart the plugin or reboot your Pi to connect!
 
 <br/>
@@ -223,6 +223,6 @@ At <a href="https://matta.ai"><strong>Matta</strong></a>, we are building AI to 
 
 Team Matta - [@mattalabs](https://twitter.com/mattalabs) - hello@matta.ai
 
-Project Link: [https://github.com/Matta-Labs/moonraker-mattaconnect](https://github.com/Matta-Labs/moonraker-mattaconnect)
+Project Link: [https://github.com/Matta-Labs/moonraker-mattaos](https://github.com/Matta-Labs/moonraker-mattaos)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
