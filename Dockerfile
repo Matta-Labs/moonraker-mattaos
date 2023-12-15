@@ -1,8 +1,8 @@
 # To run the plugin in a Docker image, run the following commands:
-# docker build -t mattaconnect .
-# docker run -it --rm --workdir /home/pi mattaconnect bash
+# docker build -t mattaos .
+# docker run -it --rm --workdir /home/pi mattaos bash
 
-# Windows dev: docker run -it --rm -p 5001:5001 -v "C:\matta\moonraker-mattaconnect-internal:/home/pi/moonraker-mattaconnect" -w /home/pi mattaconnect
+# Windows dev: docker run -it --rm -p 5001:5001 -v "C:\matta\moonraker-mattaos-internal:/home/pi/moonraker-mattaos" -w /home/pi mattaos
 
 FROM python:3.10-slim-bullseye AS runner
 
@@ -21,7 +21,7 @@ RUN mkdir -p printer_data/logs \
              printer_data/config \
              printer_data/gcodes
 
-COPY .. moonraker-mattaconnect/
+COPY .. moonraker-mattaos/
 
 RUN useradd -ms /bin/bash pi
 

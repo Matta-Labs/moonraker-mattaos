@@ -11,20 +11,20 @@ function color_echo {
     echo -e "${BLUE}${message}${NC}"
 }
 
-color_echo "Uninstalling moonraker-mattaconnect..."
+color_echo "Uninstalling moonraker-mattaos..."
 
 # Removing service
-sudo systemctl stop moonraker-mattaconnect
-sudo systemctl disable moonraker-mattaconnect
-sudo rm "/etc/systemd/system/moonraker-mattaconnect.service"
+sudo systemctl stop moonraker-mattaos
+sudo systemctl disable moonraker-mattaos
+sudo rm "/etc/systemd/system/moonraker-mattaos.service"
 sudo systemctl daemon-reload
 
 # Removing all files and directories
-sudo rm ~/printer_data/logs/moonraker-mattaconnect.log
-sudo rm ~/printer_data/config/moonraker-mattaconnect.cfg
-sudo rm -rf ~/moonraker-mattaconnect
-sudo rm -rf ~/moonraker-mattaconnect-internal # TODO remove after moving to real repo
-sudo rm -rf ~/moonraker-mattaconnect-env
+sudo rm ~/printer_data/logs/moonraker-mattaos.log
+sudo rm ~/printer_data/config/moonraker-mattaos.cfg
+sudo rm -rf ~/moonraker-mattaos
+sudo rm -rf ~/moonraker-mattaos-internal # TODO remove after moving to real repo
+sudo rm -rf ~/moonraker-mattaos-env
 
 color_echo "Uninstallation complete"
 color_echo "Run 'sudo systemctl restart moonraker' to remove cache from GUI"

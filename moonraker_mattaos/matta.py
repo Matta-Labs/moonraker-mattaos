@@ -7,7 +7,7 @@ import concurrent.futures
 # from octoprint.util.platform import get_os
 # from octoprint.util.version import get_octoprint_version_string
 
-from moonraker_mattaconnect.utils import (
+from moonraker_mattaos.utils import (
     cherry_pick_cmds,
     inject_auth_key,
     make_timestamp,
@@ -17,9 +17,9 @@ from moonraker_mattaconnect.utils import (
     generate_auth_headers,
 )
 
-from moonraker_mattaconnect.data import DataEngine
-from moonraker_mattaconnect.printer import MattaPrinter
-from moonraker_mattaconnect.ws import Socket
+from moonraker_mattaos.data import DataEngine
+from moonraker_mattaos.printer import MattaPrinter
+from moonraker_mattaos.ws import Socket
 
 class MattaCore:
     def __init__(self, logger, logger_ws, logger_cmd, settings, MOONRAKER_API_URL):
@@ -40,7 +40,7 @@ class MattaCore:
 
         # ---------------------------------------------------------
 
-        self._logger.debug("Starting MattaConnect Plugin...")
+        self._logger.debug("Starting mattaos Plugin...")
 
         # Start printer
         self._printer = MattaPrinter(self._logger, self._logger_cmd, self.MOONRAKER_API_URL, settings)
@@ -294,7 +294,7 @@ class MattaCore:
         image = None
         status_text = "Oh no! An unknown error occurred."
         if url == "":
-            status_text = "Please add snapshot URL to the moonraker-mattaconnect.conf file."
+            status_text = "Please add snapshot URL to the moonraker-mattaos.conf file."
             return success, status_text, image
         try:
             resp = requests.get(url, stream=True)  # Add a timeout

@@ -10,7 +10,7 @@ from sys import platform
 MATTA_OS_ENDPOINT = "https://os.matta.ai/"
 # MATTA_OS_ENDPOINT = "http://192.168.68.104"
 
-MATTA_TMP_DATA_DIR = os.path.join(os.path.expanduser("~"), ".matta", "moonraker-mattaconnect")
+MATTA_TMP_DATA_DIR = os.path.join(os.path.expanduser("~"), ".matta", "moonraker-mattaos")
 
 SAMPLING_TIMEOUT = 1.25  # sample every 1.25 seconds
 
@@ -304,5 +304,5 @@ def inject_auth_key(webrtc_data, json_msg, logger):
     """
     if "auth_key" in json_msg:
         webrtc_data["webrtc_data"]["auth_key"] = json_msg["auth_key"]
-        logger.debug("MattaConnect plugin - injected auth key into webrtc data.", json_msg["auth_key"])
+        logger.debug("mattaos plugin - injected auth key into webrtc data.", json_msg["auth_key"])
     return webrtc_data

@@ -9,32 +9,32 @@ import os
 from logger import setup_logging
 import json
 
-from moonraker_mattaconnect.matta import MattaCore # TODO not sure if this format is right?
-from moonraker_mattaconnect.printer import MattaPrinter
-from moonraker_mattaconnect.utils import init_sentry, update_auth_token
+from moonraker_mattaos.matta import MattaCore # TODO not sure if this format is right?
+from moonraker_mattaos.printer import MattaPrinter
+from moonraker_mattaos.utils import init_sentry, update_auth_token
 
 #---------------------------------------------------
 # Set-up
 #---------------------------------------------------
 
 # TODO put them in utils later
-LOG_FILE_PATH = os.path.expanduser('~/printer_data/logs/moonraker-mattaconnect.log')
-WS_LOG_FILE_PATH = os.path.expanduser('~/printer_data/logs/moonraker-mattaconnect-ws.log')
-CMD_LOG_FILE_PATH = os.path.expanduser('~/printer_data/logs/moonraker-mattaconnect-cmd.log')
+LOG_FILE_PATH = os.path.expanduser('~/printer_data/logs/moonraker-mattaos.log')
+WS_LOG_FILE_PATH = os.path.expanduser('~/printer_data/logs/moonraker-mattaos-ws.log')
+CMD_LOG_FILE_PATH = os.path.expanduser('~/printer_data/logs/moonraker-mattaos-cmd.log')
 
-CONFIG_FILE_PATH = os.path.expanduser('~/printer_data/config/moonraker-mattaconnect.cfg')
+CONFIG_FILE_PATH = os.path.expanduser('~/printer_data/config/moonraker-mattaos.cfg')
 
 
 #---------------------------------------------------
-# MattaConnectPlugin
+# mattaosPlugin
 #---------------------------------------------------
-class MattaConnectPlugin():
+class mattaosPlugin():
 
     def __init__(self):
         # Logging
-        self._logger = setup_logging("moonraker-mattaconnect", LOG_FILE_PATH)
-        self._logger_ws = setup_logging("moonraker-mattaconnect-ws", WS_LOG_FILE_PATH)
-        self._logger_cmd = setup_logging("moonraker-mattaconnect-cmd", CMD_LOG_FILE_PATH)
+        self._logger = setup_logging("moonraker-mattaos", LOG_FILE_PATH)
+        self._logger_ws = setup_logging("moonraker-mattaos-ws", WS_LOG_FILE_PATH)
+        self._logger_cmd = setup_logging("moonraker-mattaos-cmd", CMD_LOG_FILE_PATH)
         # Config 
         self.config = ConfigParser()
         self.config.read(CONFIG_FILE_PATH)
@@ -44,7 +44,7 @@ class MattaConnectPlugin():
         # TODO make this a function instead of this long string of text
         self.MOONRAKER_API_URL = f"http://{self.config.get('moonraker_control', 'printer_ip')}:{self.config.get('moonraker_control', 'printer_port')}"
 
-        self._logger.info("---------- Starting MattaConnectPlugin ----------")
+        self._logger.info("---------- Starting mattaosPlugin ----------")
         # Logger tests
 
         self._logger.info("---- Logging Tests ----")
@@ -55,17 +55,17 @@ class MattaConnectPlugin():
         self._logger.info("-----------------------")
 
         # Default settings
-        self.settings_path = "moonraker_mattaconnect/settings/settings.json"
-        self.auth_token = self.config.get('mattaconnect_settings', 'auth_token')
-        self.snapshot_url = self.config.get('mattaconnect_settings', 'camera_snapshot_url')
+        self.settings_path = "moonraker_mattaos/settings/settings.json"
+        self.auth_token = self.config.get('mattaos_settings', 'auth_token')
+        self.snapshot_url = self.config.get('mattaos_settings', 'camera_snapshot_url')
         self.default_z_offset = 0.0
-        self.nozzle_tip_coords_x = self.config.get('mattaconnect_settings', 'nozzle_tip_coords_x')
-        self.nozzle_tip_coords_y = self.config.get('mattaconnect_settings', 'nozzle_tip_coords_y')
-        self.webrtc_url = self.config.get('mattaconnect_settings', 'webrtc_stream_url')
+        self.nozzle_tip_coords_x = self.config.get('mattaos_settings', 'nozzle_tip_coords_x')
+        self.nozzle_tip_coords_y = self.config.get('mattaos_settings', 'nozzle_tip_coords_y')
+        self.webrtc_url = self.config.get('mattaos_settings', 'webrtc_stream_url')
         self.live_upload = False
-        self.flip_h = self.config.getboolean('mattaconnect_settings', 'flip_webcam_horiztonally')
-        self.flip_v = self.config.getboolean('mattaconnect_settings', 'flip_webcam_vertically')
-        self.rotate = self.config.getboolean('mattaconnect_settings', 'rotate_webcam_90CC')
+        self.flip_h = self.config.getboolean('mattaos_settings', 'flip_webcam_horiztonally')
+        self.flip_v = self.config.getboolean('mattaos_settings', 'flip_webcam_vertically')
+        self.rotate = self.config.getboolean('mattaos_settings', 'rotate_webcam_90CC')
 
         self._settings = self.get_settings_defaults()
 
@@ -81,7 +81,7 @@ class MattaConnectPlugin():
 
         while True:
             time.sleep(30)
-            self._logger.info("MattaConnect is running")
+            self._logger.info("mattaos is running")
 
     def get_settings_defaults(self):
         """Returns the plugin's default and configured settings"""
@@ -111,7 +111,7 @@ class MattaConnectPlugin():
 
     #     # Temp loop to trap the service.
     #     # while True:
-    #     #     self._logger.info("MattaConnect is running")
+    #     #     self._logger.info("mattaos is running")
     #     #     time.sleep(30)
 
 
@@ -287,8 +287,8 @@ class MattaConnectPlugin():
             self._settings['nozzle_tip_coords_x'] = nozzleX
             self._settings['nozzle_tip_coords_y'] = nozzleY
             
-            self.config.set('mattaconnect_settings', 'nozzle_tip_coords_x', str(nozzleX))
-            self.config.set('mattaconnect_settings', 'nozzle_tip_coords_y', str(nozzleY))
+            self.config.set('mattaos_settings', 'nozzle_tip_coords_x', str(nozzleX))
+            self.config.set('mattaos_settings', 'nozzle_tip_coords_y', str(nozzleY))
             
             with open(CONFIG_FILE_PATH, 'w') as configfile:
                 self.config.write(configfile)
@@ -315,4 +315,4 @@ class MattaConnectPlugin():
 
 
 if __name__ == '__main__':
-    plugin = MattaConnectPlugin()
+    plugin = mattaosPlugin()

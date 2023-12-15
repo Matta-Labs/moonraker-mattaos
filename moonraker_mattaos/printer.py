@@ -394,7 +394,7 @@ class MattaPrinter:
             self._logger_cmd.info(cmd)
         return cleaned_cmds
     #---------------------------------------------------
-    # Octoprint-MattaConnect code
+    # Octoprint-mattaos code
     #---------------------------------------------------
 
     def has_job(self):
