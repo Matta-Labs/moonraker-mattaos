@@ -145,34 +145,6 @@ class MattaConnectPlugin():
         """
         return True
 
-    # Gone to Flask!
-    # def on_api_command(self, command, data):
-    #     """
-    #     Handles API commands received from the client.
-
-    #     Args:
-    #         command (str): The API command to be executed.
-    #         data (dict): Additional data associated with the command.
-
-    #     Returns:
-    #         flask.Response: A JSON response containing the result of the command execution.
-    #     """
-    #     if command == "test_auth_token":
-    #         auth_token = data["auth_token"]
-    #         success, status_text = self.matta_os.test_auth_token(token=auth_token)
-    #         return flask.jsonify({"success": success, "text": status_text})
-
-    #     if command == "ws_reconnect":
-    #         self.matta_os.ws_connect()
-    #         if self.matta_os.ws_connected():
-    #             status_text = "Successfully connected to Matta OS."
-    #             success = True
-    #         else:
-    #             status_text = "Failed to connect to Matta OS."
-    #             success = False
-
-    #         return flask.jsonify({"success": success, "text": status_text})
-
     def parse_received_lines(self, comm_instance, line, *args, **kwargs):
         """
         Parse received lines from the printer's communication and update the printer's state accordingly.
@@ -291,11 +263,6 @@ class MattaConnectPlugin():
 
         @self.app.route('/api/test_auth_token', methods=['GET'])
         def test_auth_token():
-            # Originally:
-            # if command == "test_auth_token":
-            #     auth_token = data["auth_token"]
-            #     success, status_text = self.matta_os.test_auth_token(token=auth_token)
-            #     return flask.jsonify({"success": success, "text": status_text})
             try:
                 self._logger.info("Testing auth_token.")
                 success, status_text = self.matta_os.test_auth_token(token=self._settings["auth_token"])
@@ -307,7 +274,6 @@ class MattaConnectPlugin():
                 else:
                     self._logger.error(f"Error testing auth_token. Success: {success}, Text: {status_text}")
                 return status_text, 200
-                # success: bool; status_text: eg "All is tickety boo! Your token is valid."
             except Exception as e:
                 self._logger.error(e)
                 return status_text, 400
@@ -332,12 +298,13 @@ class MattaConnectPlugin():
 
         @self.app.route('/api/get_values', methods=['GET'])
         def get_values():
-            # with open(self.settings_path, "r") as file:
-            #     self._logger.debug("Getting values from settings.json")
-            #     data = json.load(file)
-
-            self._logger.debug(self._settings)
+            self._logger.info(self._settings)
             return self._settings, 200
+        
+        @self.app.route('/api/get_settings', methods=['GET'])
+        def get_settings():
+            return self._settings, 200
+
 
 
     def start_flask(self):

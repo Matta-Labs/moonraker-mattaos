@@ -2,10 +2,8 @@
 // Constants
 //---------------------------------------------------
 
-const CAM_PREVIEW_WIDTH = 400;
+// const CAM_PREVIEW_WIDTH = 400;
 const IMAGE_PLACEHOLDER = "https://matta-os.fra1.cdn.digitaloceanspaces.com/site-assets/placeholder.png"
-
-const camPreviewContainer = document.getElementById('camPreview');
 
 //---------------------------------------------------
 // Crosshair functions
@@ -75,63 +73,129 @@ async function saveXY() {
 };
 
 $(document).ready(function() {
-
-    $("#snapBtn").click(async function() {
-        $.get("/api/get_snapshot", function(data, status) {
-            // Save the current dimensions of the camPreview image
-            let currentWidth = camPreview.offsetWidth;
-            let currentHeight = camPreview.offsetHeight;
     
-            // Set the src of the camPreview image to the new image
-            camPreview.src = 'data:image/jpeg;base64,' + data.image;
-    
-            // Wait for the new image to load before getting its natural dimensions
-            camPreview.onload = function() {
-                // Get the natural dimensions of the new image
-                let naturalWidth = camPreview.naturalWidth;
-                let naturalHeight = camPreview.naturalHeight;
-    
-                // Calculate the scaling factor
-                let scaleFactorWidth = currentWidth / naturalWidth;
-                let scaleFactorHeight = currentHeight / naturalHeight;
-    
-                // Set the dimensions of the new image to the saved dimensions
-                camPreview.style.width = currentWidth + "px";
-                camPreview.style.height = currentHeight + "px";
-            }
-        });
+    $.get("/api/get_settings", function(data) {
+        let flip_h = data['flip_h'];
+        let flip_v = data['flip_v'];
+        let rotate = data['rotate'];
     });
 
-    // $("#homePrinterButton").click(function() {
-    //     $.post("/api/home_printer", function(data, status) {
-    //         // Create a new paragraph element to display the result
-    //         var resultParagraph = $("<p>").text("Printer homing triggered: " + status + data);
-    //         // Append the paragraph to a container element
-    //         $("#resultContainer").empty().append(resultParagraph);
-    //     });
-    // });
-    // $("#getPrinterStateButton").click(function() {
-    //     $.get("/api/get_printer_state", function(data, status) {
-    //         var resultParagraph = $("<p>").text("Printer state: " + data);
-    //         $("#resultContainer").empty().append(resultParagraph);
-    //     });
-    // });
-    
-    // $("#getTempsButton").click(function() {
-    //     $.get("/api/get_temps", function(data, status) {
-    //         var parametersText = JSON.stringify(data, null, 2); // Convert JSON to formatted text
-    //         var resultParagraph = $("<p>").text("Printer temps:\n" + parametersText);
-    //         $("#resultContainer").empty().append(resultParagraph);
-    //     });
-    // });
+    $("#snapBtn").click(async function() {
+        $("#snapBtn").prop('disabled', true);
+        $.get("/api/get_snapshot", function(data, status) {
+            // Save the current dimensions of the camPreview image
+            // let currentWidth = camPreview.offsetWidth;
+            // let currentHeight = camPreview.offsetHeight;
+            const image = data.image;
 
-    // $("#testAuthTokenButton").click(async function() {
-    //     await saveAll();
-    //     await $.get("/api/test_auth_token", function(data, status) {
-    //         var resultParagraph = $("<p>").text(data);
-    //         $("#resultContainer").empty().append(resultParagraph);
-    //     });
-    // });
+            let camPreview = document.getElementById('camPreview');
+            const CAM_PREVIEW_WIDTH = camPreview.offsetWidth;
+            const CAM_PREVIEW_HEIGHT = camPreview.offsetHeight;
+
+            $.get("/api/get_settings", function(data) {
+                let flip_h = data['flip_h'];
+                let flip_v = data['flip_v'];
+                let rotate = data['rotate'];
+                
+                // Create a CSS transform string based on the settings
+                let transform = '';
+                if (flip_h == true) {
+                    transform += 'scaleX(-1) ';
+                }
+                if (flip_v == true) {
+                    transform += 'scaleY(-1) ';
+                }
+                if (rotate == true) {
+                    console.log("rotate");
+                    transform += 'rotate(-90deg)';
+                    // get the width and height of the parent container
+                    // camPreview.style.height = "auto";
+                    let camPreview = document.getElementById('camPreview');
+                    camPreview.src = 'data:image/jpeg;base64,' + image;
+                    camPreview.onload = function() {
+                        let aspectRatio = camPreview.offsetHeight / camPreview.offsetWidth;
+                        let width = CAM_PREVIEW_WIDTH;
+                        let height = CAM_PREVIEW_WIDTH * aspectRatio;
+                        let difference = Math.abs(width - height) / 2;                        
+                        camPreviewContainer.style.width = CAM_PREVIEW_WIDTH + "px";
+                        camPreviewContainer.style.height = width + "px";
+                        camPreviewContainer.style.backgroundColor = "black";
+                        // round the corners of the container
+                        camPreviewContainer.style.borderRadius = "1%";
+                        camPreview.style.width = width + "px";
+                        camPreview.style.height = height + "px";
+                        camPreview.style.maxWidth = width + "px";
+                        camPreview.style.maxHeight = height + "px";
+                        camPreview.style.position = 'absolute';
+                        camPreview.style.top = difference + "px";
+                        $('#camPreview').css('transform', transform);
+                    }
+                } else {
+                    console.log("nope");
+                    let camPreview = document.getElementById('camPreview');
+                    camPreview.src = 'data:image/jpeg;base64,' + image;
+                    camPreview.onload = function() {
+                        console.log("Not rotating");
+                        let aspectRatio = camPreview.offsetHeight / camPreview.offsetWidth;
+                        let width = CAM_PREVIEW_WIDTH;
+                        let height = CAM_PREVIEW_WIDTH * aspectRatio;
+                        camPreviewContainer.style.width = width + "px";
+                        camPreviewContainer.style.height = height + "px";
+                        camPreviewContainer.style.marginBottom = "36px";
+                        camPreviewContainer.style.backgroundColor = "black";
+                        camPreview.style.width = width + "px";
+                        camPreview.style.height = height + "px";
+                        camPreview.style.maxWidth = width + "px";
+                        camPreview.style.maxHeight = height + "px";
+                        $('#camPreview').css('transform', transform);
+                    }
+
+                }
+                
+                
+
+                    // if (rotate == true) {
+                    //     const camPreviewContainer = document.getElementById('camPreviewContainer');
+                    //     let parentWidth = camPreviewContainer.offsetWidth;
+                    //     let parentHeight = camPreviewContainer.offsetHeight;
+                    //     const camPreview = document.getElementById('camPreview');
+                    //     console.log("parentWidth: " + parentWidth);
+                    //     console.log("parentHeight: " + parentHeight);
+                    //     camPreview.style.height = parentWidth + "px";
+                    //     camPreview.style.width =  parentWidth * aspectRatio + "px";
+                    //     camPreviewContainer.style.height = parentWidth * aspectRatio + "px";
+                    //     camPreviewContainer.style.width = parentWidth + "px";
+                    // }
+            });
+    
+            // camPreview.onload = function(rotate) {
+
+            //     let aspectRatio = camPreview.offsetHeight / camPreview.offsetWidth;
+            //     let width = CAM_PREVIEW_WIDTH;
+            //     let height = CAM_PREVIEW_WIDTH * aspectRatio;
+
+            //     // If the image is rotated, swap its width and height
+            //     if (rotate == true) {
+            //         console.log("Swapping width and height")
+            //         camPreviewContainer.style.width = width + "px";
+            //         camPreviewContainer.style.height = height + "px";
+            //         camPreview.style.width = width + "px";
+            //         camPreview.style.height = height + "px";
+            //         camPreview.style.maxWidth = width + "px";
+            //         camPreview.style.maxHeight = height + "px";
+            //     } else {
+            //         camPreviewContainer.style.width = width + "px";
+            //         camPreviewContainer.style.height = width + "px";
+            //         camPreviewContainer.style.marginBottom = "36px";
+            //         camPreviewContainer.style.backgroundColor = "black";
+            //         camPreview.style.width = width + "px";
+            //         camPreview.style.height = height + "px";
+            //         camPreview.style.maxWidth = width + "px";
+            //         camPreview.style.maxHeight = height + "px";
+            //     }
+            // }
+        });
+    });
 });
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -139,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
 const saveButton = document.getElementById('saveAllBtn');
 saveButton.addEventListener('click', saveXY);
 
-const camPreviewContainer = document.getElementById('camPreview');
+const camPreviewContainer = document.getElementById('camPreviewContainer');
 camPreviewContainer.addEventListener('click', setXY);
 
 

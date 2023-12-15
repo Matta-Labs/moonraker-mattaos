@@ -58,9 +58,11 @@ textarea {
 
 h1, h3, h4, h5, h6 {
     font-family: 'Space Mono', monospace;
+    margin: 0;
 }
 h2 {
     font-family: 'DM Sans', sans-serif;
+    margin: 0;
 }
 .snap-button {
     display: block;
@@ -76,28 +78,27 @@ h2 {
 .emblem {
     margin-right: 18px;
 }
-.camPreviewContainerWrapper {
-    display: table;
-  }
 
 .camPreviewContainer {
     cursor: crosshair;
-    position:relative;
-    height: fit-content;
-  }
+    position: relative;
+    transform-origin: center;
+    /* margin-bottom: 20px; */
+}
 
 .camPreview {
     display: block;
-    transform-origin: top left;
-        white-space: nowrap;
-    }
+    transform-origin: center;
+    white-space: nowrap;
+}
+
 .crosshair {
-        position: absolute;
-        width: 6px;
-        height: 6px;
-        left: -50px;
-        top: -50px;
-        transform: translate(-50%, -50%);
-        border: 2px solid #FF0000;
-        pointer-events: none;
-      }
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    left: -500px;
+    top: -50px;
+    transform: translate(-50%, -50%);
+    border: 2px solid #FF0000;
+    pointer-events: none;
+}
