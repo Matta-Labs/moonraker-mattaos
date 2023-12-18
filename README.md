@@ -136,7 +136,7 @@ Create a new machine in MattaOS, copy the generated Authorisation token, then ad
 Next go to ```http://<hostname>:5001``` and follow the instructions to locate your extruder nozzle tip.
 
 <br/>
-<div align="center"><img src="https://matta-os.fra1.cdn.digitaloceanspaces.com/site-assets/KlipperSnap.gif" width=650 /><p>Machine setup and plugin configuration workflow</p></div>
+<div align="center"><img src="https://matta-os.fra1.cdn.digitaloceanspaces.com/site-assets/KlipperSnap.gif" width=650 /><p>Nozzle coordinates finder usage</p></div>
 <br/>
 
 In ```moonraker-mattaos.cfg``` there are a few variables which need to be configured for use:
