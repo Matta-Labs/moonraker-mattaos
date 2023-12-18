@@ -130,6 +130,7 @@ Also please feel free to contribute your own nozzle camera designs to the repo!
 
 
 ## 🎈 Usage and Configuration
+*Note: The plugin will only work if your Klipper-Moonraker-Frontend stack are working correctly. Please refer to the respective documentation to ensure this is the case*
 
 First sign-up for a free Matta account at <a>https://os.matta.ai</a>, then configure plugin settings to get started!
 
