@@ -28,7 +28,7 @@ Before installing, please ensure you have <a href="https://github.com/Arksine/mo
 
 <b>We highly recommend using the MattaOS plugin with the MainsailOS Raspberry Pi image</b> (available through the <a href="https://www.raspberrypi.com/software/">Raspberry Pi Imager</a>).
 
-It has also been tested on RaspberryPi OS wth KIAUH-installed prerequisite, but to a lesser extent
+It has also been tested on RaspberryPi OS wth KIAUH-installed prerequisites, but to a lesser extent
 
 There are number of ways to install, please see below:
 
