@@ -19,8 +19,8 @@ echo -e "User is: $USER"
 # Install required packages
 color_echo "Installing required packages..."
 sudo apt-get update
-# This is only necessary for virtual-klipper-printer # TODO: remove
-sudo apt-get install -y python3-virtualenv systemctl nano
+# # This is only necessary for virtual-klipper-printer # TODO: remove
+# sudo apt-get install -y python3-virtualenv systemctl nano
 color_echo "Required packages installed successfully"
 
 # Set up virtual environment
