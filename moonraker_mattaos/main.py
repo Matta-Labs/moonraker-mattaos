@@ -9,7 +9,7 @@ import os
 from logger import setup_logging
 import json
 
-from moonraker_mattaos.matta import MattaCore # TODO not sure if this format is right?
+from moonraker_mattaos.matta import MattaCore
 from moonraker_mattaos.printer import MattaPrinter
 from moonraker_mattaos.utils import init_sentry, update_auth_token
 
@@ -17,13 +17,11 @@ from moonraker_mattaos.utils import init_sentry, update_auth_token
 # Set-up
 #---------------------------------------------------
 
-# TODO put them in utils later
 LOG_FILE_PATH = os.path.expanduser('~/printer_data/logs/moonraker-mattaos.log')
 WS_LOG_FILE_PATH = os.path.expanduser('~/printer_data/logs/moonraker-mattaos-ws.log')
 CMD_LOG_FILE_PATH = os.path.expanduser('~/printer_data/logs/moonraker-mattaos-cmd.log')
 
 CONFIG_FILE_PATH = os.path.expanduser('~/printer_data/config/moonraker-mattaos.cfg')
-
 
 #---------------------------------------------------
 # mattaosPlugin
@@ -41,12 +39,11 @@ class mattaosPlugin():
         # Flask
         self.app = Flask(__name__)
         # Moonraker API
-        # TODO make this a function instead of this long string of text
         self.MOONRAKER_API_URL = f"http://{self.config.get('moonraker_control', 'printer_ip')}:{self.config.get('moonraker_control', 'printer_port')}"
 
         self._logger.info("---------- Starting mattaosPlugin ----------")
+        
         # Logger tests
-
         self._logger.info("---- Logging Tests ----")
         self._logger.debug("Debug logging test")
         self._logger.info("Info logging test")
@@ -63,7 +60,7 @@ class mattaosPlugin():
         self.nozzle_tip_coords_y = self.config.get('mattaos_settings', 'nozzle_tip_coords_y')
         self.webrtc_url = self.config.get('mattaos_settings', 'webrtc_stream_url')
         self.live_upload = False
-        self.flip_h = self.config.getboolean('mattaos_settings', 'flip_webcam_horiztonally')
+        self.flip_h = self.config.getboolean('mattaos_settings', 'flip_webcam_horizontally')
         self.flip_v = self.config.getboolean('mattaos_settings', 'flip_webcam_vertically')
         self.rotate = self.config.getboolean('mattaos_settings', 'rotate_webcam_90CC')
 
@@ -99,22 +96,6 @@ class mattaosPlugin():
             "rotate": self.rotate,
             "path": self.settings_path,
         }
-
-    # def start(self):
-    #     self.setup_routes()
-    #     flask_thread = threading.Thread(target=self.start_flask)
-    #     flask_thread.setDaemon(True)
-    #     flask_thread.start()
-
-    #     # init_sentry("TEMP_KLIPPER_VERSION_PLACEHOLDER")
-    #     self.matta_os = MattaCore(self._logger, self._logger_ws, self._settings, self.MOONRAKER_API_URL)
-
-    #     # Temp loop to trap the service.
-    #     # while True:
-    #     #     self._logger.info("mattaos is running")
-    #     #     time.sleep(30)
-
-
 
 
     #---------------------------------------------------
@@ -203,12 +184,9 @@ class mattaosPlugin():
             if tags:
                 # tags is set in format: {'source:file', 'filepos:371', 'fileline:7'}
                 if "source:file" in tags:
-                    # get the current gcode line number
-                    # find item starting with fileline
                     line = [
                         set_item for set_item in tags if set_item.startswith("fileline")
                     ][0]
-                    # strip file line to get number
                     line = line.replace("fileline:", "")
                     self.matta_os._printer.gcode_line_num_no_comments = line
                     self.matta_os._printer.gcode_cmd = cmd

@@ -148,7 +148,7 @@ In ```moonraker-mattaos.cfg``` there are a few variables which need to be config
 
 1. Create a printer in MattaOS.
 2. Copy the Authorisation token from the new printer's setup page.
-3. Paste this into the ```authorization_token``` variable in ```moonraker-mattaos.cfg```
+3. Paste this into the ```auth_token``` variable in ```moonraker-mattaos.cfg```
 4. Restart the plugin or reboot your Pi to connect!
 
 <br/>

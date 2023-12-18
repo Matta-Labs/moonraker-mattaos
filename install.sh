@@ -66,7 +66,7 @@ camera_snapshot_url = http://localhost/webcam/snapshot
 auth_token = <paste your auth token here>
 nozzle_tip_coords_x = 10
 nozzle_tip_coords_y = 10
-flip_webcam_horiztonally = false
+flip_webcam_horizontally = false
 flip_webcam_vertically = false
 rotate_webcam_90CC = false"
 

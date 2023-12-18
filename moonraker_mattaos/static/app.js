@@ -2,7 +2,6 @@
 // Constants
 //---------------------------------------------------
 
-// const CAM_PREVIEW_WIDTH = 400;
 const IMAGE_PLACEHOLDER = "https://matta-os.fra1.cdn.digitaloceanspaces.com/site-assets/placeholder.png"
 
 //---------------------------------------------------

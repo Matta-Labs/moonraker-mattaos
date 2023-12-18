@@ -10,7 +10,7 @@ setup(
         'requests',
         'sentry_sdk',
         'websocket-client',
-        'psutil', # TODO docker specific?
+        'psutil',
         'pillow==9.5.0'
     ],
 )

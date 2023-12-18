@@ -8,7 +8,6 @@ import threading
 from sys import platform
 
 MATTA_OS_ENDPOINT = "https://os.matta.ai/"
-# MATTA_OS_ENDPOINT = "http://192.168.68.104"
 
 MATTA_TMP_DATA_DIR = os.path.join(os.path.expanduser("~"), ".matta", "moonraker-mattaos")
 
@@ -119,7 +118,6 @@ def get_gcode_upload_dir():
     Returns:
         str: The path for the G-code upload directory.
     """
-    # Force it to be klipper raspberry pi's directory for gcodes
     return os.path.expanduser("~/printer_data/gcodes")
 
 def make_timestamp():
@@ -130,9 +128,6 @@ def make_timestamp():
 def init_sentry(version):
     sentry_sdk.init(
         dsn="https://8a15383bc2f14c1ca06e4fe5c1788265@o289703.ingest.sentry.io/4504774026592256",
-        # Set traces_sample_rate to 1.0 to capture 100%
-        # of transactions for performance monitoring.
-        # We recommend adjusting this value in production.
         traces_sample_rate=0.01,
         release=f"MattaOSLite@{version}",
     )
@@ -161,14 +156,12 @@ def remove_cmds(history, new_cmds, logger):
     if new_cmds == []:
         return []
     for index, cmd in enumerate(history):
-        # logger.debug(f"cmd: {cmd}, {new_cmds[0] in cmd}")
         if new_cmds[0] in cmd:
             if check_to_the_end(history, index, new_cmds):
                 logger.debug(f"Removing {len(new_cmds)} commands from history")
                 if len(history) - index > len(new_cmds):
                     return []
                 return new_cmds[(len(history)- index):]
-            # logger.debug(f"cmd: {cmd} is not the same as new_cmds: {new_cmds[0]}")
     return new_cmds
 
 def cherry_pick_cmds(self, terminal_commands):
@@ -185,16 +178,6 @@ def cherry_pick_cmds(self, terminal_commands):
             cherry_picked_cmds.append(cmd)
     self._logger.debug(f"cherry_picked_cmds: {cherry_picked_cmds}")
     return cherry_picked_cmds
-
-## Outdated, now gotten from .conf
-# def get_auth_token(self):
-#     """
-#     Gets the auth token from the config file
-#     """
-#     with open(self.settings_path, "r") as file:
-#         data = json.load(file)
-#         return data["authToken"]
-
 
 
 def update_auth_token(self, _settings):
@@ -243,8 +226,6 @@ def get_and_refactor_file(file):
             current_level[component]["type"] = 'machinecode'
             current_level[component]["size"] = file["size"]
             current_level[component]["date"] = file["modified"]
-            # Update the reference to the current level
-            # current_level = current_level[component]["children"]
     return json_structure
 
 def merge_json(obj1, obj2):

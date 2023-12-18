@@ -23,7 +23,6 @@ sudo systemctl daemon-reload
 sudo rm ~/printer_data/logs/moonraker-mattaos.log
 sudo rm ~/printer_data/config/moonraker-mattaos.cfg
 sudo rm -rf ~/moonraker-mattaos
-sudo rm -rf ~/moonraker-mattaos-internal # TODO remove after moving to real repo
 sudo rm -rf ~/moonraker-mattaos-env
 
 color_echo "Uninstallation complete"

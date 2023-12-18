@@ -4,9 +4,6 @@ import threading
 import requests
 import concurrent.futures
 
-# from octoprint.util.platform import get_os
-# from octoprint.util.version import get_octoprint_version_string
-
 from moonraker_mattaos.utils import (
     cherry_pick_cmds,
     inject_auth_key,
@@ -29,12 +26,10 @@ class MattaCore:
         self._settings = settings
         self.MOONRAKER_API_URL = MOONRAKER_API_URL
 
-        # self._file_manager = plugin._file_manager
         self.nozzle_camera_count = 0
         self.ws = None
         self.ws_loop_time = 5
         self.terminal_cmds = []
-        # get OS type (linux, windows, mac)
         self.os = "Linux" # TODO remove force OS type
 
 
@@ -210,7 +205,7 @@ class MattaCore:
         data = {
             "token": self._settings["auth_token"],
             "timestamp": make_timestamp(),
-            "files": self._printer.get_and_refactor_files()["files"], # None, # self._file_manager.list_files(recursive=True), # TODO no file manager
+            "files": self._printer.get_and_refactor_files()["files"],
             "terminal_cmds": self.terminal_cmds,
             "system": {
                 "version": self._printer.get_klipper_version(),
@@ -227,7 +222,6 @@ class MattaCore:
                 "rotate": self._settings["rotate"],
             },
         }
-        # self._logger.info("Auth token: %s", self._settings["auth_token"])
         if self._printer.connected():
             printer_data = self._printer.get_data()
             data.update(printer_data)
@@ -251,9 +245,6 @@ class MattaCore:
         if token == "":
             status_text = "Please enter a token."
             return success, status_text
-        # self._settings.set(["auth_token"], token, force=True)
-        # self._settings.save()
-        # self._settings["auth_token"] = token # TODO test this
         try:
             headers = generate_auth_headers(token)
             resp = requests.get(
@@ -261,7 +252,6 @@ class MattaCore:
                 headers=headers,
             )
             if resp.status_code == 200:
-                # TODO test this
                 if self.ws_connected():
                     self.ws.disconnect()
                 status_text = "All is tickety boo! Your token is valid."
@@ -297,7 +287,7 @@ class MattaCore:
             status_text = "Please add snapshot URL to the moonraker-mattaos.conf file."
             return success, status_text, image
         try:
-            resp = requests.get(url, stream=True)  # Add a timeout
+            resp = requests.get(url, stream=True)
         except requests.exceptions.RequestException as e:
             self._logger.debug("Error when sending request: %s", e)
             status_text = "Error when sending request: " + str(e)
@@ -327,15 +317,10 @@ class MattaCore:
                 while self.ws_connected():
                     current_time = time.perf_counter()
                     if (current_time - old_time) > self.ws_loop_time:
-                        # self._logger_ws.debug(f"Sending data: {current_time - old_time}, Loop-time: {self.ws_loop_time}")
-                        # time_buffer = max(
-                        #     0, current_time - old_time - self.ws_loop_time
-                        # )
                         old_time = current_time
                         # get terminal commands
                         self.terminal_cmds = self._printer.get_printer_cmds(clean=False)
                         msg = self.ws_data()
-                        # time.sleep(1)  # slow things down to 100ms
                         self._logger_ws.debug("Sending ws_data")
                         self.ws.send_msg(msg)
                         self._logger_ws.debug("Sent ws_data")
@@ -366,7 +351,6 @@ class MattaCore:
             dict: A dictionary containing WebRTC data if the request is successful, None otherwise.
         """
         self._logger_ws.info("Requesting WebRTC stream")
-        # update the last time we requested a webrtc stream
         ice_servers = [{"urls": ["stun:stun.l.google.com:19302"]}]
         params = {
             "type": "request",
