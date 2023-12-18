@@ -193,7 +193,9 @@ Alternatively, if you know the coordinates of the nozzle tip in your images, you
 <br/>
 
 These variables allow you to flip and rotate your webcam footage (for example if you have a camera mounted on its side for ease of integration).
+
 <br/>
+
 Simply set these values to ```true``` or ```false```, and see the changes reflected in the saved images in your <a href="https://os.matta.ai/main/print-jobs/view">MattaOS job history.</a>
 
 <br/>
