@@ -83,7 +83,7 @@ ssh username@hostname.local
 *Note: the default password for Pis is `raspberry` it should probably be changed if it is still the password.*
 
 ```shell
-git clone git@github.com:Matta-Labs/moonraker-mattaos.git
+git clone https://github.com/Matta-Labs/moonraker-mattaos.git
 ```
 
 ```shell
