@@ -28,9 +28,11 @@ Before installing, please ensure you have <a href="https://github.com/Arksine/mo
 
 <b>We highly recommend using the MattaOS plugin with the MainsailOS Raspberry Pi image</b> (available through the <a href="https://www.raspberrypi.com/software/">Raspberry Pi Imager</a>).
 
-It has also been tested on RaspberryPi OS wth KIAUH-installed prerequisites, but to a lesser extent
+It has also been tested on RaspberryPi OS wth KIAUH-installed prerequisites, but to a lesser extent.
 
-There are number of ways to install, please see below:
+*Note: We, <a href="https://github.com/mainsail-crew/crowsnest/issues/143">like others</a>, have experienced Crowsnest breaking after updating packages. Recompile Crowsnest as per KwadFan's comment <a href="https://github.com/mainsail-crew/crowsnest/issues/143">here</a> to fix.*
+
+<b>There are number of ways to install the plugin, please see below:</b>
 
 <details>
   <summary><b>Transfer plugin from computer</b></summary>
@@ -128,6 +130,7 @@ Also please feel free to contribute your own nozzle camera designs to the repo!
 
 
 ## 🎈 Usage and Configuration
+*Note: The plugin will only work if your Klipper-Moonraker-Frontend stack are working correctly. Please refer to the respective documentation to ensure this is the case*
 
 First sign-up for a free Matta account at <a>https://os.matta.ai</a>, then configure plugin settings to get started!
 
