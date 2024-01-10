@@ -203,6 +203,7 @@ class MattaCore:
 
         """
         data = {
+            "type": "printer_packet",
             "token": self._settings["auth_token"],
             "timestamp": make_timestamp(),
             "files": self._printer.get_and_refactor_files()["files"],
