@@ -577,16 +577,12 @@ class MattaPrinter:
                 filename = json_msg["files"]["file"]
                 response = self.delete(f"/server/files/gcodes/{filename}")
                 self._logger.info(f"Delete response: {response}")
-            
             elif json_msg["files"]["cmd"] == "new_folder":
-                destination = FileDestinations.SDCARD if json_msg["files"]["loc"] == "sd" else FileDestinations.LOCAL
-                self._file_manager.add_folder(
-                    path=json_msg["files"]["folder"],
-                    destination=destination,
-                    ignore_existing=True,
-                    display=None,
-                )
+                base_path = "/sdcard/" if json_msg["files"]["loc"] == "sd" else "/local/"
+                folder_path = base_path + json_msg["files"]["folder"]
+                data = {"path": folder_path, "mkdir": True }
+                response = self.post("/server/files/directory", json=data)
+                self._logger.info(f"Upload response: {response}")
         elif "gcode" in json_msg:
             if json_msg["gcode"]["cmd"] == "send":
-
                 self._printer.send_gcode(gcode_cmd=json_msg["gcode"]["lines"])
