@@ -68,7 +68,9 @@ nozzle_tip_coords_x = 10
 nozzle_tip_coords_y = 10
 flip_webcam_horizontally = false
 flip_webcam_vertically = false
-rotate_webcam_90CC = false"
+rotate_webcam_90CC = false
+cherry_pick_cmds = []"
+
 
 
 color_echo "Creating the moonraker-mattaos.cfg file..."
