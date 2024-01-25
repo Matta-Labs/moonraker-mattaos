@@ -52,7 +52,6 @@ class mattaosPlugin():
         self._logger.info("-----------------------")
 
         # Default settings
-        self.settings_path = "moonraker_mattaos/settings/settings.json"
         self.auth_token = self.config.get('mattaos_settings', 'auth_token')
         self.snapshot_url = self.config.get('mattaos_settings', 'camera_snapshot_url')
         self.default_z_offset = 0.0
@@ -63,7 +62,8 @@ class mattaosPlugin():
         self.flip_h = self.config.getboolean('mattaos_settings', 'flip_webcam_horizontally')
         self.flip_v = self.config.getboolean('mattaos_settings', 'flip_webcam_vertically')
         self.rotate = self.config.getboolean('mattaos_settings', 'rotate_webcam_90CC')
-
+        self.cherry_pick_cmds = self.config.get('mattaos_settings', 'cherry_pick_cmds')
+        
         self._settings = self.get_settings_defaults()
 
         # ------------- START PROCESS ---------------
@@ -94,7 +94,7 @@ class mattaosPlugin():
             "flip_h": self.flip_h,
             "flip_v": self.flip_v,
             "rotate": self.rotate,
-            "path": self.settings_path,
+            "cherry_pick_cmds": self.cherry_pick_cmds,
         }
 
 

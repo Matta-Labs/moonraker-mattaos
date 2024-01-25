@@ -7,7 +7,8 @@ import requests
 import threading
 from sys import platform
 
-MATTA_OS_ENDPOINT = "https://os.matta.ai/"
+# MATTA_OS_ENDPOINT = "https://os.matta.ai/"
+MATTA_OS_ENDPOINT = "10.10.11.84"
 
 MATTA_TMP_DATA_DIR = os.path.join(os.path.expanduser("~"), ".matta", "moonraker-mattaos")
 
@@ -168,9 +169,8 @@ def cherry_pick_cmds(self, terminal_commands):
     """
     Cherry pick the commands that have values in the json list
     """
-    with open(self._settings["path"], "r") as file:
-        data = json.load(file)
-        cherry_list = data["terminalCmds"]
+    
+    cherry_list = self._settings["cherry_pick_cmds"]
     cherry_picked_cmds = []
     self._logger.debug(f"cherry_list: {cherry_list}, terminal_commands: {terminal_commands}")
     for cmd in terminal_commands:
