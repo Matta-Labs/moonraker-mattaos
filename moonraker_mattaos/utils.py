@@ -7,8 +7,8 @@ import requests
 import threading
 from sys import platform
 
-# MATTA_OS_ENDPOINT = "https://os.matta.ai/"
-MATTA_OS_ENDPOINT = "http://10.10.11.84"
+MATTA_OS_ENDPOINT = "https://os.matta.ai/"
+# MATTA_OS_ENDPOINT = "http://10.10.11.84"
 
 MATTA_TMP_DATA_DIR = os.path.join(os.path.expanduser("~"), ".matta", "moonraker-mattaos")
 
