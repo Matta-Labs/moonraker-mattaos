@@ -126,13 +126,18 @@ class MattaCore:
 
         """
         try:
+            # Get current thread's ID and print it
+            thread_id = threading.current_thread().ident
+            self._logger_ws.info(f"Running in thread ID: {thread_id}")
             json_msg = json.loads(incoming_msg)
             self._logger_ws.info("ws_on_message: %s", json_msg)
             msg = self.ws_data()  # default message
+            self._logger_ws.info("Created default message")
             if (
                 json_msg["token"] == self._settings["auth_token"]
                 and json_msg["interface"] == "client"
             ):
+                self._logger_ws.info("Token and interface match")
                 if json_msg.get("state", None) == "online":
                     self.user_online = True
                     msg = self.ws_data()
@@ -141,13 +146,17 @@ class MattaCore:
                     msg = self.ws_data()
                 elif json_msg.get("webrtc", None) == "request":
                     # check if auth_key has already been received
+                    self._logger_ws.info("WebRTC request received")
                     webrtc_auth_key = json_msg.get("auth_key", None)
-                    last_webrtc_auth_key = self._settings.get(["webrtc_auth_key"])
+                    self._logger_ws.info(f"New key {webrtc_auth_key}")
+                    last_webrtc_auth_key = self._settings.get("webrtc_auth_key", None)
+                    self._logger_ws.info(f"Last key {last_webrtc_auth_key}")
                     if (
                         webrtc_auth_key is not None
                         and webrtc_auth_key != last_webrtc_auth_key
                     ):
                         # save auth_key
+                        self._logger_ws.info("Saving new key")
                         self._settings["webrtc_auth_key"] = webrtc_auth_key
                         webrtc_data = self.request_webrtc_stream()
                         if webrtc_data is not None:

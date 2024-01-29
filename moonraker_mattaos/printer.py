@@ -1,4 +1,3 @@
-import base64
 import threading
 import requests
 import re
@@ -9,9 +8,9 @@ from .utils import (
     make_timestamp,
     merge_json,
     remove_cmds,
-    get_file_from_backend,
+    post_file_to_backend_for_download,
+    get_file_from_url,
 )
-import time
 
 
 class MattaPrinter:
@@ -50,6 +49,15 @@ class MattaPrinter:
             response = requests.get(self.MOONRAKER_API_URL + endpoint)
             response.raise_for_status()  # Raise an error for bad responses
             return response.json()
+        except requests.exceptions.RequestException as e:
+            self._logger.error(f"GET request error: {e}")
+            return None
+
+    def get_file(self, endpoint):
+        try:
+            response = requests.get(self.MOONRAKER_API_URL + endpoint)
+            response.raise_for_status()  # Raise an error for bad responses
+            return response.text
         except requests.exceptions.RequestException as e:
             self._logger.error(f"GET request error: {e}")
             return None
@@ -355,7 +363,7 @@ class MattaPrinter:
         endpoint = "/server/gcode_store?count=50"
         response = self.get(endpoint)
         new_cmds = commandlines_from_json(response["result"])
-        self._logger.info(f"New cmds: {new_cmds}")
+        # self._logger.info(f"New cmds: {new_cmds}")
         return new_cmds
 
     def get_printer_cmds(self, clean=True):
@@ -479,10 +487,10 @@ class MattaPrinter:
         printer_data = self.get_and_refactor_files()
         # get job data
         job_data = self.get_job_data()
-        self._logger.info("Started job data parsing")
+        # self._logger.info("Started job data parsing")
         printer_data["state"] = self.get_printer_state_object()
         # printer_data["info"] = self.get_printer_info()
-        self._logger.info("Print stats: ", job_data["status"]["print_stats"])
+        # self._logger.info("Print stats: ", job_data["status"]["print_stats"])
         filename = job_data["status"]["print_stats"]["filename"]
         is_active = job_data["status"]["virtual_sdcard"]["is_active"]
         if filename == "" or filename == None or is_active == False:
@@ -593,52 +601,56 @@ class MattaPrinter:
             elif json_msg["execute"]["cmd"] == "cancel":
                 self._printer.cancel_print()
             elif json_msg["execute"]["cmd"] == "toggle":
-                self._printer.toggle_pause_print()
+                # TODO: implement
+                # self._printer.toggle_pause_print()
+                pass
             elif json_msg["execute"]["cmd"] == "reset":
                 self._printer.clear_print_stats()
         elif "files" in json_msg:
             if json_msg["files"]["cmd"] == "print":
-                on_sd = True if json_msg["files"]["loc"] == "sd" else False
+                on_sd = True if json_msg["files"]["loc"] == "sd" else False  # not used
                 self._printer.select_file(
                     json_msg["files"]["file"], sd=on_sd, printAfterSelect=True
                 )
             elif json_msg["files"]["cmd"] == "select":
-                on_sd = True if json_msg["files"]["loc"] == "sd" else False
+                on_sd = True if json_msg["files"]["loc"] == "sd" else False  # not used
                 self._printer.select_file(
                     json_msg["files"]["file"], sd=on_sd, printAfterSelect=False
                 )
             elif json_msg["files"]["cmd"] == "upload":
-                file_content = base64.b64decode(json_msg["files"]["content"])
-                content_string = file_content.decode("utf-8")
+                file_url = json_msg["files"]["url"]
+                response = get_file_from_url(file_url)
                 filename = json_msg["files"]["file"]
-                files = {"file": (filename, content_string)}
-                response = self.post("/server/files/upload", files=files)
-                self._logger.info(f"Upload response: {response}")
-            elif json_msg["files"]["cmd"] == "upload_big":
-                bucket_file = json_msg["files"]["content"]
-                filename = json_msg["files"]["file"]
-                self._logger.info(f"Bucket file: {bucket_file}")
                 # call backend to get file
-                response = get_file_from_backend(
-                    bucket_file, self._settings["auth_token"]
-                )
                 self._logger.info(f"Gcode download response: {response[:100]}")
                 files = {"file": (filename, response)}
                 response = self.post("/server/files/upload", files=files)
                 self._logger.info(f"Upload response: {response}")
-
+                if json_msg["files"]["print"]:
+                    # print the just uploaded file
+                    on_sd = True if json_msg["files"]["loc"] == "sd" else False
+                    self._printer.select_file(
+                        json_msg["files"]["file"], sd=on_sd, printAfterSelect=True
+                    )
             elif json_msg["files"]["cmd"] == "delete":
                 filename = json_msg["files"]["file"]
                 response = self.delete(f"/server/files/gcodes/{filename}")
                 self._logger.info(f"Delete response: {response}")
             elif json_msg["files"]["cmd"] == "new_folder":
-                base_path = (
-                    "/sdcard/" if json_msg["files"]["loc"] == "sd" else "/local/"
-                )
-                folder_path = base_path + json_msg["files"]["folder"]
+                folder_path = json_msg["files"]["folder"]
                 data = {"path": folder_path, "mkdir": True}
-                response = self.post("/server/files/directory", json=data)
+                query = f"path=gcodes/{folder_path}"
+                response = self.post(f"/server/files/directory?{query}", json=data)
                 self._logger.info(f"Upload response: {response}")
+            elif json_msg["files"]["cmd"] == "download":
+                filename = json_msg["files"]["file"]
+                file_content = self.get_file(f"/server/files/gcodes/{filename}")
+                response = post_file_to_backend_for_download(
+                    filename,
+                    file_content,
+                    self._settings.get("auth_token", None),
+                )
+                self._logger.info(f"Download response: {response}")
         elif "gcode" in json_msg:
             if json_msg["gcode"]["cmd"] == "send":
                 self._printer.send_gcode(gcode_cmd=json_msg["gcode"]["lines"])

@@ -373,7 +373,8 @@ def inject_auth_key(webrtc_data, json_msg, logger):
     """
     if "auth_key" in json_msg:
         webrtc_data["webrtc_data"]["auth_key"] = json_msg["auth_key"]
-        logger.debug(
-            "mattaos plugin - injected auth key into webrtc data.", json_msg["auth_key"]
+        logger.info(
+            "MattaOS- injected auth key into webrtc data: %s",
+            json_msg["auth_key"],
         )
     return webrtc_data
