@@ -52,6 +52,8 @@ cd ~/moonraker-mattaos
 bash install.sh
 ```
 
+_Note: if you have issues running the `install.sh` file run `chmod +x ./install.sh`._
+
 Check the plugin is running with:
 ```shell
 sudo systemctl status moonraker-mattaos
@@ -73,6 +75,8 @@ cd ~/moonraker-mattaos
 ./uninstall.sh
 ```
 
+_Note: if you have issues running the `uninstall.sh` file run `chmod +x ./uninstall.sh`._
+
 </details>
 <details>
   <summary><b>Transfer plugin from computer</b></summary>
@@ -92,6 +96,8 @@ cd ~/moonraker-mattaos
   cd ~/moonraker-mattaos
   ./install.sh
   ```
+
+_Note: if you have issues running the `install.sh` file run `chmod +x ./install.sh`._
 
   Check the plugin is running with:
   ```shell
@@ -113,6 +119,8 @@ cd ~/moonraker-mattaos
   cd ~/moonraker-mattaos
   ./uninstall.sh
   ```
+
+  _Note: if you have issues running the `uninstall.sh` file run `chmod +x ./uninstall.sh`._
 
 </details>
 <details>
@@ -137,6 +145,8 @@ cd ~/moonraker-mattaos
 bash install.sh
 ```
 
+_Note: if you have issues running the `install.sh` file run `chmod +x ./install.sh`._
+
 Check the plugin is running with:
 ```shell
 sudo systemctl status moonraker-mattaos
@@ -157,6 +167,8 @@ To uninstall, use the `uninstall.sh` script:
 cd ~/moonraker-mattaos
 ./uninstall.sh
 ```
+
+_Note: if you have issues running the `uninstall.sh` file run `chmod +x ./uninstall.sh`._
 </details>
 
 
