@@ -35,7 +35,7 @@ It has also been tested on RaspberryPi OS wth KIAUH-installed prerequisites, but
 <b>There are number of ways to install the plugin, please see below:</b>
 
 <details>
-  <summary><b>From URL in the OctoPrint UI</b></summary>
+  <summary><b>Download zip from URL</b></summary>
     <br/>
 
 Copy the following URL to the latest version of Matta OS's OctoPrint plugin:
