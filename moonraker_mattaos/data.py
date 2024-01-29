@@ -34,7 +34,6 @@ class DataEngine:
 
         self._logger.info("Starting data thread")
         self.start_data_thread()
-        
 
     def start_data_thread(self):
         """
@@ -100,7 +99,7 @@ class DataEngine:
         gcode_list = clean_gcode_list(gcode_raw_list)
         gcode_line_num = find_last_gcode_line_num(gcode_list)
         last_gcode = gcode_list[-1]
-        response =  {
+        response = {
             "gcode_line_num": gcode_line_num,
             "gcode_cmd": last_gcode["message"],
         }
@@ -113,7 +112,7 @@ class DataEngine:
         # gcode_data = self.get_gcode_data()
         metadata = {
             "count": self.image_count,
-            "timestamp": make_timestamp(),            
+            "timestamp": make_timestamp(),
             "flow_rate": printer_objects["flow_rate"] * 100,
             "feed_rate": printer_objects["feed_rate"] * 100,
             "z_offset": printer_objects["z_offset"],
@@ -144,7 +143,9 @@ class DataEngine:
         """
         self._logger.debug("Posting gcode")
         with open(gcode_path, "rb") as gcode:
-            gcode_name = os.path.basename(gcode_path) # ? Check if it needs that, since we're just getting the filename
+            gcode_name = os.path.basename(
+                gcode_path
+            )  # ? Check if it needs that, since we're just getting the filename
             metadata = {
                 "name": os.path.splitext(gcode_name)[0],
                 "long_name": job_name,
@@ -210,7 +211,11 @@ class DataEngine:
         headers = generate_auth_headers(self._settings["auth_token"])
         try:
             resp = requests.post(
-                url=full_url, data=data, files=files, headers=headers, timeout=5,
+                url=full_url,
+                data=data,
+                files=files,
+                headers=headers,
+                timeout=5,
             )
             self._logger.debug("Image posted")
             resp.raise_for_status()
@@ -268,12 +273,11 @@ class DataEngine:
 
         try:
             state = self._printer.get_printer_state_object()
-            state = state['text']
-            if state == 'Error':
+            state = state["text"]
+            if state == "Error":
                 self._logger.debug("Error temporarily classified as operational")
         except Exception as e:
             self._logger.error(f"Error getting state object: {e}")
-
 
         # TODO remove try except big block later
         try:
@@ -414,7 +418,7 @@ class DataEngine:
 
     def update_image(self):
         try:
-            resp = requests.get(self._settings["snapshot_url"], stream=True)     
+            resp = requests.get(self._settings["snapshot_url"], stream=True)
             self._logger.debug("Image fetched, about to upload")
             self.image_upload(resp.content)
             self.image_count += 1

@@ -13,27 +13,28 @@ from moonraker_mattaos.matta import MattaCore
 from moonraker_mattaos.printer import MattaPrinter
 from moonraker_mattaos.utils import init_sentry, update_auth_token
 
-#---------------------------------------------------
+# ---------------------------------------------------
 # Set-up
-#---------------------------------------------------
+# ---------------------------------------------------
 
-LOG_FILE_PATH = os.path.expanduser('~/printer_data/logs/moonraker-mattaos.log')
-WS_LOG_FILE_PATH = os.path.expanduser('~/printer_data/logs/moonraker-mattaos-ws.log')
-CMD_LOG_FILE_PATH = os.path.expanduser('~/printer_data/logs/moonraker-mattaos-cmd.log')
+LOG_FILE_PATH = os.path.expanduser("~/printer_data/logs/moonraker-mattaos.log")
+WS_LOG_FILE_PATH = os.path.expanduser("~/printer_data/logs/moonraker-mattaos-ws.log")
+CMD_LOG_FILE_PATH = os.path.expanduser("~/printer_data/logs/moonraker-mattaos-cmd.log")
 
-CONFIG_FILE_PATH = os.path.expanduser('~/printer_data/config/moonraker-mattaos.cfg')
+CONFIG_FILE_PATH = os.path.expanduser("~/printer_data/config/moonraker-mattaos.cfg")
 
-#---------------------------------------------------
+
+# ---------------------------------------------------
 # mattaosPlugin
-#---------------------------------------------------
-class mattaosPlugin():
+# ---------------------------------------------------
+class mattaosPlugin:
 
     def __init__(self):
         # Logging
         self._logger = setup_logging("moonraker-mattaos", LOG_FILE_PATH)
         self._logger_ws = setup_logging("moonraker-mattaos-ws", WS_LOG_FILE_PATH)
         self._logger_cmd = setup_logging("moonraker-mattaos-cmd", CMD_LOG_FILE_PATH)
-        # Config 
+        # Config
         self.config = ConfigParser()
         self.config.read(CONFIG_FILE_PATH)
         # Flask
@@ -42,7 +43,7 @@ class mattaosPlugin():
         self.MOONRAKER_API_URL = f"http://{self.config.get('moonraker_control', 'printer_ip')}:{self.config.get('moonraker_control', 'printer_port')}"
 
         self._logger.info("---------- Starting mattaosPlugin ----------")
-        
+
         # Logger tests
         self._logger.info("---- Logging Tests ----")
         self._logger.debug("Debug logging test")
@@ -52,23 +53,37 @@ class mattaosPlugin():
         self._logger.info("-----------------------")
 
         # Default settings
-        self.auth_token = self.config.get('mattaos_settings', 'auth_token')
-        self.snapshot_url = self.config.get('mattaos_settings', 'camera_snapshot_url')
+        self.auth_token = self.config.get("mattaos_settings", "auth_token")
+        self.snapshot_url = self.config.get("mattaos_settings", "camera_snapshot_url")
         self.default_z_offset = 0.0
-        self.nozzle_tip_coords_x = self.config.get('mattaos_settings', 'nozzle_tip_coords_x')
-        self.nozzle_tip_coords_y = self.config.get('mattaos_settings', 'nozzle_tip_coords_y')
-        self.webrtc_url = self.config.get('mattaos_settings', 'webrtc_stream_url')
+        self.nozzle_tip_coords_x = self.config.get(
+            "mattaos_settings", "nozzle_tip_coords_x"
+        )
+        self.nozzle_tip_coords_y = self.config.get(
+            "mattaos_settings", "nozzle_tip_coords_y"
+        )
+        self.webrtc_url = self.config.get("mattaos_settings", "webrtc_stream_url")
         self.live_upload = False
-        self.flip_h = self.config.getboolean('mattaos_settings', 'flip_webcam_horizontally')
-        self.flip_v = self.config.getboolean('mattaos_settings', 'flip_webcam_vertically')
-        self.rotate = self.config.getboolean('mattaos_settings', 'rotate_webcam_90CC')
-        self.cherry_pick_cmds = self.config.get('mattaos_settings', 'cherry_pick_cmds')
-        
+        self.flip_h = self.config.getboolean(
+            "mattaos_settings", "flip_webcam_horizontally"
+        )
+        self.flip_v = self.config.getboolean(
+            "mattaos_settings", "flip_webcam_vertically"
+        )
+        self.rotate = self.config.getboolean("mattaos_settings", "rotate_webcam_90CC")
+        self.cherry_pick_cmds = self.config.get("mattaos_settings", "cherry_pick_cmds")
+
         self._settings = self.get_settings_defaults()
 
         # ------------- START PROCESS ---------------
 
-        self.matta_os = MattaCore(self._logger, self._logger_ws, self._logger_cmd, self._settings, self.MOONRAKER_API_URL)
+        self.matta_os = MattaCore(
+            self._logger,
+            self._logger_ws,
+            self._logger_cmd,
+            self._settings,
+            self.MOONRAKER_API_URL,
+        )
         self._logger.info("Matta class" + str(self.matta_os))
         self.setup_routes()
         self.flask_thread = threading.Thread(target=self.start_flask)
@@ -97,11 +112,9 @@ class mattaosPlugin():
             "cherry_pick_cmds": self.cherry_pick_cmds,
         }
 
-
-    #---------------------------------------------------
+    # ---------------------------------------------------
     # MattaOS Server API?
-    #---------------------------------------------------
-
+    # ---------------------------------------------------
 
     def get_api_commands(self):
         """
@@ -141,7 +154,9 @@ class mattaosPlugin():
         try:
             self.matta_os._printer.parse_line_for_updates(line)
         except AttributeError:
-            self.matta_os._printer = MattaPrinter(self._logger, self._logger_cmd, self.MOONRAKER_API_URL)
+            self.matta_os._printer = MattaPrinter(
+                self._logger, self._logger_cmd, self.MOONRAKER_API_URL
+            )
 
         if "UPDATED" in line:
             self.executed_update = True
@@ -196,101 +211,105 @@ class mattaosPlugin():
             self._logger.error(e)
         return cmd
 
-
-
-    #---------------------------------------------------
+    # ---------------------------------------------------
     # Flask (http://raspberrypi.local:5001)
-    #---------------------------------------------------
-    
+    # ---------------------------------------------------
+
     def setup_routes(self):
-        @self.app.route('/')
+        @self.app.route("/")
         def index():
             self._logger.debug("Index request.")
-            return render_template('index.html')
-        
-        @self.app.route('/api/home_printer', methods=['POST'])
+            return render_template("index.html")
+
+        @self.app.route("/api/home_printer", methods=["POST"])
         def home_printer():
             self._logger.info("Homing Printer.")
             response = self.matta_os._printer.home()
             # self._logger.debug(response)
             return str(response), 200
 
-        @self.app.route('/api/get_printer_state', methods=['GET'])
+        @self.app.route("/api/get_printer_state", methods=["GET"])
         def get_printer_state():
             self._logger.info("Getting printer state.")
             response = self.matta_os._printer.get_printer_state_object()
             self._logger.debug(response)
             return response["text"], 200
 
-        @self.app.route('/api/get_temps', methods=['GET'])
+        @self.app.route("/api/get_temps", methods=["GET"])
         def get_temps():
             temps = self.matta_os._printer.get_printer_temp_object()
             return temps, 200
-        
-        @self.app.route('/api/get_snapshot', methods=['GET'])
+
+        @self.app.route("/api/get_snapshot", methods=["GET"])
         def get_snapshot():
-            success, status_text, image = self.matta_os.take_snapshot(self._settings["snapshot_url"])
+            success, status_text, image = self.matta_os.take_snapshot(
+                self._settings["snapshot_url"]
+            )
             if image is not None:
                 # Convert the image to base64
                 image_base64 = base64.b64encode(image).decode("utf-8")
             else:
                 image_base64 = None
                 self._logger.info("No image returned")
-            return flask.jsonify({"success": success, "text": status_text, "image": image_base64})
+            return flask.jsonify(
+                {"success": success, "text": status_text, "image": image_base64}
+            )
 
-        @self.app.route('/api/test_auth_token', methods=['GET'])
+        @self.app.route("/api/test_auth_token", methods=["GET"])
         def test_auth_token():
             try:
                 self._logger.info("Testing auth_token.")
-                success, status_text = self.matta_os.test_auth_token(token=self._settings["auth_token"])
+                success, status_text = self.matta_os.test_auth_token(
+                    token=self._settings["auth_token"]
+                )
                 self._logger.debug(success, status_text)
 
                 if success:
                     self._logger.debug(f"Success: {status_text}")
-                    self._logger.debug(f"Success_code: {success}")   
+                    self._logger.debug(f"Success_code: {success}")
                 else:
-                    self._logger.error(f"Error testing auth_token. Success: {success}, Text: {status_text}")
+                    self._logger.error(
+                        f"Error testing auth_token. Success: {success}, Text: {status_text}"
+                    )
                 return status_text, 200
             except Exception as e:
                 self._logger.error(e)
                 return status_text, 400
-            
-        @self.app.route('/api/save_values', methods=['POST'])
+
+        @self.app.route("/api/save_values", methods=["POST"])
         def save_values():
             data = request.get_json()
-            nozzleX = data.get('nozzleX')
-            nozzleY = data.get('nozzleY')
+            nozzleX = data.get("nozzleX")
+            nozzleY = data.get("nozzleY")
 
             # Save the coordinates to the settings
-            self._settings['nozzle_tip_coords_x'] = nozzleX
-            self._settings['nozzle_tip_coords_y'] = nozzleY
-            
-            self.config.set('mattaos_settings', 'nozzle_tip_coords_x', str(nozzleX))
-            self.config.set('mattaos_settings', 'nozzle_tip_coords_y', str(nozzleY))
-            
-            with open(CONFIG_FILE_PATH, 'w') as configfile:
+            self._settings["nozzle_tip_coords_x"] = nozzleX
+            self._settings["nozzle_tip_coords_y"] = nozzleY
+
+            self.config.set("mattaos_settings", "nozzle_tip_coords_x", str(nozzleX))
+            self.config.set("mattaos_settings", "nozzle_tip_coords_y", str(nozzleY))
+
+            with open(CONFIG_FILE_PATH, "w") as configfile:
                 self.config.write(configfile)
 
-            return 'Coordinates saved', 200
+            return "Coordinates saved", 200
 
-        @self.app.route('/api/get_values', methods=['GET'])
+        @self.app.route("/api/get_values", methods=["GET"])
         def get_values():
             self._logger.info(self._settings)
             return self._settings, 200
-        
-        @self.app.route('/api/get_settings', methods=['GET'])
+
+        @self.app.route("/api/get_settings", methods=["GET"])
         def get_settings():
             return self._settings, 200
 
-
-
     def start_flask(self):
         self._logger.info("Starting Flask server...")
-        self.app.run(host='0.0.0.0', port=5001)
+        self.app.run(host="0.0.0.0", port=5001)
         while True:
             time.sleep(30)
             self._logger.info("Flask server is running")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     plugin = mattaosPlugin()

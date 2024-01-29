@@ -2,6 +2,7 @@ import os
 import logging
 import colorlog
 
+
 def setup_logging(logger_name, log_file_path):
     # Create the logs directory if it doesn't exist
     logs_dir = os.path.dirname(log_file_path)
@@ -13,14 +14,14 @@ def setup_logging(logger_name, log_file_path):
         datefmt=None,
         reset=True,
         log_colors={
-            'DEBUG': 'blue',
-            'INFO': 'green',
-            'WARNING': 'yellow',
-            'ERROR': 'red',
-            'CRITICAL': 'red,bg_white',
+            "DEBUG": "blue",
+            "INFO": "green",
+            "WARNING": "yellow",
+            "ERROR": "red",
+            "CRITICAL": "red,bg_white",
         },
         secondary_log_colors={},
-        style='%'
+        style="%",
     )
 
     logger = logging.getLogger(logger_name)
@@ -32,7 +33,9 @@ def setup_logging(logger_name, log_file_path):
     file_handler.setFormatter(log_formatter)
 
     stream_handler = logging.StreamHandler()
-    stream_handler.setLevel(logging.INFO)  # Set the desired level for the stream handler
+    stream_handler.setLevel(
+        logging.INFO
+    )  # Set the desired level for the stream handler
     stream_handler.setFormatter(log_formatter)
 
     logger.addHandler(file_handler)

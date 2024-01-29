@@ -35,6 +35,46 @@ It has also been tested on RaspberryPi OS wth KIAUH-installed prerequisites, but
 <b>There are number of ways to install the plugin, please see below:</b>
 
 <details>
+  <summary><b>From URL in the OctoPrint UI</b></summary>
+    <br/>
+
+Copy the following URL to the latest version of Matta OS's OctoPrint plugin:
+
+```shell
+wget https://github.com/Matta-Labs/moonraker-mattaos/archive/refs/heads/main.zip
+unzip ~/main.zip && mv ~/moonraker-mattaos-main ~/moonraker-mattaos
+rm ~/main.zip
+```
+
+Install the plugin:
+```shell
+cd ~/moonraker-mattaos
+bash install.sh
+```
+
+Check the plugin is running with:
+```shell
+sudo systemctl status moonraker-mattaos
+```
+
+If not, start it manually with:
+```shell
+sudo systemctl enable moonraker-mattaos        
+sudo systemctl daemon-reload
+sudo systemctl start moonraker-mattaos  
+sudo systemctl status moonraker-mattaos 
+```
+
+✨ Thats it! Now the MattaOS plugin should be installed.
+
+To uninstall, use the `uninstall.sh` script:
+```bash
+cd ~/moonraker-mattaos
+./uninstall.sh
+```
+
+</details>
+<details>
   <summary><b>Transfer plugin from computer</b></summary>
     <br/>
 

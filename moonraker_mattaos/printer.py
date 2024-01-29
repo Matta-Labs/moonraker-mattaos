@@ -3,11 +3,20 @@ import threading
 import requests
 import re
 import os
-from .utils import commandlines_from_json, get_and_refactor_file, make_timestamp, merge_json, remove_cmds, get_file_from_backend
+from .utils import (
+    commandlines_from_json,
+    get_and_refactor_file,
+    make_timestamp,
+    merge_json,
+    remove_cmds,
+    get_file_from_backend,
+)
 import time
+
 
 class MattaPrinter:
     """Virtual Printer class for storing current parameters"""
+
     def __init__(self, logger, logger_cmd, MOONRAKER_API_URL, settings):
         self._logger = logger
         self._logger_cmd = logger_cmd
@@ -32,9 +41,9 @@ class MattaPrinter:
         self.new_print_job = False
         self.current_job = None
 
-    #---------------------------------------------------
+    # ---------------------------------------------------
     # Moonraker API Calls
-    #---------------------------------------------------
+    # ---------------------------------------------------
 
     def get(self, endpoint):
         try:
@@ -66,45 +75,79 @@ class MattaPrinter:
     def get_printer_state_object(self):
         content = self.get("/api/printer")
         if self.cancelling == True:
-            content["state"]["text"] = 'Cancelling'
+            content["state"]["text"] = "Cancelling"
         if self.pausing == True:
-            content["state"]["text"] = 'Pausing'
+            content["state"]["text"] = "Pausing"
 
         return content["state"]
-    
+
     def get_klipper_version(self):
         content = self.get("/printer/info")
         return content["result"]["software_version"]
-    
+
     # contains ["bed"] and ["tool0"], each with ["actual"], ["offset"], ["target"]
     def get_printer_temp_object(self):
         content = self.get("/api/printer")
         return content["temperature"]
-    
+
     # contains ["filename"], ["total_duration"], ["print_duration"], ["filament_used"]
     def get_print_stats_object(self):
         content = self.get("/printer/objects/query?print_stats")
         return content["result"]["status"]["print_stats"]
-    
-    # Only using it once so just here to make code more readable. 
+
+    # Only using it once so just here to make code more readable.
     def get_gcode_base_name(self):
         content = self.get("/printer/objects/query?print_stats")
         return content["result"]["status"]["print_stats"]["filename"]
-    
+
     def get_object_list(self):
         content = self.get("/printer/objects/list")
         self._logger.info(f"Object list: {content}")
         return content["result"]["objects"]
-    
+
     def get_all_print_objects(self):
-        all_objects_to_query = ['webhooks', 'configfile', 'mcu', 'gcode_move', 'print_stats', 'virtual_sdcard', 'pause_resume', 'display_status', 'gcode_macro CANCEL_PRINT', 'gcode_macro PAUSE', 'gcode_macro RESUME', 'gcode_macro SET_PAUSE_NEXT_LAYER', 'gcode_macro SET_PAUSE_AT_LAYER', 'gcode_macro SET_PRINT_STATS_INFO', 'gcode_macro _TOOLHEAD_PARK_PAUSE_CANCEL', 'gcode_macro _CLIENT_EXTRUDE', 'gcode_macro _CLIENT_RETRACT', 'heaters', 'heater_bed', 'heater_fan hotend_fan', 'fan', 'probe', 'bed_mesh', 'filament_switch_sensor e0_sensor', 'bed_screws', 'stepper_enable', 'motion_report', 'query_endstops', 'idle_timeout', 'system_stats', 'manual_probe', 'toolhead', 'extruder']
+        all_objects_to_query = [
+            "webhooks",
+            "configfile",
+            "mcu",
+            "gcode_move",
+            "print_stats",
+            "virtual_sdcard",
+            "pause_resume",
+            "display_status",
+            "gcode_macro CANCEL_PRINT",
+            "gcode_macro PAUSE",
+            "gcode_macro RESUME",
+            "gcode_macro SET_PAUSE_NEXT_LAYER",
+            "gcode_macro SET_PAUSE_AT_LAYER",
+            "gcode_macro SET_PRINT_STATS_INFO",
+            "gcode_macro _TOOLHEAD_PARK_PAUSE_CANCEL",
+            "gcode_macro _CLIENT_EXTRUDE",
+            "gcode_macro _CLIENT_RETRACT",
+            "heaters",
+            "heater_bed",
+            "heater_fan hotend_fan",
+            "fan",
+            "probe",
+            "bed_mesh",
+            "filament_switch_sensor e0_sensor",
+            "bed_screws",
+            "stepper_enable",
+            "motion_report",
+            "query_endstops",
+            "idle_timeout",
+            "system_stats",
+            "manual_probe",
+            "toolhead",
+            "extruder",
+        ]
         query_string = ""
         for obj in all_objects_to_query:
             query_string += f"{obj}&"
         content = self.get("/printer/objects/query?" + query_string[:-1])
         self._logger.info(f"Objects: {content}")
         return content["result"]
-    
+
     def get_printer_objects(self):
         objects_query = ["gcode_move"]
         query_string = ""
@@ -113,12 +156,12 @@ class MattaPrinter:
         content = self.get("/printer/objects/query?" + query_string[:-1])
         result = content["result"]
         result = {
-                "flow_rate": result["status"]["gcode_move"]["extrude_factor"],
-                "feed_rate": result["status"]["gcode_move"]["speed_factor"],
-                "z_offset": result["status"]["gcode_move"]["homing_origin"][2],
+            "flow_rate": result["status"]["gcode_move"]["extrude_factor"],
+            "feed_rate": result["status"]["gcode_move"]["speed_factor"],
+            "z_offset": result["status"]["gcode_move"]["homing_origin"][2],
         }
         return result
-    
+
     def get_job_data(self):
         objects_query = ["print_stats", "virtual_sdcard"]
         query_string = ""
@@ -141,7 +184,9 @@ class MattaPrinter:
             gcode_cmd = "\n".join(gcode_cmd)
         self._logger.info(f"Sending gcode: {gcode_cmd}")
         if threaded:
-            thread = threading.Thread(target=self.post, args=(endpoint, {"script": gcode_cmd}))
+            thread = threading.Thread(
+                target=self.post, args=(endpoint, {"script": gcode_cmd})
+            )
             thread.start()
             return {"status": "ok"}
         else:
@@ -172,9 +217,9 @@ class MattaPrinter:
         for file in klipper_files:
             new_files = get_and_refactor_file(file)
             files = merge_json(files, new_files)
-        files = {"files": {"local" : files}}
+        files = {"files": {"local": files}}
         return files
-    
+
     def home(self, axes=[]):
         """
         Home the printer axes.
@@ -213,9 +258,13 @@ class MattaPrinter:
         """
         endpoint = "/printer/gcode/script"
         if heater == "bed":
-            response = self.post(endpoint, json={"script": f"M140 S{value}"}) # set bed temp
+            response = self.post(
+                endpoint, json={"script": f"M140 S{value}"}
+            )  # set bed temp
         elif heater == "hotend" or heater == "tool0":
-            response = self.post(endpoint, json={"script": f"M104 S{value}"}) # set hotend temp
+            response = self.post(
+                endpoint, json={"script": f"M104 S{value}"}
+            )  # set hotend temp
         return response
 
     def extrude(self, amount):
@@ -231,29 +280,29 @@ class MattaPrinter:
         response = self.post(endpoint, json={"script": f"G1 E{amount}"})
         self._logger.info(f"Extrude response: {response}")
         return response
-    
+
     def select_file(self, filename, sd, printAfterSelect):
         endpoint = "/printer/print/start"
         json = {"filename": filename}
         if printAfterSelect:
             response = self.post(endpoint, json=json)
         return response
-    
+
     def queue_start(self):
         endpoint = "/server/job_queue/start"
         response = self.post(endpoint)
         return response
-    
+
     def queue_pause(self):
         endpoint = "/server/job_queue/pause"
         response = self.post(endpoint)
         return response
-    
+
     def queue_status(self):
         endpoint = "/server/job_queue/status"
         response = self.get(endpoint)
         return response
-    
+
     def queue_reset(self):
         endpoint = "/server/job_queue/job?all=true"
         response = self.delete(endpoint)
@@ -286,7 +335,7 @@ class MattaPrinter:
         endpoint = "/printer/print/pause"
         thread = threading.Thread(target=self.run_pause_thread, args=(endpoint, {}))
         thread.start()
-        
+
         return {"status": "ok"}
 
     def cancel_print(self):
@@ -296,19 +345,19 @@ class MattaPrinter:
         thread = threading.Thread(target=self.run_cancel_thread, args=(endpoint, {}))
         thread.start()
         return {"status": "ok"}
-    
+
     def resume_print(self):
         endpoint = "/printer/print/resume"
         response = self.post(endpoint, json={})
         return response
-    
+
     def get_cmds(self):
         endpoint = "/server/gcode_store?count=50"
         response = self.get(endpoint)
         new_cmds = commandlines_from_json(response["result"])
         self._logger.info(f"New cmds: {new_cmds}")
         return new_cmds
-    
+
     def get_printer_cmds(self, clean=True):
         """
         Gets the printer commands from the printer object.
@@ -334,11 +383,7 @@ class MattaPrinter:
         """Checks if the printer currently has a print job."""
         printer_state = self.get_printer_state_object()
         state_flags = printer_state["flags"]
-        if (
-            state_flags["printing"]
-            or state_flags["paused"]
-            or state_flags["pausing"]
-        ):
+        if state_flags["printing"] or state_flags["paused"] or state_flags["pausing"]:
             self.printing = True
             self.finished = False
             return True
@@ -352,20 +397,20 @@ class MattaPrinter:
         filename, _ = os.path.splitext(job_file_path)
         dt = make_timestamp()
         return f"{filename}_{dt}"
-    
 
     def is_operational(self):
         """Checks if the printer is operational"""
         state = self.get_printer_state_object()
         state_flags = state["flags"]
-        return state_flags["ready"] or state_flags["operational"] # or state_flags["error"]
+        return (
+            state_flags["ready"] or state_flags["operational"]
+        )  # or state_flags["error"]
 
     def just_finished(self):
         """Checks if the state has turned from printing to finished"""
         if self.printing == False and self.finished == False:
             return True
         return False
-
 
     # ------------------ Non-processed functions from here ------------------
 
@@ -416,7 +461,7 @@ class MattaPrinter:
         Returns:
             bool: True if the printer is connected, False otherwise.
         """
-        # TODO check 
+        # TODO check
         # get_current_connection = self._printer.get_current_connection()
         # (connection_string, port, baudrate, printer_profile) = get_current_connection
         # if port is None or baudrate is None:
@@ -440,34 +485,41 @@ class MattaPrinter:
         self._logger.info("Print stats: ", job_data["status"]["print_stats"])
         filename = job_data["status"]["print_stats"]["filename"]
         is_active = job_data["status"]["virtual_sdcard"]["is_active"]
-        if filename == "" or filename == None or is_active == False: 
+        if filename == "" or filename == None or is_active == False:
             estimated_print_time = 0
-        elif job_data["status"]["print_stats"]["print_duration"] < 20 or job_data["status"]["virtual_sdcard"]["progress"] < 0.05:
-            estimated_print_time = self.get_estimate_print_time(job_data["status"]["print_stats"]["filename"])
+        elif (
+            job_data["status"]["print_stats"]["print_duration"] < 20
+            or job_data["status"]["virtual_sdcard"]["progress"] < 0.05
+        ):
+            estimated_print_time = self.get_estimate_print_time(
+                job_data["status"]["print_stats"]["filename"]
+            )
         else:
-            self._logger.info(f"Print duration: {job_data['status']['print_stats']['print_duration']}, Progress: {job_data['status']['virtual_sdcard']['progress']}")
-            estimated_print_time = job_data["status"]["print_stats"]["print_duration"] / job_data["status"]["virtual_sdcard"]["progress"]
+            self._logger.info(
+                f"Print duration: {job_data['status']['print_stats']['print_duration']}, Progress: {job_data['status']['virtual_sdcard']['progress']}"
+            )
+            estimated_print_time = (
+                job_data["status"]["print_stats"]["print_duration"]
+                / job_data["status"]["virtual_sdcard"]["progress"]
+            )
         printer_data["job"] = {
             "file": {
                 "name": job_data["status"]["print_stats"]["filename"],
-                "size" : job_data["status"]["virtual_sdcard"]["file_size"],
+                "size": job_data["status"]["virtual_sdcard"]["file_size"],
             },
             "estimatedPrintTime": estimated_print_time,
-            "filament": job_data["status"]["print_stats"]["filament_used"]
+            "filament": job_data["status"]["print_stats"]["filament_used"],
         }
         printer_data["progress"] = {
-            "completion": job_data["status"]["virtual_sdcard"]["progress"]*100,
+            "completion": job_data["status"]["virtual_sdcard"]["progress"] * 100,
             "printTime": job_data["status"]["print_stats"]["print_duration"],
-            "printTimeLeft": printer_data["job"]["estimatedPrintTime"] - job_data["status"]["print_stats"]["print_duration"],
+            "printTimeLeft": printer_data["job"]["estimatedPrintTime"]
+            - job_data["status"]["print_stats"]["print_duration"],
         }
         printer_data["offsets"] = {}
-        printer_data["resends"] = {
-            "count":0,
-            "transmitted":0,
-            "ratio":0
-        }
+        printer_data["resends"] = {"count": 0, "transmitted": 0, "ratio": 0}
         data = {
-            "state": printer_data["state"]['text'],
+            "state": printer_data["state"]["text"],
             "temperature_data": self.get_printer_temp_object(),
             "printer_data": printer_data,
         }
@@ -558,16 +610,18 @@ class MattaPrinter:
             elif json_msg["files"]["cmd"] == "upload":
                 file_content = base64.b64decode(json_msg["files"]["content"])
                 content_string = file_content.decode("utf-8")
-                filename  = json_msg["files"]["file"]
+                filename = json_msg["files"]["file"]
                 files = {"file": (filename, content_string)}
                 response = self.post("/server/files/upload", files=files)
                 self._logger.info(f"Upload response: {response}")
             elif json_msg["files"]["cmd"] == "upload_big":
                 bucket_file = json_msg["files"]["content"]
-                filename  = json_msg["files"]["file"]
+                filename = json_msg["files"]["file"]
                 self._logger.info(f"Bucket file: {bucket_file}")
                 # call backend to get file
-                response = get_file_from_backend(bucket_file, self._settings["auth_token"])
+                response = get_file_from_backend(
+                    bucket_file, self._settings["auth_token"]
+                )
                 self._logger.info(f"Gcode download response: {response[:100]}")
                 files = {"file": (filename, response)}
                 response = self.post("/server/files/upload", files=files)
@@ -578,9 +632,11 @@ class MattaPrinter:
                 response = self.delete(f"/server/files/gcodes/{filename}")
                 self._logger.info(f"Delete response: {response}")
             elif json_msg["files"]["cmd"] == "new_folder":
-                base_path = "/sdcard/" if json_msg["files"]["loc"] == "sd" else "/local/"
+                base_path = (
+                    "/sdcard/" if json_msg["files"]["loc"] == "sd" else "/local/"
+                )
                 folder_path = base_path + json_msg["files"]["folder"]
-                data = {"path": folder_path, "mkdir": True }
+                data = {"path": folder_path, "mkdir": True}
                 response = self.post("/server/files/directory", json=data)
                 self._logger.info(f"Upload response: {response}")
         elif "gcode" in json_msg:
