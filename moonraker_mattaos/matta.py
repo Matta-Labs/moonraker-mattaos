@@ -230,6 +230,7 @@ class MattaCore:
                 "files": self._printer.get_and_refactor_files()["files"],
                 "terminal_cmds": self.terminal_cmds,
                 "system": {
+                    "software": "moonraker",
                     "version": self._printer.get_klipper_version(),
                     "os": self.os,
                     "memory": get_current_memory_usage(self.os),
