@@ -127,15 +127,12 @@ class MattaCore:
         """
         try:
             # Get current thread's ID and print it
-            thread_id = threading.current_thread().ident
-            self._logger_ws.info(f"Running in thread ID: {thread_id}")
             json_msg = json.loads(incoming_msg)
             self._logger_ws.info("ws_on_message: %s", json_msg)
             msg = self.ws_data()  # default message
-            self._logger_ws.info("Created default message")
             if (
-                json_msg["token"] == self._settings["auth_token"]
-                and json_msg["interface"] == "client"
+                json_msg.get("token", None) == self._settings["auth_token"]
+                and json_msg.get("interface", None) == "client"
             ):
                 self._logger_ws.info("Token and interface match")
                 if json_msg.get("state", None) == "online":
