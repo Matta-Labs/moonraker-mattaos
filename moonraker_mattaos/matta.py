@@ -160,6 +160,12 @@ class MattaCore:
                             webrtc_data = inject_auth_key(
                                 webrtc_data, json_msg, self._logger
                             )
+                            webcam_transforms = {
+                                "flip_h": self._settings.get(["flip_h"]),
+                                "flip_v": self._settings.get(["flip_v"]),
+                                "rotate": self._settings.get(["rotate"]),
+                            }
+                            webrtc_data["transforms"] = webcam_transforms
                             msg = self.ws_data(extra_data=webrtc_data)
                         else:
                             msg = self.ws_data()
@@ -169,6 +175,12 @@ class MattaCore:
                         webrtc_data = inject_auth_key(
                             webrtc_data, json_msg, self._logger
                         )
+                        webcam_transforms = {
+                            "flip_h": self._settings.get(["flip_h"]),
+                            "flip_v": self._settings.get(["flip_v"]),
+                            "rotate": self._settings.get(["rotate"]),
+                        }
+                        webrtc_data["transforms"] = webcam_transforms
                         msg = self.ws_data(extra_data=webrtc_data)
                     else:
                         msg = self.ws_data()
@@ -178,6 +190,12 @@ class MattaCore:
                         webrtc_data = inject_auth_key(
                             webrtc_data, json_msg, self._logger
                         )
+                        webcam_transforms = {
+                            "flip_h": self._settings.get(["flip_h"]),
+                            "flip_v": self._settings.get(["flip_v"]),
+                            "rotate": self._settings.get(["rotate"]),
+                        }
+                        webrtc_data["transforms"] = webcam_transforms
                         msg = self.ws_data(extra_data=webrtc_data)
                     else:
                         msg = self.ws_data()
