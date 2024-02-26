@@ -20,12 +20,10 @@ from moonraker_mattaos.utils import init_sentry, update_auth_token
 LOG_FILE_PATH = os.path.expanduser("~/printer_data/logs/moonraker-mattaos.log")
 WS_LOG_FILE_PATH = os.path.expanduser("~/printer_data/logs/moonraker-mattaos-ws.log")
 CMD_LOG_FILE_PATH = os.path.expanduser("~/printer_data/logs/moonraker-mattaos-cmd.log")
-
 CONFIG_FILE_PATH = os.path.expanduser("~/printer_data/config/moonraker-mattaos.cfg")
 
-
 # ---------------------------------------------------
-# mattaosPlugin
+# MattaOSPlugin
 # ---------------------------------------------------
 class mattaosPlugin:
 
@@ -42,7 +40,7 @@ class mattaosPlugin:
         # Moonraker API
         self.MOONRAKER_API_URL = f"http://{self.config.get('moonraker_control', 'printer_ip')}:{self.config.get('moonraker_control', 'printer_port')}"
 
-        self._logger.info("---------- Starting mattaosPlugin ----------")
+        self._logger.info("---------- Starting MattaOSPlugin ----------")
 
         # Logger tests
         self._logger.info("---- Logging Tests ----")
@@ -84,6 +82,7 @@ class mattaosPlugin:
             self._settings,
             self.MOONRAKER_API_URL,
         )
+
         self._logger.info("Matta class" + str(self.matta_os))
         self.setup_routes()
         self.flask_thread = threading.Thread(target=self.start_flask)
@@ -128,6 +127,24 @@ class mattaosPlugin:
             set_enabled=[],
             ws_reconnect=[],
         )
+    
+    def get_update_information(self):
+        # Define the configuration for your plugin to use with the Software Update
+        # Plugin here. See https://docs.octoprint.org/en/master/bundledplugins/softwareupdate.html
+        # for details.
+        return {
+            "moonraker-mattaos": {
+                "displayName": "MattaOS Plugin",
+                "displayVersion": self.matta_os._plugin_version,
+                # version check: github repository
+                "type": "github_release",
+                "user": "Matta-Labs",
+                "repo": "octoprint-mattaos",
+                "current": self.matta_os._plugin_version,
+                # update method: pip
+                "pip": "https://github.com/Matta-Labs/moonraker-mattaos/archive/{target_version}.zip",
+            }
+        }
 
     def is_api_adminonly(self):
         """

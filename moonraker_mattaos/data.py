@@ -5,19 +5,19 @@ import csv
 import json
 from .utils import (
     clean_gcode_list,
-    find_last_gcode_line_num,
     get_api_url,
     get_gcode_upload_dir,
     make_timestamp,
     generate_auth_headers,
     SAMPLING_TIMEOUT,
     MATTA_TMP_DATA_DIR,
+    read_gcode_file,
 )
 import os
 import shutil
 from PIL import Image
 import io
-
+import pandas as pd
 
 class DataEngine:
     def __init__(self, logger, logger_cmd, settings, matta_printer):
@@ -27,6 +27,8 @@ class DataEngine:
         self._logger_cmd = logger_cmd
         self.image_count = 0
         self.gcode_path = None
+        self.gcode_lines = None
+        self.last_gcode_line = 0
         self.csv_print_log = None
         self.csv_writer = None
         self.csv_path = None
@@ -91,14 +93,33 @@ class DataEngine:
         self._printer.gcode_line_num_no_comments = None
         self._printer.gcode_cmd = None
 
+
+    def find_last_gcode_line_num(self, gcode_list):
+        gcode_cmd = gcode_list[-1]["message"]
+        # map gcode_cmd to the line number from the self.gcode_lines
+        # gcode_lines has original_line and line_number keys
+        # find if gcode_cmd is in the original_line
+        line = self.gcode_lines.loc[(self.gcode_lines["line_number"] >= self.last_gcode_line) & \
+                                    (self.gcode_lines["original_line"].str.contains(gcode_cmd))]
+        if line is None or len(line) == 0:
+            line_num = self.last_gcode_line
+        else:
+            line_num = line["line_number"].values[0]
+        self.last_gcode_line = line_num
+        return line_num
+
     def get_gcode_data(self):
         """
         Gets the gcode data from the printer.
         """
         gcode_raw_list = self._printer.get_gcode_store()
+        self._logger.info(f"Raw gcode list: {gcode_raw_list}")
         gcode_list = clean_gcode_list(gcode_raw_list)
-        gcode_line_num = find_last_gcode_line_num(gcode_list)
-        last_gcode = gcode_list[-1]
+        self._logger.info(f"Gcode list: {gcode_list}")
+        gcode_line_num = self.find_last_gcode_line_num(gcode_list)
+        self._logger.info(f"Last gcode line number: {gcode_line_num}")
+        last_gcode = gcode_list[-1] if len(gcode_list) > 0 else {"message": "Not started"}
+        self._logger.info(f"Last gcode: {last_gcode}")
         response = {
             "gcode_line_num": gcode_line_num,
             "gcode_cmd": last_gcode["message"],
@@ -165,6 +186,17 @@ class DataEngine:
                 resp.raise_for_status()
             except requests.exceptions.RequestException as e:
                 self._logger.error(e)
+
+    def gcode_analyse(self):
+        """
+        Analyse the gcode and store the lines in a list
+        """
+        gcode_lines = read_gcode_file(self.gcode_path)
+        self.gcode_lines = pd.DataFrame(columns=["original_line", "line_number"])
+        self.gcode_lines["original_line"] = [line.original_line for line in gcode_lines]
+        self.gcode_lines["line_number"] = [line.line_number for line in gcode_lines]
+        # sort the gcode_lines by line_number
+        self.gcode_lines = self.gcode_lines.sort_values(by="line_number")
 
     def image_upload(self, image):
         """
@@ -290,6 +322,8 @@ class DataEngine:
                     try:
                         self.setup_print_log()
                         self.gcode_upload(self._printer.current_job, self.gcode_path)
+                        # analyse the gcode store
+                        self.gcode_analyse()
                     except Exception as e:
                         self._logger.error(
                             f"Failed to set up data collection for print job: {e}"
@@ -367,8 +401,8 @@ class DataEngine:
             "hotend",
             "target_bed",
             "bed",
-            # "gcode_line_num_no_comments",
-            # "gcode_cmd",
+            "gcode_line_num_no_comments",
+            "gcode_cmd",
             "nozzle_tip_coords_x",
             "nozzle_tip_coords_y",
             "flip_h",
@@ -380,6 +414,7 @@ class DataEngine:
         """Fetches data and returns a list for populating a row of a CSV."""
         temps = self._printer.get_printer_temp_object()
         printer_objects = self._printer.get_printer_objects()
+        gcode_data = self.get_gcode_data()
         row = [
             self.image_count,
             make_timestamp(),
@@ -390,8 +425,8 @@ class DataEngine:
             temps["tool0"]["actual"],
             temps["bed"]["target"],
             temps["bed"]["actual"],
-            # self._printer.gcode_line_num_no_comments,
-            # self._printer.gcode_cmd,
+            gcode_data["gcode_line_num"],
+            gcode_data["gcode_cmd"],
             int(self._settings["nozzle_tip_coords_x"]),
             int(self._settings["nozzle_tip_coords_y"]),
             self._settings["flip_h"],

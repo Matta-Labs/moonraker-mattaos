@@ -12,5 +12,6 @@ setup(
         "websocket-client",
         "psutil",
         "pillow==9.5.0",
+        "pandas",
     ],
 )

@@ -2,7 +2,18 @@ import time
 import json
 import threading
 import requests
-import concurrent.futures
+import subprocess
+import os
+import sys
+
+# For Python 3.8 and later, use importlib.metadata
+if sys.version_info >= (3, 8):
+    from importlib import metadata
+else:
+    # For Python versions before 3.8, use the backport
+    # You'll need to ensure importlib_metadata is installed for versions < 3.8
+    # Can be installed via pip: pip install importlib_metadata
+    import importlib_metadata as metadata
 
 from moonraker_mattaos.utils import (
     cherry_pick_cmds,
@@ -33,6 +44,8 @@ class MattaCore:
         self.terminal_cmds = []
         self.os = "Linux"  # TODO remove force OS type
 
+        self._plugin_version = self.check_package_version("moonraker-mattaos")
+
         # ---------------------------------------------------------
 
         self._logger.debug("Starting mattaos Plugin...")
@@ -50,6 +63,74 @@ class MattaCore:
         self.data_engine = DataEngine(
             self._logger, self._logger_cmd, self._settings, self._printer
         )
+
+    def get_package_install_location(self, package_name):
+        try:
+            # Use importlib.metadata to get the distribution for the package
+            distribution = metadata.distribution(package_name)
+            
+            # The 'Path' object for the distribution location can be converted to a string if needed
+            return str(distribution.locate_file(''))
+        except metadata.PackageNotFoundError:
+            return None
+        
+    def get_package_version(self, package_name):
+        try:
+            return metadata.version(package_name)
+        except metadata.PackageNotFoundError:
+            return None
+        
+    # Example usage to get the version of a package
+    def check_package_version(self, package_name):
+        self._logger.info("Checking for new version")
+        response = requests.get(f'https://api.github.com/repos/Matta-Labs/{package_name}/releases/latest')
+        data = response.json()
+        self._logger.info(data)
+        release_tag =  data.get("tag_name", None)
+        if release_tag is not None:
+            release_tag = release_tag.replace("v", "")
+        current_package_version = self.get_package_version(package_name)
+        if current_package_version is not None:
+            current_package_version = current_package_version.replace("v", "")
+        new_version_available = False
+        if release_tag != current_package_version:
+            new_version_available = True
+        self._logger.info(f"Current version: {current_package_version}")
+        self._logger.info(f"Latest version: {release_tag}")
+        return new_version_available
+
+    def over_the_air_update(self):
+        plugin_install_location = self.get_package_install_location("moonraker-mattaos")
+        # /home/pi/oprint/lib/python3.7/site-packages/moonraker_mattaos
+        # get the pip install location
+        # find lib in the path and remove everything after it
+        plugin_install_location = plugin_install_location.split("/lib/")[0]
+        pip_path = os.path.join(plugin_install_location, "bin", "pip")
+
+        self._logger.info(plugin_install_location)
+        self._logger.info(pip_path)
+
+        # check if there is a new version available
+        new_version_available = self.check_package_version("moonraker-mattaos")
+        
+        if new_version_available:
+            # run subprocess to update the plugin
+            try:
+                def log_subprocess_output(pipe):
+                    for line in iter(pipe.readline, b''): # b'\n'-separated lines
+                        self._logger.info('got line from subprocess: %r', line)
+
+                process = subprocess.Popen(["bash", "./update.sh"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+
+                with process.stdout:
+                    log_subprocess_output(process.stdout)
+                exitcode = process.wait() # 0 means success
+                self._logger.info(f"Plugin updated successfully {exitcode}") 
+            except subprocess.CalledProcessError as e:
+                self._logger.error("Error updating plugin: %s", e)
+                self._logger.info("Error:", e)
+                self._logger.info("Output:", e.stdout)
+                self._logger.info("Errors:", e.stderr)
 
     def start_websocket_thread(self):
         """Starts the main WS thread."""
@@ -161,9 +242,9 @@ class MattaCore:
                                 webrtc_data, json_msg, self._logger
                             )
                             webcam_transforms = {
-                                "flip_h": self._settings.get(["flip_h"]),
-                                "flip_v": self._settings.get(["flip_v"]),
-                                "rotate": self._settings.get(["rotate"]),
+                                "flip_h": self._settings.get("flip_h"),
+                                "flip_v": self._settings.get("flip_v"),
+                                "rotate": self._settings.get("rotate"),
                             }
                             webrtc_data["transforms"] = webcam_transforms
                             msg = self.ws_data(extra_data=webrtc_data)
@@ -176,9 +257,9 @@ class MattaCore:
                             webrtc_data, json_msg, self._logger
                         )
                         webcam_transforms = {
-                            "flip_h": self._settings.get(["flip_h"]),
-                            "flip_v": self._settings.get(["flip_v"]),
-                            "rotate": self._settings.get(["rotate"]),
+                            "flip_h": self._settings.get("flip_h"),
+                            "flip_v": self._settings.get("flip_v"),
+                            "rotate": self._settings.get("rotate"),
                         }
                         webrtc_data["transforms"] = webcam_transforms
                         msg = self.ws_data(extra_data=webrtc_data)
@@ -191,9 +272,9 @@ class MattaCore:
                             webrtc_data, json_msg, self._logger
                         )
                         webcam_transforms = {
-                            "flip_h": self._settings.get(["flip_h"]),
-                            "flip_v": self._settings.get(["flip_v"]),
-                            "rotate": self._settings.get(["rotate"]),
+                            "flip_h": self._settings.get("flip_h"),
+                            "flip_v": self._settings.get("flip_v"),
+                            "rotate": self._settings.get("rotate"),
                         }
                         webrtc_data["transforms"] = webcam_transforms
                         msg = self.ws_data(extra_data=webrtc_data)
@@ -204,6 +285,8 @@ class MattaCore:
                     cleaned_cmds = cherry_pick_cmds(self, terminal_commands)
                     extra_data = {"terminal_commands": {"command_list": cleaned_cmds}}
                     msg = self.ws_data(extra_data=extra_data)
+                elif json_msg.get("update", None) == "update":
+                    self.over_the_air_update()
                 else:
                     self._printer.handle_cmds(json_msg)
                     msg = self.ws_data()
@@ -249,6 +332,8 @@ class MattaCore:
                     "version": self._printer.get_klipper_version(),
                     "os": self.os,
                     "memory": get_current_memory_usage(self.os),
+                    "plugin_version": self._plugin_version,
+
                 },
                 "nozzle_tip_coords": {
                     "nozzle_tip_coords_x": int(self._settings["nozzle_tip_coords_x"]),

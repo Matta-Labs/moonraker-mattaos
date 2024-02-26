@@ -1,6 +1,7 @@
 import json
 import psutil
 from datetime import datetime
+from moonraker_mattaos.gcode_parser import GcodeParser
 import sentry_sdk
 import os
 import requests
@@ -298,12 +299,6 @@ def clean_gcode_list(gcode_list):
         clean_list.append(gcode)
     return clean_list
 
-
-def find_last_gcode_line_num(gcode_list):
-    # TODO: Implement this
-    pass
-
-
 def get_file_from_backend(bucket_file, auth_token):
     """Gets a file from the backend"""
     full_url = get_api_url() + "print-jobs/printer/gcode/uploadfile"
@@ -378,3 +373,9 @@ def inject_auth_key(webrtc_data, json_msg, logger):
             json_msg["auth_key"],
         )
     return webrtc_data
+
+def read_gcode_file(filename) -> GcodeParser:
+    with open(filename, 'r') as f:
+        gcode = f.read()
+    gcode = GcodeParser(gcode, include_comments=False)
+    return gcode
