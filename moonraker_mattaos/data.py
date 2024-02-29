@@ -130,7 +130,7 @@ class DataEngine:
     def create_metadata(self):
         temps = self._printer.get_printer_temp_object()
         printer_objects = self._printer.get_printer_objects()
-        # gcode_data = self.get_gcode_data()
+        gcode_data = self.get_gcode_data()
         metadata = {
             "count": self.image_count,
             "timestamp": make_timestamp(),
