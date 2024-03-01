@@ -95,6 +95,8 @@ class DataEngine:
 
 
     def find_last_gcode_line_num(self, gcode_list):
+        if len(gcode_list) == 0:
+            return self.last_gcode_line
         gcode_cmd = gcode_list[-1]["message"]
         # map gcode_cmd to the line number from the self.gcode_lines
         # gcode_lines has original_line and line_number keys
@@ -193,8 +195,8 @@ class DataEngine:
         """
         gcode_lines = read_gcode_file(self.gcode_path)
         self.gcode_lines = pd.DataFrame(columns=["original_line", "line_number"])
-        self.gcode_lines["original_line"] = [line.original_line for line in gcode_lines]
-        self.gcode_lines["line_number"] = [line.line_number for line in gcode_lines]
+        self.gcode_lines["original_line"] = [line.original_line for line in gcode_lines.lines]
+        self.gcode_lines["line_number"] = [line.line_number for line in gcode_lines.lines]
         # sort the gcode_lines by line_number
         self.gcode_lines = self.gcode_lines.sort_values(by="line_number")
 
