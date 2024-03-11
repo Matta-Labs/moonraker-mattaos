@@ -27,6 +27,7 @@ class DataEngine:
         self._logger_cmd = logger_cmd
         self.image_count = 0
         self.gcode_path = None
+        self.gcode_file = None
         self.gcode_lines = None
         self.last_gcode_line = 0
         self.csv_print_log = None
@@ -89,6 +90,7 @@ class DataEngine:
         self._printer.new_print_job = True
         self._printer.current_job = None
         self.gcode_path = None
+        self.gcode_file = None
         self.image_count = 0
         self._printer.gcode_line_num_no_comments = None
         self._printer.gcode_cmd = None
@@ -132,7 +134,6 @@ class DataEngine:
     def create_metadata(self):
         temps = self._printer.get_printer_temp_object()
         printer_objects = self._printer.get_printer_objects()
-        # gcode_data = self.get_gcode_data()
         metadata = {
             "count": self.image_count,
             "timestamp": make_timestamp(),
@@ -143,8 +144,6 @@ class DataEngine:
             "hotend_actual": temps["tool0"]["actual"],
             "bed_target": temps["bed"]["target"],
             "bed_actual": temps["bed"]["actual"],
-            # "gcode_line_num": gcode_data["gcode_line_num"],
-            # "gcode_cmd": gcode_data["gcode_cmd"],
             "nozzle_tip_coords_x": int(self._settings["nozzle_tip_coords_x"]),
             "nozzle_tip_coords_y": int(self._settings["nozzle_tip_coords_y"]),
             "flip_h": self._settings["flip_h"],
@@ -320,6 +319,11 @@ class DataEngine:
                     self._logger.debug("New job.")
                     self._printer.new_print_job = False
                     self._printer.current_job = self._printer.make_job_name()
+                    job_data = self._printer.get_job_data()
+                    gcode_path = job_data["status"]["virtual_sdcard"]["file_path"]
+                    # open file store in self.gcode_file
+                    with open(gcode_path, "rb") as gcode:
+                        self.gcode_file = gcode.read()
                     self._logger.debug(f"New job: {self._printer.current_job}")
                     try:
                         self.setup_print_log()
@@ -405,6 +409,7 @@ class DataEngine:
             "bed",
             "gcode_line_num_no_comments",
             "gcode_cmd",
+            "file_position_bytes",
             "nozzle_tip_coords_x",
             "nozzle_tip_coords_y",
             "flip_h",
@@ -416,7 +421,23 @@ class DataEngine:
         """Fetches data and returns a list for populating a row of a CSV."""
         temps = self._printer.get_printer_temp_object()
         printer_objects = self._printer.get_printer_objects()
-        gcode_data = self.get_gcode_data()
+        job_data = self._printer.get_job_data()
+        file_position_bytes = job_data["status"]["virtual_sdcard"]["file_position"]
+        file_size = job_data["status"]["virtual_sdcard"]["file_size"]
+        if file_size == 0:
+            file_position_bytes = 0
+        
+        # self.gcode_file is the gcode file in string format
+        # file_position_bytes is the current position in the gcode file
+        # get the gcode line and line number from the gcode file
+        self.gcode_file.seek(0)
+        content_up_to_position = self.gcode_file.read(file_position_bytes)
+        lines = [line for line in content_up_to_position.decode().split('\n') if not line.strip().startswith(';')]
+        line_number = len(lines)
+
+        self.gcode_file.seek(file_position_bytes)
+        gcode_line = self.gcode_file.readline().decode().strip()
+
         row = [
             self.image_count,
             make_timestamp(),
@@ -427,8 +448,9 @@ class DataEngine:
             temps["tool0"]["actual"],
             temps["bed"]["target"],
             temps["bed"]["actual"],
-            gcode_data["gcode_line_num"],
-            gcode_data["gcode_cmd"],
+            line_number,
+            gcode_line,
+            file_position_bytes,
             int(self._settings["nozzle_tip_coords_x"]),
             int(self._settings["nozzle_tip_coords_y"]),
             self._settings["flip_h"],
