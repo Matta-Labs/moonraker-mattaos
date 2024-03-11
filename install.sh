@@ -20,7 +20,8 @@ echo -e "User is: $USER"
 color_echo "Installing required packages..."
 sudo apt-get update
 # This is only necessary for virtual-klipper-printer 
-# sudo apt-get install -y python3-virtualenv systemctl nano
+# sudo apt-get install -y python3-virtualenv systemctl nano 
+sudo apt-get install -y libopenblas-dev # this is sometimes needed to fix a pandas/numpy import error
 color_echo "Required packages installed successfully"
 
 ENV_NAME="moonraker-mattaos-env"
