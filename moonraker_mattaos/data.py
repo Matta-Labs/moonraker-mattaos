@@ -90,46 +90,14 @@ class DataEngine:
         self._printer.new_print_job = True
         self._printer.current_job = None
         self.gcode_path = None
+        try:
+            self.gcode_file.close()
+        except Exception as e:
+            self._logger.error(f"Failed to close gcode file: {e}")
         self.gcode_file = None
         self.image_count = 0
         self._printer.gcode_line_num_no_comments = None
         self._printer.gcode_cmd = None
-
-
-    def find_last_gcode_line_num(self, gcode_list):
-        if len(gcode_list) == 0:
-            return self.last_gcode_line
-        gcode_cmd = gcode_list[-1]["message"]
-        # map gcode_cmd to the line number from the self.gcode_lines
-        # gcode_lines has original_line and line_number keys
-        # find if gcode_cmd is in the original_line
-        line = self.gcode_lines.loc[(self.gcode_lines["line_number"] >= self.last_gcode_line) & \
-                                    (self.gcode_lines["original_line"].str.contains(gcode_cmd))]
-        if line is None or len(line) == 0:
-            line_num = self.last_gcode_line
-        else:
-            line_num = line["line_number"].values[0]
-        self.last_gcode_line = line_num
-        return line_num
-
-    def get_gcode_data(self):
-        """
-        Gets the gcode data from the printer.
-        """
-        gcode_raw_list = self._printer.get_gcode_store()
-        self._logger.info(f"Raw gcode list: {gcode_raw_list}")
-        gcode_list = clean_gcode_list(gcode_raw_list)
-        self._logger.info(f"Gcode list: {gcode_list}")
-        gcode_line_num = self.find_last_gcode_line_num(gcode_list)
-        self._logger.info(f"Last gcode line number: {gcode_line_num}")
-        last_gcode = gcode_list[-1] if len(gcode_list) > 0 else {"message": "Not started"}
-        self._logger.info(f"Last gcode: {last_gcode}")
-        response = {
-            "gcode_line_num": gcode_line_num,
-            "gcode_cmd": last_gcode["message"],
-        }
-        self._logger.debug(f"Gcode data: {response}")
-        return response
 
     def create_metadata(self):
         temps = self._printer.get_printer_temp_object()
@@ -322,8 +290,10 @@ class DataEngine:
                     job_data = self._printer.get_job_data()
                     gcode_path = job_data["status"]["virtual_sdcard"]["file_path"]
                     # open file store in self.gcode_file
-                    with open(gcode_path, "rb") as gcode:
-                        self.gcode_file = gcode.read()
+                    try:
+                        self.gcode_file = open(gcode_path, "rb")
+                    except Exception as e:
+                        self._logger.error(f"Failed to open gcode file: {e}")
                     self._logger.debug(f"New job: {self._printer.current_job}")
                     try:
                         self.setup_print_log()
