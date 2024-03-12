@@ -64,6 +64,9 @@ class MattaCore:
             self._logger, self._logger_cmd, self._settings, self._printer
         )
 
+        # Check for updates at startup
+        self.over_the_air_update()
+
     def get_package_install_location(self, package_name):
         try:
             # Use importlib.metadata to get the distribution for the package
