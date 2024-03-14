@@ -170,6 +170,21 @@ cd ~/moonraker-mattaos
 
 _Note: if you have issues running the `uninstall.sh` file run `chmod +x ./uninstall.sh`._
 </details>
+<details>
+  <summary><b>Enable automatic updates</b></summary>
+    <br/>
+To enable automatic updates of the plugin, simply add this section at the end of your moonraker.conf
+
+```yaml
+[update_manager mattaos]
+type: git_repo
+path: ~/moonraker-mattaos
+origin: https://github.com/Matta-Labs/moonraker-mattaos.git
+managed_services: moonraker-mattaos
+primary_branch: main
+install_script: install.sh
+```
+</details>
 
 
 ## 📸 Nozzle Cameras
