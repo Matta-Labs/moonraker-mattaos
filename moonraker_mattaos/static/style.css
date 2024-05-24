@@ -1,4 +1,5 @@
 body {
+    font-family: 'DM Sans', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,7 +9,7 @@ body {
 }
 
 .container {
-    text-align: center;
+    text-align: left;
     padding: 20px;
     border: 1px solid #ccc;
     background-color: #fff;
@@ -34,6 +35,7 @@ button:hover {
 
 #resultContainer {
     margin-top: 20px;
+    height: 50px;
     padding: 10px;
     text-align: center;
     border: 1px solid #ccc;
@@ -52,4 +54,51 @@ textarea {
 
 .d-inline-block {
     display: inline-block;
+}
+
+h1, h3, h4, h5, h6 {
+    font-family: 'Space Mono', monospace;
+    margin: 0;
+}
+h2 {
+    font-family: 'DM Sans', sans-serif;
+    margin: 0;
+}
+.snap-button {
+    display: block;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    width: 100%;
+    background-color: #434343;
+}
+.save-button {
+    display: block;
+    width: 100%;
+}
+.emblem {
+    margin-right: 18px;
+}
+
+.camPreviewContainer {
+    cursor: crosshair;
+    position: relative;
+    transform-origin: center;
+    /* margin-bottom: 20px; */
+}
+
+.camPreview {
+    display: block;
+    transform-origin: center;
+    white-space: nowrap;
+}
+
+.crosshair {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    left: -500px;
+    top: -50px;
+    transform: translate(-50%, -50%);
+    border: 2px solid #FF0000;
+    pointer-events: none;
 }

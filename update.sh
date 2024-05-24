@@ -17,23 +17,14 @@ color_echo "Initiating installation of moonraker-mattaos..."
 echo -e "User is: $USER"
 
 # Install required packages
-color_echo "Installing required packages..."
-sudo apt-get update
-# This is only necessary for virtual-klipper-printer 
-# sudo apt-get install -y python3-virtualenv systemctl nano 
-sudo apt-get install -y libopenblas-dev # this is sometimes needed to fix a pandas/numpy import error
-color_echo "Required packages installed successfully"
 
 ENV_NAME="moonraker-mattaos-env"
 
 # Set up virtual environment
-color_echo "Setting up virtual environment..."
-python3 -m virtualenv ~/$ENV_NAME
+color_echo "Activating virtual environment..."
 source ~/$ENV_NAME/bin/activate
-color_echo "Virtual environment set up successfully"
 
 # Install the plugin from GitHub
-# pip install -e .
 color_echo "Installing moonraker-mattaos from GitHub..."
 CURL_OUTPUT=$(curl -s https://api.github.com/repos/Matta-Labs/moonraker-mattaos/releases/latest)
 color_echo "Curl output is: $CURL_OUTPUT"
@@ -66,10 +57,6 @@ Restart=always
 RestartSec=5"
 
 color_echo "Creating and starting the service file..."
-echo "$SERVICE_CONTENT" | sudo tee "$SERVICE_FILE" > /dev/null
-sudo systemctl enable moonraker-mattaos
-sudo systemctl daemon-reload
-sudo systemctl start moonraker-mattaos
 color_echo "Service file created and started successfully"
 
 # Create the config.cfg file
@@ -89,11 +76,14 @@ flip_webcam_vertically = false
 rotate_webcam_90CC = false
 cherry_pick_cmds = []"
 
-
-
-color_echo "Creating the moonraker-mattaos.cfg file..."
-echo "$CONFIG_CONTENT" > "$CONFIG_FILE"
-color_echo "Config file created successfully"
+# Check and create moonraker-mattaos.cfg if it doesn't exist
+if [ ! -f "$CONFIG_FILE" ]; then
+    color_echo "Creating the moonraker-mattaos.cfg file..."
+    echo "$CONFIG_CONTENT" > "$CONFIG_FILE"
+    color_echo "Config file created successfully"
+else
+    color_echo "moonraker-mattaos.cfg already exists. Skipping creation to preserve user config."
+fi
 
 # Create the crowsnest.conf file
 CROWSNEST_FILE="/home/${USER}/printer_data/config/crowsnest.conf"
@@ -121,8 +111,12 @@ focus_automatic_continuous: 0
 focus_absolute: 500
 "
 
-color_echo "Creating the crowsnest.conf file..."
-echo "$CROWSNEST_CONTENT" > "$CROWSNEST_FILE"
-color_echo "Config file created successfully"
+if [ ! -f "$CROWSNEST_FILE" ]; then
+    color_echo "Creating the crowsnest.conf file..."
+    echo "$CROWSNEST_CONTENT" > "$CROWSNEST_FILE"
+    color_echo "Config file created successfully"
+else
+    color_echo "crowsnest.conf already exists. Skipping creation to preserve user config."
+fi
 
 color_echo "Installation completed!"

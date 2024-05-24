@@ -1,205 +1,291 @@
-<p align="center">
-  <img
-    src="https://uploads-ssl.webflow.com/63fa465ee0545971ce735482/64883f3b58342c1b87033b6d_Emblem_Black.svg"
-    alt="Matta Logo"
-    style="width: 90px"
-  />
-</p>
-<h1 align="center" style="margin-bottom: 20px">
-  <a href="https://matta.ai">MattaConnect</a>
-</h1>
+<p align="center"><img src="https://uploads-ssl.webflow.com/63fa465ee0545971ce735482/64883f3b58342c1b87033b6d_Emblem_Black.svg" alt="Matta Logo" style="width:50px" /></p>
+<h1 align="center" style="margin-bottom:20px"><a href="https://matta.ai">MattaOS</a> for Klipper</h1>
+<img src="https://matta-os.fra1.cdn.digitaloceanspaces.com/site-assets/email_assets/VideoGridCover.png" />
+<p>Connect your Klipper-enabled printers to <a href="https://os.matta.ai">MattaOS</a>, for remote control, AI-powered error detection, fleet management, and more!</p>
 
-<p align="center">
-  Connect your Moonraker-connected klipper printers to
-  <a href="https://os.matta.ai">MattaOS</a>, for remote control, AI-powered
-  error detection, fleet management, and more!
-</p>
+## 🧐 About
 
+The plugin allows users to control their printers using our intuitive web-interface, <a href="https://os.matta.ai">MattaOS</a>. MattaOS brings Matta's data engine to Klipper, managing printer and webcam data, enabling next-level AI error detection and print job inspection. All that is required is a simple nozzle camera, and a 3D printer running Klipper.
 
-- [Installation](#installation)
-- [Usage](#usage)
-- [Workflow (on damjanpi)](#workflow-on-damjanpi)
-- [Workflow (with Docker)](#workflow-with-docker)
-- [Custom configurations](#custom-configurations)
-  - [Set up a dev environment (debugging)](#set-up-a-dev-environment-debugging)
-  - [Creating a service](#creating-a-service)
-  - [Creating a cfg file](#creating-a-cfg-file)
+Matta is working towards building full AI-powered closed-loop control of 3D printing, enabling perfect quality, every time. By being an early user of our software, you help us build towards this goal!
+## ✨ Features
+
+- 🛜 Remote printer control via MattaOS, our intuitive web-interface.
+- ⚡️ Advanced error detection using Matta's cutting-edge AI.
+- 📈 Keep track of your printing operations with printer analytics.
+- 👀 G-code viewer and analysis.
+- ⚙️ Controllable failure behaviour (notify, pause, stop).
+
+<br/>
+<div align="center"><img src="https://matta-os.fra1.cdn.digitaloceanspaces.com/site-assets/MattaOS.gif" width=650 /><p>Monitoring a print with MattaOS</p></div>
+<br/>
 
 
-# Installation 
 
-First transfer the plugin over from computer:
+## 🚀 Plugin Installation
+    
+Before installing, please ensure you have <a href="https://github.com/Arksine/moonraker">Moonraker</a>, the Python 3 based web server for communcation with Klipper, installed on your Pi. Moonraker comes pre-installed with both the MainsailOS and Fluidd Raspberry Pi images. If you do not have Moonraker installed, you can find the installation guide <a href="https://moonraker.readthedocs.io/en/latest/installation/">here</a>.
 
-```bash
-cd moonraker-mattaconnect-internal
-scp -r "../moonraker-mattaconnect-internal" "pi@damjanpi.local:~/moonraker-mattaconnect"
-rsync -avh "../moonraker-mattaconnect-internal/." "pi@damjanpi.local:~/moonraker-mattaconnect/."
-# check if scp is enough in the future, I always rsync it again just in case of issues that require chown/chmod.
+<b>We highly recommend using the MattaOS plugin with the MainsailOS Raspberry Pi image</b> (available through the <a href="https://www.raspberrypi.com/software/">Raspberry Pi Imager</a>).
+
+It has also been tested on RaspberryPi OS wth KIAUH-installed prerequisites, but to a lesser extent.
+
+*Note: We, <a href="https://github.com/mainsail-crew/crowsnest/issues/143">like others</a>, have experienced Crowsnest breaking after updating packages. Recompile Crowsnest as per KwadFan's comment <a href="https://github.com/mainsail-crew/crowsnest/issues/143">here</a> to fix.*
+
+<b>There are number of ways to install the plugin, please see below:</b>
+
+<details>
+  <summary><b>Download zip from URL</b></summary>
+    <br/>
+
+Copy the following URL to the latest version of Matta OS's OctoPrint plugin:
+
+```shell
+wget https://github.com/Matta-Labs/moonraker-mattaos/archive/refs/heads/main.zip
+unzip ~/main.zip && mv ~/moonraker-mattaos-main ~/moonraker-mattaos
+rm ~/main.zip
 ```
 
-Then install the plugin in the pi with the `install.sh` script:
-
-```bash
-cd ~/moonraker-mattaconnect
-./install.sh
+Install the plugin:
+```shell
+cd ~/moonraker-mattaos
+bash install.sh
 ```
+
+_Note: if you have issues running the `install.sh` file run `chmod +x ./install.sh`._
+
+Check the plugin is running with:
+```shell
+sudo systemctl status moonraker-mattaos
+```
+
+If not, start it manually with:
+```shell
+sudo systemctl enable moonraker-mattaos        
+sudo systemctl daemon-reload
+sudo systemctl start moonraker-mattaos  
+sudo systemctl status moonraker-mattaos 
+```
+
+✨ Thats it! Now the MattaOS plugin should be installed.
 
 To uninstall, use the `uninstall.sh` script:
 ```bash
-cd ~/moonraker-mattaconnect
+cd ~/moonraker-mattaos
 ./uninstall.sh
 ```
 
-# Usage 
+_Note: if you have issues running the `uninstall.sh` file run `chmod +x ./uninstall.sh`._
 
-After installing, the service should be up and running, and we can check with `sudo systemtl status moonraker-mattaconnect`.
+</details>
+<details>
+  <summary><b>Transfer plugin from computer</b></summary>
+    <br/>
 
-We can check the service by going to:
-- `tail -f ~/printer_data/logs/moonraker-mattaconnect.log`
-- `tail -f ~/printer_data/logs/moonraker-mattaconnect-ws.log`
-- [http://damjanpi.local:5001](http://damjanpi.local:5001) 
+  First, clone this repository onto your computer, then:
 
+  ```bash
+  cd moonraker-mattaos
+  scp -r "../moonraker-mattaos" "<piusername@pihostname>:~/moonraker-mattaos"
+  rsync -avh "../moonraker-mattaos/." "<piusername@pihostname>:~/moonraker-mattaos/."
+  ```
 
-# Workflow (on damjanpi)
+  SSH into your Pi, then install the plugin with the `install.sh` script:
 
-First time: 
-```bash
-cd moonraker-mattaconnect-internal
-# in computer: scp so that the name changes
-scp -r "../moonraker-mattaconnect-internal" "pi@damjanpi.local:~/moonraker-mattaconnect"
-rsync -avh "../moonraker-mattaconnect-internal/." "pi@damjanpi.local:~/moonraker-mattaconnect/."
+  ```bash
+  cd ~/moonraker-mattaos
+  ./install.sh
+  ```
 
-# in pi
-cd ~/moonraker-mattaconnect
-./install.sh
+_Note: if you have issues running the `install.sh` file run `chmod +x ./install.sh`._
 
-# Solve bug of systemctl not running properly in bash manually
-sudo systemctl enable moonraker-control-plugin        
+  Check the plugin is running with:
+  ```shell
+  sudo systemctl status moonraker-mattaos
+  ```
+
+  If not, start it manually with:
+  ```shell
+  sudo systemctl enable moonraker-mattaos        
+  sudo systemctl daemon-reload
+  sudo systemctl start moonraker-mattaos  
+  sudo systemctl status moonraker-mattaos 
+  ```
+
+  ✨ Thats it! Now the MattaOS plugin should be installed.
+
+  To uninstall, use the `uninstall.sh` script:
+  ```bash
+  cd ~/moonraker-mattaos
+  ./uninstall.sh
+  ```
+
+  _Note: if you have issues running the `uninstall.sh` file run `chmod +x ./uninstall.sh`._
+
+</details>
+<details>
+  <summary><b>Clone onto Pi via SSH</b></summary>
+    <br/>
+
+At first, you need to access the Raspberry Pi connected to the 3D printer which is running Klipper. This best way to do this is via `ssh`, e.g.
+
+```shell
+ssh username@hostname.local
+```
+
+*Note: the default username for Pis is `pi`.* <br/>
+*Note: the default password for Pis is `raspberry` it should probably be changed if it is still the password.*
+
+```shell
+git clone https://github.com/Matta-Labs/moonraker-mattaos.git
+```
+
+```shell
+cd ~/moonraker-mattaos
+bash install.sh
+```
+
+_Note: if you have issues running the `install.sh` file run `chmod +x ./install.sh`._
+
+Check the plugin is running with:
+```shell
+sudo systemctl status moonraker-mattaos
+```
+
+If not, start it manually with:
+```shell
+sudo systemctl enable moonraker-mattaos        
 sudo systemctl daemon-reload
-sudo systemctl start moonraker-control-plugin
-sudo systemctl status moonraker-control-plugin 
+sudo systemctl start moonraker-mattaos  
+sudo systemctl status moonraker-mattaos 
 ```
 
-Afterwards:
+✨ Thats it! Now the MattaOS plugin should be installed.
+
+To uninstall, use the `uninstall.sh` script:
 ```bash
-# in computer
-rsync -avh "../moonraker-mattaconnect-internal/." "pi@damjanpi.local:~/moonraker-mattaconnect/."
-
-# in pi
-sudo systemctl restart moonraker-mattaconnect
-# or simply restart in MainsailOS -> power button -> moonraker-mattaconnect,
+cd ~/moonraker-mattaos
+./uninstall.sh
 ```
 
-# Workflow (with Docker)
-
-First time: 
-```bash
-docker build -t mattaconnect .
-docker run -it --rm --workdir /home/pi mattaconnect bash
-
-cd moonraker-mattaconnect
-./install.sh
-
-# Temp fix for service not starting:
-sudo systemctl restart moonraker-mattaconnect
-
-# To view logs:
-tail -f ~/printer_data/logs/moonraker-mattaconnect.log
-```
-
-Windows dev with autosync: 
-```bash
-# To sync between work directory and the docker image
-docker run -it --rm -p 5001:5001 -v "C:\matta\moonraker-mattaconnect-internal:/home/pi/moonraker-mattaconnect" -w /home/pi mattaconnect
-# To apply the changes
-sudo systemctl restart moonraker-mattaconnect
-```
-
-To connect to a moonraker instance
-```bash
-sudo nano ~/printer_data/config/moonraker-mattaconnect.config
-# Change the IP address of the moonraker instance
-sudo systemctl restart moonraker-mattaconnect
-```
-
-# Custom configurations
-The following will detail the steps to setup configurations without the install.sh script
-
-## Set up a dev environment (debugging)
-In computer:
-```bash
-scp -r "../moonraker-mattaconnect-internal" "pi@damjanpi.local:~/moonraker-mattaconnect"
-rsync -avh "../moonraker-mattaconnect-internal/." "pi@damjanpi.local:~/moonraker-mattaconnect/."
-```
-
-Then in raspberry pi:
-```bash
-cd moonraker-mattaconnect
-virtualenv -p /usr/bin/python3 --system-site-packages ~/moonraker-mattaconnect-env
-# Or: python3 -m venv ~/moonraker-mattaconnect-env # both seem to work fine
-source ~/moonraker-mattaconnect-env/bin/activate
-pip install -e .
-```
-
-Start app if we want to test it
-```bash
-python3 app.py
-```
+_Note: if you have issues running the `uninstall.sh` file run `chmod +x ./uninstall.sh`._
+</details>
 
 
-## Creating a service
+## 📸 Nozzle Cameras
 
-Create a service file:
+If you don't already have a nozzle camera installed, check our our <a href="https://github.com/Matta-Labs/camera-mounts">camera-mounts repository</a> to aid installation.
 
-```bash
-sudo nano /etc/systemd/system/moonraker-mattaconnect.service
-```
+Also please feel free to contribute your own nozzle camera designs to the repo!
+<br/>
 
-Now fill it in with this format:
 
-```bash
-[Unit]
-Description=Moonraker MattaConnect
-After=network-online.target moonraker.service
 
-[Install]
-WantedBy=multi-user.target
+## 🎈 Usage and Configuration
+*Note: The plugin will only work if your Klipper-Moonraker-Frontend stack are working correctly. Please refer to the respective documentation to ensure this is the case*
 
-[Service]
-Type=simple
-User=pi
-WorkingDirectory=/home/pi/moonraker-mattaconnect
-ExecStart=/home/pi/moonraker-mattaconnect-env/bin/python3 /home/pi/moonraker-mattaconnect/app.py
-Restart=always
-RestartSec=5
-```
+First sign-up for a free Matta account at <a>https://os.matta.ai</a>, then configure plugin settings to get started!
 
-Then enable, start and check the service:
+Create a new machine in MattaOS, copy the generated Authorisation token, then add this to the ```moonraker-mattaos.cfg``` file in your Pi, or using the helpful Mainsail config file editor. Then reboot your Pi with ```sudo reboot```, or the restart the plugin using the power options in Mainsail.
 
-```bash
-sudo systemctl enable moonraker-mattaconnect
-sudo systemctl daemon-reload
-sudo systemctl start moonraker-mattaconnect
+<br/>
+<div align="center"><img src="https://matta-os.fra1.cdn.digitaloceanspaces.com/site-assets/KlipperPluginSetup.gif" width=650 /><p>Machine setup and plugin configuration workflow</p></div>
+<br/>
 
-# To check if the service is running
-sudo systemctl status moonraker-mattaconnect
-```
+Next go to ```http://<hostname>:5001``` and follow the instructions to locate your extruder nozzle tip.
 
-## Creating a cfg file
+<br/>
+<div align="center"><img src="https://matta-os.fra1.cdn.digitaloceanspaces.com/site-assets/KlipperSnap.gif" width=650 /><p>Nozzle coordinates finder usage</p></div>
+<br/>
 
-Create a cfg file:
+In ```moonraker-mattaos.cfg``` there are a few variables which need to be configured for use:
 
-```bash
-sudo nano ~/printer_data/config/moonraker-mattaconnect.cfg
-```
+<h3>Mandatory configuration variables</h3>
+<details>
+<summary><b>Authorisation token </b>(from MattaOS)</summary>
+<br/>
 
-Fill it with our default cfg settings
+1. Create a printer in MattaOS.
+2. Copy the Authorisation token from the new printer's setup page.
+3. Paste this into the ```auth_token``` variable in ```moonraker-mattaos.cfg```
+4. Restart the plugin or reboot your Pi to connect!
 
-```bash
-[moonraker_control]
-enabled = true
-printer_ip = localhost
-printer_port = 7125
-```
+<br/>
 
-Now if we should be able to change the config file from MainsailOS by accessing MainsailOS -> Machine tab -> `moonraker-mattaconnect.cfg`.
+</details>
+
+<details>
+<summary><b>WebRTC Stream URL*</b></summary>
+
+<br/>
+
+This is the streaming URL of your nozzle-cam streamer. The plugin only supports WebRTC streaming. The default value should be fine.
+
+This will be ```http://localhost/webcam/webrtc```
+
+<br/>
+
+</details>
+<details>
+<summary><b>Camera Snapshot URL*</b></summary>
+<br/>
+
+This is the snapshot URL of your nozzle-cam streamer. The default value should be fine.
+
+This will be ```http://localhost/webcam/?action=snapshot```
+
+<br/>
+
+</details>
+<h3>Other configuration variables</h3>
+<details>
+<summary><b>Nozzle tip coordinates </b></summary>
+<br/>
+
+These are set via using the nozzle finder application at ```http://<hostname>:5001```.
+<br/>
+Alternatively, if you know the coordinates of the nozzle tip in your images, you can set them manually here.
+</details>
+
+<details>
+<summary><b>Webcam controls</b></summary>
+<br/>
+
+These variables allow you to flip and rotate your webcam footage (for example if you have a camera mounted on its side for ease of integration).
+
+<br/>
+
+Simply set these values to ```true``` or ```false```, and see the changes reflected in the saved images in your <a href="https://os.matta.ai/main/print-jobs/view">MattaOS job history.</a>
+
+<br/>
+
+</details>
+<br/>
+<p>*required for AI-powered error detection</p>
+
+<br/>
+
+
+## 🔷 More About Matta
+
+<div  align="center" >
+  <img src="https://matta-os.fra1.cdn.digitaloceanspaces.com/site-assets/matta-about.png" alt="Matta info">
+</div>
+<br/>
+At <a href="https://matta.ai"><strong>Matta</strong></a>, we are building AI to push the boundaries of manufacturing. We train neural networks using vision to become manufacturing copilots, enabling next-generation error correction, material qualitification and part QC.
+
+<br/>
+<br/>
+
+<a href="https://matta.ai/greymatta"><strong>Check out the demo of our first-iteration AI, Grey-1</strong></a>
+
+
+<br/>
+
+## 📞 Contact 
+
+Team Matta - [@mattalabs](https://twitter.com/mattalabs) - hello@matta.ai
+
+Project Link: [https://github.com/Matta-Labs/moonraker-mattaos](https://github.com/Matta-Labs/moonraker-mattaos)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>

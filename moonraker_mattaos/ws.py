@@ -4,17 +4,18 @@ import websocket
 
 import os
 
+
 class Socket:
-    def __init__(self, logger_ws, on_open, on_message, on_close, on_error, url, token):
+    def __init__(self, logger_ws, on_message, url, token):
         self._logger_ws = logger_ws
-        self.connect(on_open, on_message, on_close, on_error, url, token)
+        self.connect(on_message, url, token)
 
     def run(self):
         try:
             self.socket.run_forever()
         except Exception as e:
             self._logger_ws.error("Socket run: %s", e)
-            pass
+            self.disconnect()
 
     def send_msg(self, msg):
         try:
@@ -24,23 +25,22 @@ class Socket:
                 self.socket.send(msg)
         except Exception as e:
             self._logger_ws.error("Socket send_msg: %s", e)
-            pass
+            self.disconnect()
 
     def connected(self):
-        return self.socket.sock and self.socket.sock.connected
+        return self.socket and self.socket.sock and self.socket.sock.connected
 
-    def connect(self, on_open, on_message, on_close, on_error, url, token):
+    def connect(self, on_message, url, token):
         url = url + "?token=" + token
         self.socket = websocket.WebSocketApp(
             url,
-            on_open=on_open,
             on_message=on_message,
-            on_close=on_close,
-            on_error=on_error,
         )
 
     def disconnect(self):
-        self._logger_ws.debug("Disconnecting the websocket...")
-        self.socket.keep_running = False
-        self.socket.close()
-        self._logger_ws.debug("The websocket has been closed.")
+        try:
+            self.socket.keep_running = False
+            self.socket.close()
+            self.socket = None
+        except Exception as e:
+            self._logger_ws.error("Socket disconnect: %s", e)

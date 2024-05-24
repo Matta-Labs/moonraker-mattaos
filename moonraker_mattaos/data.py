@@ -1,22 +1,23 @@
 import time
 import threading
-from unittest import result
 import requests
 import csv
 import json
 from .utils import (
-    binary_search,
+    clean_gcode_list,
     get_api_url,
     get_gcode_upload_dir,
     make_timestamp,
     generate_auth_headers,
     SAMPLING_TIMEOUT,
     MATTA_TMP_DATA_DIR,
+    read_gcode_file,
 )
 import os
 import shutil
+from PIL import Image
+import io
 import pandas as pd
-
 
 class DataEngine:
     def __init__(self, logger, logger_cmd, settings, matta_printer):
@@ -26,49 +27,16 @@ class DataEngine:
         self._logger_cmd = logger_cmd
         self.image_count = 0
         self.gcode_path = None
-        self.gcode_df = None
+        self.gcode_file = None
+        self.gcode_lines = None
+        self.last_gcode_line = 0
         self.csv_print_log = None
         self.csv_writer = None
         self.csv_path = None
         self.upload_attempts = 0
 
-
-        # -------------------------- Debug Area --------------------------
-
-        # PRINTER TESTSSSSSSS
-        if False:
-            try:
-                self._logger.info(self._printer.get_printer_state_object())
-                time.sleep(.5)
-                self._logger.info(self._printer.get_printer_temp_object())
-                time.sleep(.5)
-                self._logger.info(self._printer.get_print_stats_object())
-                time.sleep(.5)
-                self._logger.info(self._printer.get_gcode_base_name())
-                time.sleep(.5)
-            except Exception as e:
-                self._logger.error(e)
-
-        # self._logger.info(self._printer.get_gcode_base_name())
-
-        # self._logger.info(self._printer.make_job_name())
-
-        # data_path = os.path.join(MATTA_TMP_DATA_DIR, self._printer.make_job_name())
-        # os.makedirs(data_path)
-        # self._logger.debug(f"Successfully created job directory at {data_path}")
-
-        # -----------------------------------------------------------------
-
         self._logger.info("Starting data thread")
         self.start_data_thread()
-
-        # # # Temp loop to trap service and make it continue running
-        # while True:
-        #     self._logger.info("Temp loop service trap in Data loop thread")
-        #     time.sleep(60)
-        #     pass
-
-        
 
     def start_data_thread(self):
         """
@@ -122,6 +90,11 @@ class DataEngine:
         self._printer.new_print_job = True
         self._printer.current_job = None
         self.gcode_path = None
+        try:
+            self.gcode_file.close()
+        except Exception as e:
+            self._logger.error(f"Failed to close gcode file: {e}")
+        self.gcode_file = None
         self.image_count = 0
         self._printer.gcode_line_num_no_comments = None
         self._printer.gcode_cmd = None
@@ -131,7 +104,7 @@ class DataEngine:
         printer_objects = self._printer.get_printer_objects()
         metadata = {
             "count": self.image_count,
-            "timestamp": make_timestamp(),            
+            "timestamp": make_timestamp(),
             "flow_rate": printer_objects["flow_rate"] * 100,
             "feed_rate": printer_objects["feed_rate"] * 100,
             "z_offset": printer_objects["z_offset"],
@@ -139,8 +112,6 @@ class DataEngine:
             "hotend_actual": temps["tool0"]["actual"],
             "bed_target": temps["bed"]["target"],
             "bed_actual": temps["bed"]["actual"],
-            # "gcode_line_num": self._printer.gcode_line_num_no_comments,
-            # "gcode_cmd": self._printer.gcode_cmd,
             "nozzle_tip_coords_x": int(self._settings["nozzle_tip_coords_x"]),
             "nozzle_tip_coords_y": int(self._settings["nozzle_tip_coords_y"]),
             "flip_h": self._settings["flip_h"],
@@ -162,7 +133,9 @@ class DataEngine:
         """
         self._logger.debug("Posting gcode")
         with open(gcode_path, "rb") as gcode:
-            gcode_name = os.path.basename(gcode_path) # ? Check if it needs that, since we're just getting the filename
+            gcode_name = os.path.basename(
+                gcode_path
+            )  # ? Check if it needs that, since we're just getting the filename
             metadata = {
                 "name": os.path.splitext(gcode_name)[0],
                 "long_name": job_name,
@@ -183,6 +156,17 @@ class DataEngine:
             except requests.exceptions.RequestException as e:
                 self._logger.error(e)
 
+    def gcode_analyse(self):
+        """
+        Analyse the gcode and store the lines in a list
+        """
+        gcode_lines = read_gcode_file(self.gcode_path)
+        self.gcode_lines = pd.DataFrame(columns=["original_line", "line_number"])
+        self.gcode_lines["original_line"] = [line.original_line for line in gcode_lines.lines]
+        self.gcode_lines["line_number"] = [line.line_number for line in gcode_lines.lines]
+        # sort the gcode_lines by line_number
+        self.gcode_lines = self.gcode_lines.sort_values(by="line_number")
+
     def image_upload(self, image):
         """
         Uploads image files to the specified base URL.
@@ -195,7 +179,26 @@ class DataEngine:
             requests.exceptions.RequestException: If an error occurs during the upload.
         """
         self._logger.debug("Posting image")
-        image_name = f"image_{self.image_count}.jpg"
+        image_name = f"image_{self.image_count}.png"
+
+        # Load the image using PIL
+        pil_image = Image.open(io.BytesIO(image))
+
+        # Flip the image if necessary
+        if self._settings["flip_h"]:
+            pil_image = pil_image.transpose(Image.FLIP_LEFT_RIGHT)
+        if self._settings["flip_v"]:
+            pil_image = pil_image.transpose(Image.FLIP_TOP_BOTTOM)
+        if self._settings["rotate"]:
+            pil_image = pil_image.transpose(Image.ROTATE_90)
+
+        self._logger.debug("Image transforms complete")
+        # Convert the PIL image back to bytes
+        byte_arr = io.BytesIO()
+        pil_image.save(byte_arr, format="PNG")
+        image = byte_arr.getvalue()
+
+        self._logger.debug("Image loaded")
         metadata = {
             "name": image_name,
             "img_file": image_name,
@@ -203,15 +206,22 @@ class DataEngine:
         metadata.update(self.create_metadata())
         data = {"data": json.dumps(metadata)}
         files = {
-            "image_obj": (image_name, image, "image/generic"),
+            "image_obj": (image_name, image, "image/png"),
         }
         full_url = get_api_url() + "images/print/predict/new-image"
         headers = generate_auth_headers(self._settings["auth_token"])
         try:
-            resp = requests.post(url=full_url, data=data, files=files, headers=headers)
+            resp = requests.post(
+                url=full_url,
+                data=data,
+                files=files,
+                headers=headers,
+                timeout=5,
+            )
+            self._logger.debug("Image posted")
             resp.raise_for_status()
         except requests.exceptions.RequestException as e:
-            self._logger.error(str(e))
+            self._logger.info(e)
 
     def finished_upload(self, job_name, gcode_path, csv_path):
         """
@@ -264,13 +274,11 @@ class DataEngine:
 
         try:
             state = self._printer.get_printer_state_object()
-            state = state['text']
-            self._logger.debug(f"Printer is: {state}")
-            if state == 'Error':
+            state = state["text"]
+            if state == "Error":
                 self._logger.debug("Error temporarily classified as operational")
         except Exception as e:
             self._logger.error(f"Error getting state object: {e}")
-
 
         # TODO remove try except big block later
         try:
@@ -279,11 +287,19 @@ class DataEngine:
                     self._logger.debug("New job.")
                     self._printer.new_print_job = False
                     self._printer.current_job = self._printer.make_job_name()
+                    job_data = self._printer.get_job_data()
+                    gcode_path = job_data["status"]["virtual_sdcard"]["file_path"]
+                    # open file store in self.gcode_file
+                    try:
+                        self.gcode_file = open(gcode_path, "rb")
+                    except Exception as e:
+                        self._logger.error(f"Failed to open gcode file: {e}")
                     self._logger.debug(f"New job: {self._printer.current_job}")
                     try:
                         self.setup_print_log()
                         self.gcode_upload(self._printer.current_job, self.gcode_path)
-                        self.preprocess_progress_dict()
+                        # analyse the gcode store
+                        self.gcode_analyse()
                     except Exception as e:
                         self._logger.error(
                             f"Failed to set up data collection for print job: {e}"
@@ -361,8 +377,9 @@ class DataEngine:
             "hotend",
             "target_bed",
             "bed",
-            # "gcode_line_num_no_comments",
-            # "gcode_cmd",
+            "gcode_line_num_no_comments",
+            "gcode_cmd",
+            "file_position_bytes",
             "nozzle_tip_coords_x",
             "nozzle_tip_coords_y",
             "flip_h",
@@ -374,6 +391,23 @@ class DataEngine:
         """Fetches data and returns a list for populating a row of a CSV."""
         temps = self._printer.get_printer_temp_object()
         printer_objects = self._printer.get_printer_objects()
+        job_data = self._printer.get_job_data()
+        file_position_bytes = job_data["status"]["virtual_sdcard"]["file_position"]
+        file_size = job_data["status"]["virtual_sdcard"]["file_size"]
+        if file_size == 0:
+            file_position_bytes = 0
+        
+        # self.gcode_file is the gcode file in string format
+        # file_position_bytes is the current position in the gcode file
+        # get the gcode line and line number from the gcode file
+        self.gcode_file.seek(0)
+        content_up_to_position = self.gcode_file.read(file_position_bytes)
+        lines = [line for line in content_up_to_position.decode().split('\n') if not line.strip().startswith(';')]
+        line_number = len(lines)
+
+        self.gcode_file.seek(file_position_bytes)
+        gcode_line = self.gcode_file.readline().decode().strip()
+
         row = [
             self.image_count,
             make_timestamp(),
@@ -384,8 +418,9 @@ class DataEngine:
             temps["tool0"]["actual"],
             temps["bed"]["target"],
             temps["bed"]["actual"],
-            # self._printer.gcode_line_num_no_comments,
-            # self._printer.gcode_cmd,
+            line_number,
+            gcode_line,
+            file_position_bytes,
             int(self._settings["nozzle_tip_coords_x"]),
             int(self._settings["nozzle_tip_coords_y"]),
             self._settings["flip_h"],
@@ -413,48 +448,11 @@ class DataEngine:
     def update_image(self):
         try:
             resp = requests.get(self._settings["snapshot_url"], stream=True)
-            if resp.status_code == 200:
-                self.image_upload(resp.content)
-                self.image_count += 1
+            self._logger.debug("Image fetched, about to upload")
+            self.image_upload(resp.content)
+            self.image_count += 1
         except Exception as e:
             self._logger.error(e)
-
-    def preprocess_progress_dict(self):
-        try:
-            with open(self.gcode_path, 'r') as gcode_file:
-                char_count = 0
-                line_count = 0
-                columns = ["line_num", "char_num", "gcode"]
-                data_to_append = []
-                self._logger.debug("Starting to read gcode file" + str(self.gcode_path))
-                for line in gcode_file:
-                    line_length = len(line)
-                    if not line.strip().startswith(';'):
-                        new_row = [line_count, char_count, line]
-                        data_to_append.append(new_row)
-                        line_count += 1
-                    char_count += line_length
-                    
-            self.gcode_df = pd.DataFrame(data_to_append, columns=columns)
-        except Exception as e:
-            self._logger.error("Problem with preprocessing gcode file " + str(e))
-        return
-    
-    def find_gcode_line(self, file_position):
-        char_num_list = self.gcode_df['char_num'].tolist()
-        closest_smaller = binary_search(file_position, char_num_list)
-        result = self.gcode_df.loc[self.gcode_df['char_num'] == closest_smaller]
-        self._logger.debug("Result of binary search: " + str(result))
-        return result
-    
-    def calculate_progress_relative(self, file_position):
-        if file_position == None or file_position == 0:
-            return 0.0
-        result = self.find_gcode_line(file_position)
-        current_line_num = result["line_num"].values[0]
-        progress = current_line_num / len(self.gcode_df.index)
-        self._logger.debug("Values:" + str(current_line_num) + " " + str(progress))
-        return progress * 100
 
     def data_thread_loop(self):
         """
@@ -480,7 +478,6 @@ class DataEngine:
                 time_buffer = max(0, current_time - old_time - SAMPLING_TIMEOUT)
                 old_time = current_time
                 self.update_csv()
+                self._logger.debug("CSV updated, about to update image")
                 self.update_image()
-                # DEBUG COMMAND
-                # self._logger.info(self._printer.get_all_print_objects())
             time.sleep(0.1)  # slow things down to 10ms to run other threads

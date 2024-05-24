@@ -1,17 +1,18 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='moonraker-control-plugin',
-    version='0.1.0',
+    name="moonraker-mattaos",
+    version="0.1.1",
     packages=find_packages(),
     install_requires=[
-        'colorlog',
-        'Flask',
-        'requests',
-        'sentry_sdk',
-        'backoff',
-        'websocket-client',
-        'pandas',
-        'psutil', # TODO docker specific?
+        "colorlog",
+        "Flask",
+        "requests",
+        "sentry-sdk==1.41.0",
+        "websocket-client==1.7.0",
+        "psutil",
+        "pillow==9.5.0",
+        "pandas==1.3.5",
+        "numpy",
     ],
 )
