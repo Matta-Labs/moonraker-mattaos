@@ -1,0 +1,2 @@
+recursive-include moonraker_mattaos/static *
+recursive-include moonraker_mattaos/templates *
