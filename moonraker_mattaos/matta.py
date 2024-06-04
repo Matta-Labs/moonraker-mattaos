@@ -84,7 +84,7 @@ class MattaCore:
             return None
         
     # Example usage to get the version of a package
-    def check_package_version(self, package_name):
+    def check_package_update_available(self, package_name):
         self._logger.info("Checking for new version")
         response = requests.get(f'https://api.github.com/repos/Matta-Labs/{package_name}/releases/latest')
         data = response.json()
@@ -102,6 +102,11 @@ class MattaCore:
         self._logger.info(f"Latest version: {release_tag}")
         return new_version_available
 
+    def check_package_version(self, package_name):
+        current_package_version = self.get_package_version(package_name)
+        self._logger.info(f"Current version: {current_package_version}")
+        return current_package_version
+
     def over_the_air_update(self):
         plugin_install_location = self.get_package_install_location("moonraker-mattaos")
         # /home/pi/oprint/lib/python3.7/site-packages/moonraker_mattaos
@@ -114,7 +119,7 @@ class MattaCore:
         self._logger.info(pip_path)
 
         # check if there is a new version available
-        new_version_available = self.check_package_version("moonraker-mattaos")
+        new_version_available = self.check_package_update_available("moonraker-mattaos")
         
         if new_version_available:
             # run subprocess to update the plugin
