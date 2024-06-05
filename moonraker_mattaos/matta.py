@@ -45,6 +45,7 @@ class MattaCore:
         self.os = "Linux"  # TODO remove force OS type
 
         self._plugin_version = self.check_package_version("moonraker-mattaos")
+        self.updated_plugin_version = None
 
         # ---------------------------------------------------------
 
@@ -107,7 +108,7 @@ class MattaCore:
         self._logger.info(f"Current version: {current_package_version}")
         return current_package_version
 
-    def over_the_air_update(self):
+    def over_the_air_update(self, release_tag):
         plugin_install_location = self.get_package_install_location("moonraker-mattaos")
         # /home/pi/oprint/lib/python3.7/site-packages/moonraker_mattaos
         # get the pip install location
@@ -127,6 +128,13 @@ class MattaCore:
                 def log_subprocess_output(pipe):
                     for line in iter(pipe.readline, b''): # b'\n'-separated lines
                         self._logger.info('got line from subprocess: %r', line)
+                        # check if the line contains installation status
+                        if "Installation completed!" in line.decode("utf-8"):
+                            self._logger.info("Installation completed!")
+                            self.updated_plugin_version = release_tag + "-r"
+                        elif "Installation failed!" in line.decode("utf-8"):
+                            self._logger.info("Installation failed!")
+                            self.updated_plugin_version = release_tag + "-f"
 
                 process = subprocess.Popen(["bash", "./update.sh"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
@@ -134,11 +142,13 @@ class MattaCore:
                     log_subprocess_output(process.stdout)
                 exitcode = process.wait() # 0 means success
                 self._logger.info(f"Plugin updated successfully {exitcode}") 
+                self.updated_plugin_version = release_tag + "-r"
             except subprocess.CalledProcessError as e:
                 self._logger.error("Error updating plugin: %s", e)
                 self._logger.info("Error:", e)
                 self._logger.info("Output:", e.stdout)
                 self._logger.info("Errors:", e.stderr)
+                self.updated_plugin_version = release_tag + "-f"
 
     def start_websocket_thread(self):
         """Starts the main WS thread."""
@@ -288,13 +298,18 @@ class MattaCore:
                         msg = self.ws_data(extra_data=webrtc_data)
                     else:
                         msg = self.ws_data()
+                elif json_msg.get("update", None) == True:
+                    release_tag = json_msg.get("release_tag", None)
+                    update_status = self.over_the_air_update(release_tag)
+                    msg = self.ws_data(extra_data=update_status)
                 elif json_msg.get("status", None) != None:
                     terminal_commands = self._printer.get_printer_cmds()
                     cleaned_cmds = cherry_pick_cmds(self, terminal_commands)
                     extra_data = {"terminal_commands": {"command_list": cleaned_cmds}}
                     msg = self.ws_data(extra_data=extra_data)
                 elif json_msg.get("update", None) == "update":
-                    self.over_the_air_update()
+                    update_status = self.over_the_air_update()
+                    msg = self.ws_data(extra_data=update_status)
                 else:
                     self._printer.handle_cmds(json_msg)
                     msg = self.ws_data()
@@ -340,7 +355,7 @@ class MattaCore:
                     "version": self._printer.get_klipper_version(),
                     "os": self.os,
                     "memory": get_current_memory_usage(self.os),
-                    "plugin_version": self._plugin_version,
+                    "plugin_version": self._plugin_version if self.updated_plugin_version is None else self.updated_plugin_version,
 
                 },
                 "nozzle_tip_coords": {
